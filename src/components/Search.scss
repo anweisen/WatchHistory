@@ -1,0 +1,31 @@
+
+.SearchBar {
+
+	color: var(--text-primary);
+	font-size: 20px;
+
+	input {
+		font-family: "Oxygen", sans-serif;
+		font-size: inherit;
+		color: inherit;
+		background: none;
+		border: none;
+	}
+
+}
+
+.SearchResults {
+
+	.Result {
+
+		.Name {
+			color: var(--text-primary);
+		}
+
+		.OriginalName {
+			color: var(--text-secondary);
+		}
+
+	}
+
+}

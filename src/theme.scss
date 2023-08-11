@@ -1,0 +1,10 @@
+body.light {
+
+}
+
+body.dark {
+	--background: linear-gradient(180deg, rgb(35, 35, 42), rgb(25, 25, 32));
+
+	--text-primary: #fff;
+	--text-secondary: #8e8e92;
+}
