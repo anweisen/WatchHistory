@@ -1,31 +1,85 @@
 
+.Search {
+	display: grid;
+	place-items: center;
+	padding: 10% 0;
+}
+
 .SearchBar {
 
+	display: flex;
+	gap: 10px;
 	color: var(--text-primary);
 	font-size: 20px;
+	padding: 5px 20px;
+	border: rgba(255, 255, 255, .1) solid 2px;
+	border-radius: 5px;
+
+	width: 70%;
 
 	input {
-		font-family: "Oxygen", sans-serif;
+		width: 100%;
+		font-family: "Poppins", sans-serif;
 		font-size: inherit;
 		color: inherit;
 		background: none;
 		border: none;
 	}
 
+	svg {
+		margin: auto;
+		color: rgba(255, 255, 255, .75);
+	}
+
 }
 
-.SearchResults {
+.SearchResultsContainer {
+	width: 70%;
 
-	.Result {
+	.SearchResults {
+		position: absolute;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		width: inherit;
+		background: rgba(255, 255, 255, .05);
+		padding: 10px 10px;
+		box-sizing: border-box;
+		border-bottom-left-radius: 5px;
+		border-bottom-right-radius: 5px;
+		user-select: none;
 
-		.Name {
-			color: var(--text-primary);
-		}
+		.Result {
+			display: flex;
+			gap: 10px;
+			font-weight: 300;
+			font-family: "Poppins", sans-serif;
 
-		.OriginalName {
-			color: var(--text-secondary);
+			.Poster {
+				height: 55px;
+				width: 36.66px;
+				border-radius: 5px;
+			}
+
+			.Name {
+				color: var(--text-primary);
+				font-size: 20px;
+				margin: auto 0;
+			}
+
+			.OriginalName {
+				color: var(--text-secondary);
+				font-size: 16px;
+				margin: auto 0;
+			}
+
+			transition: all .1s ease;
+			&:hover {
+				font-weight: 500;
+				letter-spacing: .5px;
+			}
+
 		}
 
 	}
-
 }
