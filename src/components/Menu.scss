@@ -1,0 +1,147 @@
+.MenuContainer {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	display: grid;
+	place-items: center;
+	background: rgba(0, 0, 0, .5);
+
+	z-index: 1;
+}
+
+.Menu {
+	background: var(--background-popup);
+	padding: 25px 65px;
+	width: 60%;
+	height: 70%;
+	border-radius: 15px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+
+	.Head {
+		display: flex;
+		gap: 20px;
+
+		.Poster {
+			height: 150px;
+			width: 108px;
+			border-radius: 10px;
+
+			transition: all .3s;
+
+			&:hover {
+				transform: scale(1.025);
+				filter: brightness(90%);
+			}
+		}
+
+		.Info {
+			display: flex;
+			flex-direction: column;
+			margin: auto 0;
+
+			.Name {
+				color: var(--text-primary);
+				font-size: 28px;
+				font-family: "Poppins", sans-serif;
+			}
+
+			.OriginalName {
+				color: var(--text-secondary);
+				font-size: 16px;
+				font-family: "Quicksand", sans-serif;
+				font-weight: 400;
+			}
+
+			.Year {
+				margin-top: 10px;;
+				color: var(--text-secondary);
+				font-size: 16px;
+				font-family: "Poppins", sans-serif;
+				font-weight: 400;
+			}
+		}
+	}
+
+	.History {
+		overflow-y: scroll;
+
+		.Title {
+			font-family: "Poppins", sans-serif;
+			font-size: 18px;
+			color: var(--text-primary);
+		}
+
+		.Seasons {
+			display: flex;
+			flex-direction: column;
+			gap: 2px;
+
+			.Season {
+				font-family: "Poppins", sans-serif;
+				font-size: 16px;
+				font-weight: 300;
+				color: var(--text-secondary);
+
+				display: flex;
+				justify-content: space-between;
+
+				.Controls {
+					display: flex;
+					align-items: center;
+					gap: 8px;
+					margin-right: 1.5%;
+					user-select: none;
+
+					.Plus, .Minus {
+						display: flex;
+						color: var(--text-primary);
+						padding: 5px;
+						border-radius: 50%;
+						background: var(--background-popup-secondary);
+						cursor: pointer;
+
+						svg {
+							margin: auto;
+							width: 12px;
+							height: 12px;
+						}
+					}
+
+					.Display {
+						font-weight: 500;
+					}
+
+				}
+			}
+		}
+	}
+
+	.Buttons {
+		display: flex;
+		gap: 15px;
+		justify-content: center;
+		margin-top: auto;
+
+		.Button {
+			padding: 4px 10px;
+			border-radius: 4px;
+			font-family: "Poppins", sans-serif;
+			font-size: 16px;
+			color: var(--text-primary);
+			user-select: none;
+			cursor: pointer;
+
+			&.Save {
+				background: var(--action-success);
+			}
+
+			&.Cancel {
+				background: var(--background-popup-secondary);
+			}
+		}
+
+
+	}
+}

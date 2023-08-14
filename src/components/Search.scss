@@ -2,7 +2,6 @@
 .Search {
 	display: grid;
 	place-items: center;
-	padding: 10% 0;
 }
 
 .SearchBar {
@@ -12,7 +11,7 @@
 	color: var(--text-primary);
 	font-size: 20px;
 	padding: 5px 20px;
-	border: rgba(255, 255, 255, .1) solid 2px;
+	border: var(--background-border) solid 2px;
 	border-radius: 5px;
 
 	width: 70%;
@@ -28,7 +27,7 @@
 
 	svg {
 		margin: auto;
-		color: rgba(255, 255, 255, .75);
+		color: var(--icon-primary);
 	}
 
 }
@@ -42,8 +41,8 @@
 		flex-direction: column;
 		gap: 10px;
 		width: inherit;
-		background: rgba(255, 255, 255, .05);
-		padding: 10px 10px;
+		background: var(--background-popup);
+		padding: 10px 15px;
 		box-sizing: border-box;
 		border-bottom-left-radius: 5px;
 		border-bottom-right-radius: 5px;
@@ -71,6 +70,12 @@
 				color: var(--text-secondary);
 				font-size: 16px;
 				margin: auto 0;
+			}
+
+			.Type {
+				justify-self: right;
+				margin: auto 0 auto auto;
+				color: var(--text-secondary);
 			}
 
 			transition: all .1s ease;

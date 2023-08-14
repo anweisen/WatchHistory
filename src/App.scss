@@ -1,4 +1,29 @@
+
 .App {
-	min-height: 100vh;
 	background: var(--background);
+
+	.Content {
+		min-height: 100vh;
+		padding: 50px 0;
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
+		gap: 50px;
+
+		.Credits {
+			margin-bottom: 0;
+			margin-top: auto;
+			bottom: 0;
+			top: auto;
+			text-align: center;
+			color: var(--text-secondary);
+			font-family: "Poppins", sans-serif;
+			font-size: 16px;
+
+			a {
+				color: var(--icon-primary);
+			}
+		}
+	}
+
 }

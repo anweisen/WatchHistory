@@ -1,4 +1,3 @@
-
 export interface SearchResults<T> {
   page: number;
   total_results: number;
@@ -41,4 +40,50 @@ export interface SearchMoviesEntry {
 }
 
 export interface TvSeriesDetails {
+  adult: boolean;
+  backdrop_path: string;
+  created_by: object;
+  episode_run_time: number[];
+  first_air_date: string;
+  genres: object[];
+  homepage: string;
+  id: string;
+  in_production: boolean;
+  languages: string[];
+  last_air_date: string;
+  last_episode_to_air: object;
+  name: string;
+  networks: object[];
+  next_episode_to_air: object | undefined;
+  number_of_episodes: number;
+  number_of_seasons: number | undefined;
+  origin_country: string[];
+  original_language: string;
+  original_name: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  production_companies: object[];
+  production_countries: object[];
+  seasons: TvSeriesSeason[];
+  spoken_languages: object[];
+  status: string;
+  tagline: string;
+  type: string;
+  vote_average: number;
+  vote_count: number;
+}
+
+export interface TvSeriesSeason {
+  air_date: string;
+  episode_count: number;
+  id: number;
+  name: string;
+  overview: string;
+  poster_path: string;
+  season_number: number;
+  vote_average: number;
+}
+
+export interface MovieDetails {
 }

@@ -1,0 +1,25 @@
+.List {
+	display: flex;
+	flex-wrap: wrap;
+	//justify-content: space-between;
+	gap: 20px;
+	margin: 0 5%;
+
+	.Item {
+		height: 200px;
+		width: auto;
+		transition: all .25s;
+		cursor: pointer;
+
+		&:hover {
+			transform: scale(1.025);
+			filter: brightness(90%);
+		}
+
+		img {
+			height: 100%;
+			width: auto;
+			border-radius: 10px;
+		}
+	}
+}

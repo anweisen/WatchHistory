@@ -4,7 +4,13 @@ body.light {
 
 body.dark {
 	--background: linear-gradient(180deg, rgb(35, 35, 42), rgb(25, 25, 32));
-
+	--background-popup: #28282d;
+	--background-popup-secondary: #595961;
+	--background-border: #2C2C32;
 	--text-primary: #fff;
 	--text-secondary: #8e8e92;
+	--icon-primary: #C8C8C9;
+
+	--action-success: #16ca0e;
+	--action-fail: #b33636;
 }

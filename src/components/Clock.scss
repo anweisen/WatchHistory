@@ -1,0 +1,30 @@
+.Clock {
+	text-align: center;
+	font-family: "Poppins", sans-serif;
+
+	.Title {
+		font-family: "Quicksand", sans-serif;
+		font-size: 20px;
+		color: var(--text-secondary);
+	}
+
+	.Main {
+		font-size: 40px;
+		color: var(--text-primary);
+	}
+
+	.Or {
+		font-size: 20px;
+		color: var(--text-secondary);
+	}
+
+	.Days {
+		font-size: 30px;
+		color: var(--text-primary);
+	}
+
+	.Wage {
+		font-size: 15px;
+		color: var(--icon-primary);
+	}
+}
