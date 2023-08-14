@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: 18.x
       - name: install dependencies
-        run: npm ci
+        run: npm i
       - name: build app
         run: npm run build
         env:
