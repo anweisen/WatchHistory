@@ -52,6 +52,9 @@ input[data-autocompleted] {
 /* Track */
 ::-webkit-scrollbar-track {
 	background: var(--background-border);
+}
+
+div::-webkit-scrollbar-track {
 	border-radius: 2px;
 }
 

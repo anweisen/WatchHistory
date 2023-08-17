@@ -22,6 +22,11 @@
 
 			a {
 				color: var(--icon-primary);
+				transition: color ease .1s;
+
+				&:hover {
+					color: var(--text-primary);
+				}
 			}
 		}
 	}

@@ -27,4 +27,26 @@
 		font-size: 15px;
 		color: var(--icon-primary);
 	}
+
+	.Share {
+		margin-top: 30px;
+		margin-bottom: -30px;
+		color: var(--text-secondary);
+		user-select: none;
+		cursor: pointer;
+		transition: color ease .2s;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 10px;
+		width: auto;
+
+		&:hover {
+			color: var(--icon-primary);
+		}
+
+		svg {
+			color: var(--text-secondary);
+		}
+	}
 }

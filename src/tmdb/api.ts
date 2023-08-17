@@ -8,12 +8,6 @@ const log = (value: any) => {
   return value;
 };
 
-export const formatTime = (minutes: number) => {
-  const hours = minutes / 60;
-  minutes %= 60;
-  return (hours > 0 ? (hours.toFixed(0) + "h ") : "") + minutes.toFixed(0) + "m";
-};
-
 export const provideImageUrl = (path: string | undefined, size: string = "w185"): string | undefined =>
   path && `https://image.tmdb.org/t/p/${size}${path}`;
 
@@ -46,7 +40,9 @@ export const lookupSeries = async (id: number) => {
       Authorization: `Bearer ${token}`
     }
   }).then<TvSeriesDetails>(value => value.json())
-    .then(log);
+    .then(log)
+    .catch(reason => console.error(`could not find series ${id}`))
+    ;
 };
 export const lookupMovie = async (id: number) => {
   return await fetch(`https://api.themoviedb.org/3/movie/${id}?language=${language}`, {
