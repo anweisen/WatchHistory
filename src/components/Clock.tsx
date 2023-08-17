@@ -39,15 +39,11 @@ const Clock = ({items}: { items: Item[] }) => {
       <div className="Wage">{(time / 60 * 12).toLocaleString("en-US", {maximumFractionDigits: 0})}€ at minimum wage</div>
       <div className="Share" onClick={event => {
         const url = `https://watched.anweisen.net?${encodeItems(items)}`;
-
-        const mobileAndTabletCheck = function () {
-          return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        };
-
-        if (navigator.share && mobileAndTabletCheck()) {
+        
+        if (navigator.share) {
           navigator.share({
-            title: "time wasted watching",
-            text: "i got " + formatTime(time),
+            title: formatTime(time) + " wasted",
+            text: formatTime(time) + " wasted watching series",
             url: url,
           })
             .then(() => console.log("Successful share"))
