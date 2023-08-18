@@ -1,14 +1,16 @@
 .Loader {
 	place-self: center;
-	width: 48px;
-	height: 48px;
+	//width: 48px;
+	//height: 48px;
+	width: 2rem;
+	height: 2rem;
 	border: 3px solid var(--text-secondary);
 	border-radius: 50%;
 	display: inline-block;
 	position: relative;
 	box-sizing: border-box;
 	animation: rotation 1s linear infinite;
-	margin: 10px 10px;
+	margin: 10px;
 }
 .Loader::after {
 	content: '';
@@ -17,8 +19,10 @@
 	left: 50%;
 	top: 50%;
 	transform: translate(-50%, -50%);
-	width: 56px;
-	height: 56px;
+	//width: 56px;
+	//height: 56px;
+	width: 2.75rem;
+	height: 2.75rem;
 	border-radius: 50%;
 	border: 3px solid transparent;
 	border-bottom-color: var(--icon-primary);

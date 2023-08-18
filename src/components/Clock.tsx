@@ -1,45 +1,58 @@
 import {useEffect, useState} from "react";
 import {TvSeriesDetails} from "../tmdb/types";
-import {encodeItems, formatTime, Item} from "../utils";
-import {lookup, useForceUpdate} from "./List";
+import {lookup, lookupRuntime} from "../tmdb/api";
+import {encodeItems, formatTime, Item, timesOf, useForceUpdate} from "../utils";
 import "./Clock.scss";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faShareAlt} from "@fortawesome/free-solid-svg-icons";
+import Loader from "./Loader";
 
 const Clock = ({items}: { items: Item[] }) => {
   const [time, setTime] = useState(0);
-  const forceUpdate = useForceUpdate();
+  const [updater, forceUpdate] = useForceUpdate();
+  const [finished, setFinished] = useState(false);
 
   useEffect(() => {
+    let finished = true;
     setTime(items
       .map(value => ({item: value, details: lookup(value, forceUpdate)}))
       .filter(({item, details}) => details !== undefined)
       .map(({item, details}) => {
         if (item.series) {
           const series = details as TvSeriesDetails;
-          if (series.episode_run_time.length === 0) return 0;
+          // if (series.episode_run_time.length === 0) return 0;
+          const seasonRuntime = lookupRuntime(series, forceUpdate);
+          if (seasonRuntime === undefined) {
+            finished = false;
+            return 0;
+          }
           let runtime = 0;
-          for (let season of series.seasons) {
-            runtime += (item.times[season.season_number] === undefined ? 1 : item.times[season.season_number])
-              * series.episode_run_time[0] * season.episode_count;
+          for (let i = 0; i < series.seasons.length; i++) {
+            // runtime += timesOf(item.times[season.season_number])
+            //   * series.episode_run_time[0] * season.episode_count;
+            runtime += seasonRuntime[i] * timesOf(item.times[series.seasons[i].season_number]);
           }
           return runtime;
         } else {
-          return 1;
+          return 0;
         }
       }).reduce((previousValue, currentValue) => previousValue + currentValue, 0));
-  });
+    setFinished(finished);
+  }, [items, updater, forceUpdate]);
 
   return (
-    <div className="Clock">
+    <div className={"Clock" + (!finished ? " Loading" : "")}>
       <div className="Title">you've wasted over</div>
       <div className="Main">{formatTime(time)}</div>
-      <div className="Or">OR</div>
-      <div className="Days">{(time / 60 / 24).toFixed(1)} days</div>
-      <div className="Wage">{(time / 60 * 12).toLocaleString("en-US", {maximumFractionDigits: 0})}€ at minimum wage</div>
+      {!finished ? <Loader/> : <>
+        <div className="Or">OR</div>
+        <div className="Days">{(time / 60 / 24).toFixed(1)} days</div>
+        <div className="Wage">{(time / 60 * 12).toLocaleString("en-US", {maximumFractionDigits: 0})}€ at minimum wage</div>
+      </>}
+
       <div className="Share" onClick={event => {
         const url = `https://watched.anweisen.net?${encodeItems(items)}`;
-        
+
         if (navigator.share) {
           navigator.share({
             title: formatTime(time) + " wasted",

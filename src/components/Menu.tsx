@@ -2,11 +2,10 @@ import {faCheck, faCompressAlt, faMinus, faPlus, faTrash} from "@fortawesome/fre
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useEffect, useState} from "react";
 import {MovieDetails, TvSeriesDetails} from "../tmdb/types";
-import {provideImageUrl} from "../tmdb/api";
-import {lookup} from "./List";
-import {formatTime, Item, timesOf} from "../utils";
-import "./Menu.scss";
+import {lookup, lookupRuntime, provideImageUrl} from "../tmdb/api";
+import {formatTime, Item, timesOf, useForceUpdate} from "../utils";
 import Loader from "./Loader";
+import "./Menu.scss";
 
 const setTimes = (plus: boolean, season: number, seasons: number, item: Item) => {
   let times = [...item.times];
@@ -23,6 +22,7 @@ const setTimes = (plus: boolean, season: number, seasons: number, item: Item) =>
 const Menu = ({item, saveItem, removeItem, cancel}: { item: Item, saveItem: (item: Item) => void, removeItem: (item: Item) => void, cancel: () => void }) => {
   const [state, setState] = useState<Item>(item);
   const [details, setDetails] = useState<TvSeriesDetails | MovieDetails>();
+  const [, forceUpdate] = useForceUpdate();
 
   useEffect(() => {
     setDetails(lookup(item, () => setDetails(lookup(item))));
@@ -44,11 +44,11 @@ const Menu = ({item, saveItem, removeItem, cancel}: { item: Item, saveItem: (ite
             <div className="History">
               <div className="Title">Watch History</div>
               <div className="Seasons">
-                {(details as TvSeriesDetails).seasons.map(season => <div key={season.season_number} className="Season">
+                {(details as TvSeriesDetails).seasons.map((season, index) => <div key={season.season_number} className="Season">
                   <div className="SeasonStats">
                     <div className="Name">{season.name}</div>
                     <div className="Episodes">{season.episode_count}</div>
-                    <div className="Runtime">{formatTime(season.episode_count * (details as TvSeriesDetails).episode_run_time[0])}</div>
+                    <div className="Runtime">{formatTime(lookupRuntime((details as TvSeriesDetails), forceUpdate)?.at(index))}</div>
                   </div>
                   <div className="Controls">
                     <div className="Minus"

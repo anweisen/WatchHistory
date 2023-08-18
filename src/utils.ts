@@ -1,5 +1,7 @@
-export const formatTime = (minutes: number) => {
-  if (isNaN(minutes)) return "?";
+import React from "react";
+
+export const formatTime = (minutes: number | undefined) => {
+  if (minutes === undefined || isNaN(minutes)) return "?";
   const hours = minutes / 60;
   minutes %= 60;
   return (hours > 0 ? (hours.toFixed(0) + "h ") : "") + minutes.toFixed(0) + "m";
@@ -10,7 +12,6 @@ export interface Item {
   series: boolean; // movie otherwise
   times: number[]; // array for seasons
 }
-
 
 const digit = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_";
 const toB64 = (x: number) => x.toString(2).split(/(?=(?:.{6})+(?!.))/g).map(v => digit[parseInt(v, 2)]).join("");
@@ -79,4 +80,10 @@ export const decodeItems = (str: string): Item[] => {
     i = terminator;
   }
   return arr;
+};
+
+export const useForceUpdate = (): [number, () => void] => {
+  const [updater, setUpdate] = React.useState(0);
+  const forceUpdate = () => setUpdate(prev => prev + 1);
+  return [updater, forceUpdate];
 };
