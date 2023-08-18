@@ -15,8 +15,11 @@
 		transition: all .25s;
 		cursor: pointer;
 
-		@media (max-width: 500px) {
+		@media (max-width: 1000px) {
 			height: 175px;
+		}
+		@media (max-width: 500px) {
+			height: 150px;
 		}
 
 		&:hover {

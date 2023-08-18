@@ -16,6 +16,8 @@ const Search = ({openMenu}: { openMenu: (item: Item) => void }) => {
 
   const open = (item: Item) => {
     if (ref.current) ref.current.value = "";
+    setSeries([]);
+    setMovies([]);
     openMenu(item);
   };
   const search = (input: string) => {

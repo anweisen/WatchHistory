@@ -20,6 +20,10 @@
 		width: 80%;
 		box-sizing: border-box;
 	}
+	@media (max-width: 500px) {
+		width: 85%;
+		box-sizing: border-box;
+	}
 
 	input {
 		width: 100%;

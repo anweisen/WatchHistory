@@ -47,6 +47,10 @@ input[data-autocompleted] {
 /* width */
 ::-webkit-scrollbar {
 	width: 8px;
+
+	@media (max-width: 650px) {
+		width: 4px;
+	}
 }
 
 /* Track */
