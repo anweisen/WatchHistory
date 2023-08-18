@@ -1,27 +1,37 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faFilm, faLaptop, faSearch} from "@fortawesome/free-solid-svg-icons";
+import {faCircleXmark, faFilm, faLaptop, faSearch} from "@fortawesome/free-solid-svg-icons";
 import {useEffect, useRef, useState} from "react";
 import {provideImageUrl, searchMovies, searchSeries} from "../tmdb/api";
 import {SearchMoviesEntry, SearchTvSeriesEntry} from "../tmdb/types";
 import {Item} from "../utils";
+import Loader from "./Loader";
 import "./Search.scss";
 
+let timer: any;
 const Search = ({openMenu}: { openMenu: (item: Item) => void }) => {
   const ref = useRef<HTMLInputElement>(null);
   const [focus, setFocus] = useState(false);
-  const [series, setSeries] = useState<SearchTvSeriesEntry[]>([]);
-  const [movies, setMovies] = useState<SearchMoviesEntry[]>([]);
+  const [series, setSeries] = useState<SearchTvSeriesEntry[] | undefined>([]);
+  const [movies, setMovies] = useState<SearchMoviesEntry[] | undefined>([]);
 
   const open = (item: Item) => {
     if (ref.current) ref.current.value = "";
     openMenu(item);
   };
   const search = (input: string) => {
-    if (input.length === 0) return;
-    setSeries([]);
-    setMovies([]);
-    searchSeries(input).then(search => setSeries(search.results.splice(0, 3)));
-    searchMovies(input).then(search => setMovies(search.results.splice(0, 3)));
+    if (input.length === 0) {
+      setSeries([]);
+      setMovies([]);
+      return;
+    }
+    setSeries(undefined);
+    setMovies(undefined);
+
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => {
+      searchSeries(input).then(search => setSeries(search.results.splice(0, 3)));
+      searchMovies(input).then(search => setMovies(search.results.splice(0, 3)));
+    }, 250);
   };
 
   useEffect(() => {
@@ -58,21 +68,23 @@ const Search = ({openMenu}: { openMenu: (item: Item) => void }) => {
 
       <span className="SearchResultsContainer">
         <div className="SearchResults" style={!focus ? {display: "none"} : undefined}>
-        {series.map((value, index) => <div className="Result" key={index}
-                                           onClick={event => open({id: value.id, series: true, times: []})}>
-          <img className="Poster" src={provideImageUrl(value.poster_path || value.backdrop_path, "w92")}/>
-          <div className="Name">{value.name}</div>
-          {value.name !== value.original_name && <div className="OriginalName">{value.original_name}</div>}
-          <FontAwesomeIcon className="Type" icon={faLaptop}/>
-        </div>)}
-          {movies.map((value, index) => <div className="Result" key={index}
-                                             onClick={event => open({id: value.id, series: false, times: []})}>
-            <img className="Poster" src={provideImageUrl(value.poster_path || value.backdrop_path, "w92")}/>
+          {!series && !movies ? <Loader/> : !series?.length && !movies?.length ? <div className="None"><FontAwesomeIcon icon={faCircleXmark}/>Try another show</div> : undefined}
+
+          {series?.map((value, index) => <div className="Result" key={index}
+                                              onClick={event => open({id: value.id, series: true, times: []})}>
+            <img className="Poster" src={provideImageUrl(value.poster_path || value.backdrop_path, "w92")} alt="?"/>
+            <div className="Name">{value.name}</div>
+            {value.name !== value.original_name && <div className="OriginalName">{value.original_name}</div>}
+            <FontAwesomeIcon className="Type" icon={faLaptop}/>
+          </div>)}
+          {movies?.map((value, index) => <div className="Result" key={index}
+                                              onClick={event => open({id: value.id, series: false, times: []})}>
+            <img className="Poster" src={provideImageUrl(value.poster_path || value.backdrop_path, "w92")} alt="?"/>
             <div className="Name">{value.title}</div>
             {value.title !== value.original_title && <div className="OriginalName">{value.original_title}</div>}
             <FontAwesomeIcon className="Type" icon={faFilm}/>
           </div>)}
-      </div>
+        </div>
       </span>
 
     </div>

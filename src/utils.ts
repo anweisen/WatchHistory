@@ -1,4 +1,5 @@
 export const formatTime = (minutes: number) => {
+  if (isNaN(minutes)) return "?";
   const hours = minutes / 60;
   minutes %= 60;
   return (hours > 0 ? (hours.toFixed(0) + "h ") : "") + minutes.toFixed(0) + "m";
@@ -15,7 +16,7 @@ const digit = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_"
 const toB64 = (x: number) => x.toString(2).split(/(?=(?:.{6})+(?!.))/g).map(v => digit[parseInt(v, 2)]).join("");
 const fromB64 = (x: string) => x.split("").reduce((s, v) => s * 64 + digit.indexOf(v), 0);
 
-export const timesOf = (time: number | undefined) => time === undefined ? 1 : time;
+export const timesOf = (time: number | undefined) => time === undefined || time === null ? 1 : time;
 
 const arrToB64 = (arr: number[]) => {
   let out = "";

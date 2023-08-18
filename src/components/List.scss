@@ -5,11 +5,19 @@
 	gap: 20px;
 	margin: 0 5%;
 
+	@media (max-width: 500px) {
+		gap: 15px;
+	}
+
 	.Item {
 		height: 200px;
 		width: auto;
 		transition: all .25s;
 		cursor: pointer;
+
+		@media (max-width: 500px) {
+			height: 175px;
+		}
 
 		&:hover {
 			transform: scale(1.025);

@@ -6,6 +6,7 @@ import {provideImageUrl} from "../tmdb/api";
 import {lookup} from "./List";
 import {formatTime, Item, timesOf} from "../utils";
 import "./Menu.scss";
+import Loader from "./Loader";
 
 const setTimes = (plus: boolean, season: number, seasons: number, item: Item) => {
   let times = [...item.times];
@@ -33,7 +34,7 @@ const Menu = ({item, saveItem, removeItem, cancel}: { item: Item, saveItem: (ite
         {details ? <>
           {state.series ? <>
             <div className="Head">
-              <img className="Poster" src={provideImageUrl((details as TvSeriesDetails).poster_path)}/>
+              <img className="Poster" src={provideImageUrl((details as TvSeriesDetails).poster_path)} alt=""/>
               <div className="Info">
                 <div className="Name">{(details as TvSeriesDetails).name}</div>
                 <div className="OriginalName">{(details as TvSeriesDetails).original_name}</div>
@@ -44,8 +45,11 @@ const Menu = ({item, saveItem, removeItem, cancel}: { item: Item, saveItem: (ite
               <div className="Title">Watch History</div>
               <div className="Seasons">
                 {(details as TvSeriesDetails).seasons.map(season => <div key={season.season_number} className="Season">
-                  <div className="SeasonTitle">{season.name} - {season.episode_count} Episodes
-                    - {formatTime(season.episode_count * (details as TvSeriesDetails).episode_run_time[0])}</div>
+                  <div className="SeasonStats">
+                    <div className="Name">{season.name}</div>
+                    <div className="Episodes">{season.episode_count}</div>
+                    <div className="Runtime">{formatTime(season.episode_count * (details as TvSeriesDetails).episode_run_time[0])}</div>
+                  </div>
                   <div className="Controls">
                     <div className="Minus"
                          onClick={event => setState(setTimes(false, season.season_number, (details as TvSeriesDetails).number_of_seasons || season.season_number, state))}>
@@ -69,7 +73,7 @@ const Menu = ({item, saveItem, removeItem, cancel}: { item: Item, saveItem: (ite
             <div className="Button Cancel" onClick={() => cancel()}><FontAwesomeIcon icon={faCompressAlt}/> Cancel</div>
           </div>
         </> : <>
-          Loading
+          <Loader/>
         </>}
       </div>
     </span>

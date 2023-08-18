@@ -63,6 +63,16 @@
 			border-radius: 5px;
 		}
 
+		.None {
+			font-size: 20px;
+			color: var(--icon-primary);
+			font-family: "Poppins", sans-serif;
+			display: flex;
+			gap: 10px;
+			align-items: center;
+			justify-content: center;
+		}
+
 		.Result {
 			display: flex;
 			gap: 10px;
