@@ -30,6 +30,7 @@ const Clock = ({items}: { items: Item[] }) => {
           for (let i = 0; i < series.seasons.length; i++) {
             // runtime += timesOf(item.times[season.season_number])
             //   * series.episode_run_time[0] * season.episode_count;
+            if (!series.seasons[i].air_date) continue;
             runtime += seasonRuntime[i] * timesOf(item.times[series.seasons[i].season_number]);
           }
           return runtime;

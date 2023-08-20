@@ -59,6 +59,7 @@ export const lookupMovie = async (id: number) => {
 export const fetchSeriesRuntime = (series: TvSeriesDetails) => {
   const arr: Promise<number>[] = [];
   for (let season of series.seasons) {
+    if (!season.air_date) continue;
     arr.push(fetchSeasonRuntime(series.id, season.season_number));
   }
   return Promise.all(arr);
