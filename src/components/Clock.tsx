@@ -1,11 +1,11 @@
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faShareAlt} from "@fortawesome/free-solid-svg-icons";
 import {useEffect, useState} from "react";
 import {TvSeriesDetails} from "../tmdb/types";
 import {lookup, lookupRuntime} from "../tmdb/api";
 import {encodeItems, formatTime, Item, timesOf, useForceUpdate} from "../utils";
-import "./Clock.scss";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faShareAlt} from "@fortawesome/free-solid-svg-icons";
 import Loader from "./Loader";
+import "./Clock.scss";
 
 const Clock = ({items}: { items: Item[] }) => {
   const [time, setTime] = useState(0);
@@ -30,7 +30,7 @@ const Clock = ({items}: { items: Item[] }) => {
           for (let i = 0; i < series.seasons.length; i++) {
             // runtime += timesOf(item.times[season.season_number])
             //   * series.episode_run_time[0] * season.episode_count;
-            if (!series.seasons[i].air_date) continue;
+            if (!series.seasons[i].air_date || Date.parse(series.seasons[i].air_date) > Date.now()) continue;
             runtime += seasonRuntime[i] * timesOf(item.times[series.seasons[i].season_number]);
           }
           return runtime;

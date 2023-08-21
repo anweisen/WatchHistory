@@ -15,13 +15,11 @@ const App = () => {
     const queryParameters = new URLSearchParams(window.location.search);
     if (queryParameters.size > 0) {
       const items = decodeItems(queryParameters.keys().next().value);
-      console.log(items);
       setItems(items);
+      console.log(items);
     } else {
       const items = JSON.parse(localStorage.getItem("items") || "[]");
-      console.log(items);
       setItems(items);
-
     }
 
     let theme = localStorage.getItem("theme") || "dark";

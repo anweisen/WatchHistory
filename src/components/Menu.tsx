@@ -44,7 +44,7 @@ const Menu = ({item, saveItem, removeItem, cancel}: { item: Item, saveItem: (ite
             <div className="History">
               <div className="Title">Watch History</div>
               <div className="Seasons">
-                {(details as TvSeriesDetails).seasons.filter(season => season.air_date).map((season, index) => <div key={season.season_number} className="Season">
+                {(details as TvSeriesDetails).seasons.filter(season => season.air_date && Date.parse(season.air_date) < Date.now()).map((season, index) => <div key={season.season_number} className="Season">
                   <div className="SeasonStats">
                     <div className="Name">{season.name}</div>
                     <div className="Episodes">{season.episode_count}</div>
