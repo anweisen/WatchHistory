@@ -62,6 +62,13 @@ body:has(.MenuContainer) {
 				color: var(--text-primary);
 				font-size: 28px;
 				font-family: "Poppins", sans-serif;
+				display: inline-flex;
+				align-items: center;
+				gap: 15px;
+
+				svg {
+					color: var(--icon-primary);
+				}
 
 				@media (max-width: 650px) {
 					font-size: 24px;
@@ -128,6 +135,7 @@ body:has(.MenuContainer) {
 					.Name {
 						font-weight: 400;
 					}
+
 					.Episodes {
 						&::before {
 							content: "•";

@@ -3,7 +3,7 @@ import Search from "./components/Search";
 import List from "./components/List";
 import Menu from "./components/Menu";
 import Clock from "./components/Clock";
-import {decodeItems, encodeItems, Item} from "./utils";
+import {decodeItems, Item} from "./utils";
 import "./App.scss";
 
 

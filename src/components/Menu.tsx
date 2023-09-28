@@ -1,4 +1,4 @@
-import {faCheck, faCompressAlt, faMinus, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faCheck, faMinus, faPlus, faReply, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useEffect, useState} from "react";
 import {MovieDetails, TvSeriesDetails} from "../tmdb/types";
@@ -70,7 +70,7 @@ const Menu = ({item, saveItem, removeItem, cancel}: { item: Item, saveItem: (ite
           <div className="Buttons">
             <div className="Button Save" onClick={() => saveItem(state)}><FontAwesomeIcon icon={faCheck}/> Save</div>
             <div className="Button Remove" onClick={() => removeItem(state)}><FontAwesomeIcon icon={faTrash}/> Remove</div>
-            <div className="Button Cancel" onClick={() => cancel()}><FontAwesomeIcon icon={faCompressAlt}/> Cancel</div>
+            <div className="Button Cancel" onClick={() => cancel()}><FontAwesomeIcon icon={faReply}/> Cancel</div>
           </div>
         </> : <>
           <Loader/>
