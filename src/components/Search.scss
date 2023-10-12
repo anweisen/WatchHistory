@@ -42,12 +42,17 @@
 
 }
 
+
 .SearchResultsContainer {
 	width: 70%;
 	z-index: 2;
 
 	@media (max-width: 650px) {
 		width: 85%;
+	}
+
+	::-webkit-scrollbar {
+		display: none;
 	}
 
 	.SearchResults {
@@ -62,6 +67,8 @@
 		border-bottom-left-radius: 5px;
 		border-bottom-right-radius: 5px;
 		user-select: none;
+		overflow: scroll;
+		max-height: 300px;
 
 		@media (max-width: 650px) {
 			margin-top: 4px;
