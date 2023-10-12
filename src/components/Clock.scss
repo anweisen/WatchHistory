@@ -97,29 +97,82 @@
 
 .ImportModal {
 	width: 25% !important;
+	gap: 30px !important;
+
+	@media (max-width: 1500px) {
+		width: 30% !important;
+	}
+	@media (max-width: 1200px) {
+		width: 35% !important;
+	}
+	@media (max-width: 1000px) {
+		width: 40% !important;
+	}
+	@media (max-width: 900px) {
+		width: 45% !important;
+	}
+	@media (max-width: 800px) {
+		width: 55% !important;
+	}
+	@media (max-width: 700px) {
+		width: 60% !important;
+	}
+	@media (max-width: 650px) {
+		width: 90% !important;
+	}
 
 	.ModalTitle {
-		font-size: 32px;
+		font-size: 30px;
 		text-align: center;
 		color: var(--text-primary);
 	}
 
-	.ModalBody {
-		font-size: 16px;
+	.Explanation {
+		white-space: pre-line;
 		text-align: center;
 		color: var(--text-secondary);
+		font-family: "Oxygen", sans-serif;
+		font-size: 16px;
 	}
 
-	.Button {
+	.Interact {
+		display: flex;
+		gap: 10%;
+		justify-content: center;
 
-		&.Overwrite {
-			background: var(--action-fail);
+		.Button {
+			justify-content: center;
+			width: 125px;
+			aspect-ratio: 4 / 5;
+			box-sizing: border-box;
+			border-radius: 15px;
+			border: var(--background-popup-secondary) 1px solid;
+			color: var(--text-secondary);
+			background: rgba(0, 0, 0, .05);
+			text-align: center;
+			padding: 30px 10px;
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+			cursor: pointer;
+			user-select: none;
+			transition: color .2s, border-color .2s;
+
+			&:hover {
+				color: var(--text-primary);
+				border-color: var(--icon-primary);
+				border-width: 2px;
+			}
+
+			svg {
+				font-size: 50px;
+			}
+			div {
+				font-size: 18px;
+				font-family: "Poppins", sans-serif;
+				font-weight: 500;
+			}
 		}
-
-		&.Merge {
-			background: #0545c2;
-		}
-
 	}
 
 

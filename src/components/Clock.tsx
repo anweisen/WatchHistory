@@ -1,5 +1,5 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowRightArrowLeft, faCheck, faCodeBranch, faDownload, faReply, faShareAlt, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faArrowRightArrowLeft, faCodeBranch, faDownload, faReply, faShareAlt} from "@fortawesome/free-solid-svg-icons";
 import React, {useContext, useEffect, useState} from "react";
 import {TvSeriesDetails} from "../tmdb/types";
 import {lookup, lookupRuntime} from "../tmdb/api";
@@ -7,11 +7,10 @@ import {encodeItems, formatTime, Item, timesOf, useForceUpdate} from "../utils";
 import Loader from "./Loader";
 import "./Clock.scss";
 import {ModalContext} from "./ui/ModalContext";
-import SimpleModal from "./ui/SimpleModal";
 
 const Clock = ({items, isSharedData}: { items: Item[], isSharedData: boolean }) => {
 
-  const { openModal, closeModal } = useContext(ModalContext)
+  const {openModal, closeModal} = useContext(ModalContext);
 
   const [time, setTime] = useState(0);
   const [wage, setWage] = useState(-1);
@@ -19,16 +18,28 @@ const Clock = ({items, isSharedData}: { items: Item[], isSharedData: boolean }) 
   const [finished, setFinished] = useState(false);
 
   const ImportModal = () => {
-      return (
-          <div className={"ImportModal AnimatedModalContent DefaultModalContent"}>
-            <SimpleModal title={"Are you sure?"} body={"You already have data in your local storage. Do you want to overwrite the current data or merge it with the new data?"}
-                         buttons={<>
-                           <div className="Button Overwrite" onClick={() => { closeModal() }}><FontAwesomeIcon icon={faArrowRightArrowLeft}/>Overwrite</div>
-                           <div className="Button Merge" onClick={() => { closeModal() }}><FontAwesomeIcon icon={faCodeBranch}/> Merge</div>
-                         </>}
-            />
+    return (
+      <div className={"ImportModal AnimatedModalContent DefaultModalContent"}>
+        <div className={"ModalTitle"}>Are you sure?</div>
+        <div className={"Explanation"}>
+          Seems like you have already saved some data in your localstorage.
+          Wanna overwrite the old data and replace with the new data or merge both watch histories together?
+        </div>
+        <div className={"Interact"}>
+          <div className={"Button"}>
+            <FontAwesomeIcon icon={faArrowRightArrowLeft}/>
+            <div>Overwrite</div>
           </div>
-      );
+          <div className={"Button"}>
+            <FontAwesomeIcon icon={faCodeBranch}/>
+            <div>Merge</div>
+          </div>
+        </div>
+        <div className={"Buttons"}>
+          <div className="Button Cancel" onClick={() => closeModal()}><FontAwesomeIcon icon={faReply}/> Cancel</div>
+        </div>
+      </div>
+    );
   };
 
   useEffect(() => {
