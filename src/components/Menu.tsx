@@ -1,4 +1,4 @@
-import {faCheck, faMinus, faPlus, faReply, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faCheck, faClock, faMinus, faPlus, faReply, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useEffect, useState} from "react";
 import {MovieDetails, TvSeriesDetails} from "../tmdb/types";
@@ -22,11 +22,17 @@ const setTimes = (plus: boolean, season: number, seasons: number, item: Item) =>
 const Menu = ({item, saveItem, removeItem, cancel}: { item: Item, saveItem: (item: Item) => void, removeItem: (item: Item) => void, cancel: () => void }) => {
   const [state, setState] = useState<Item>(item);
   const [details, setDetails] = useState<TvSeriesDetails | MovieDetails>();
+  const [totalPlaytime, setTotalPlaytime] = useState<number>();
   const [, forceUpdate] = useForceUpdate();
 
   useEffect(() => {
     setDetails(lookup(item, () => setDetails(lookup(item))));
   }, [item]);
+  useEffect(() => {
+    if (!details) return;
+    setTotalPlaytime(lookupRuntime(details as TvSeriesDetails, () => {
+    })?.reduce((prev, current) => prev + current));
+  }, [details]);
 
   return (
     <div className="AnimatedModalContent DefaultModalContent Menu">
@@ -37,7 +43,10 @@ const Menu = ({item, saveItem, removeItem, cancel}: { item: Item, saveItem: (ite
             <div className="Info">
               <div className="Name">{(details as TvSeriesDetails).name}</div>
               <div className="OriginalName">{(details as TvSeriesDetails).original_name}</div>
-              <div className="Year">{(details as TvSeriesDetails).first_air_date?.substring(0, 4)} - {(details as TvSeriesDetails).last_air_date?.substring(0, 4)}</div>
+              <span>
+                <div className="Year">{(details as TvSeriesDetails).first_air_date?.substring(0, 4)} - {(details as TvSeriesDetails).last_air_date?.substring(0, 4)}</div>
+                {totalPlaytime && <div className="Playtime"><FontAwesomeIcon icon={faClock} />  {formatTime(totalPlaytime)}</div>}
+              </span>
             </div>
           </div>
           <div className="History">
