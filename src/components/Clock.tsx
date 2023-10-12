@@ -9,6 +9,7 @@ import "./Clock.scss";
 
 const Clock = ({items}: { items: Item[] }) => {
   const [time, setTime] = useState(0);
+  const [wage, setWage] = useState(-1);
   const [updater, forceUpdate] = useForceUpdate();
   const [finished, setFinished] = useState(false);
 
@@ -43,13 +44,26 @@ const Clock = ({items}: { items: Item[] }) => {
 
   return (
     <div className={"Clock" + (!finished ? " Loading" : "")}>
-      <div className="Title">you've wasted over</div>
-      <div className="Main">{formatTime(time)}</div>
-      {!finished ? <Loader/> : <>
-        <div className="Or">OR</div>
-        <div className="Days">{(time / 60 / 24).toFixed(1)} days</div>
-        <div className="Wage">{(time / 60 * 12).toLocaleString("en-US", {maximumFractionDigits: 0})}€ at minimum wage</div>
-      </>}
+      <div>
+        <div className="Title">you've wasted over</div>
+        <div className="Main">{formatTime(time)}</div>
+        {!finished ? <Loader/> : <>
+          <div className="Or">OR</div>
+          <div className="Days">{(time / 60 / 24).toFixed(1)} days</div>
+          <div className="Wage">{(time / 60 * (wage <= 0 ? 12 : wage)).toLocaleString("en-US", {maximumFractionDigits: 0})}€ at <div onClick={event => {
+            const wageInput: string | null = prompt("Minimum Wage:");
+
+            if (wageInput !== null) {
+              const wage: number = parseFloat(wageInput);
+
+              if (!isNaN(wage)) {
+                setWage(wage);
+              }
+            }
+
+          }} className={"WageAmount"}>{wage <= 0 ? "minimum wage" : wage + "€/h"}</div></div>
+        </>}
+      </div>
 
       <div className="Share" onClick={event => {
         const url = `https://watched.anweisen.net?${encodeItems(items)}`;

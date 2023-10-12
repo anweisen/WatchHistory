@@ -38,6 +38,12 @@
 	.Wage {
 		font-size: 15px;
 		color: var(--icon-primary);
+
+		.WageAmount {
+			display: inline-block;
+			cursor: pointer;
+			color: var(--text-secondary);
+		}
 	}
 
 
