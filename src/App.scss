@@ -18,7 +18,7 @@
 			color: var(--text-secondary);
 			font-family: "Poppins", sans-serif;
 			font-size: 16px;
-			background: linear-gradient(0deg, rgba(23,23,26,1) 0%, rgba(29,29,36,0) 100%);
+			background: linear-gradient(0deg, rgba(23, 23, 26, 1) 0%, rgba(29, 29, 36, 0) 100%);
 
 			@media (max-width: 500px) {
 				font-size: 15px;
@@ -35,6 +35,21 @@
 
 			.Credits {
 				padding-bottom: 20px;
+				display: inline-flex;
+				justify-content: center;
+				flex-direction: row;
+
+				@media (max-width: 650px) {
+					flex-direction: column;
+					span {
+						display: none;
+					}
+				}
+
+				span {
+					margin: 0 8px;
+				}
+
 			}
 		}
 	}

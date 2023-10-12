@@ -1,13 +1,5 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {
-    faArrowRightArrowLeft,
-    faCheck,
-    faCodeBranch,
-    faDownload,
-    faReply,
-    faShareAlt,
-    faTrash
-} from "@fortawesome/free-solid-svg-icons";
+import {faArrowRightArrowLeft, faCheck, faCodeBranch, faDownload, faReply, faShareAlt, faTrash} from "@fortawesome/free-solid-svg-icons";
 import React, {useContext, useEffect, useState} from "react";
 import {TvSeriesDetails} from "../tmdb/types";
 import {lookup, lookupRuntime} from "../tmdb/api";

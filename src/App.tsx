@@ -85,7 +85,9 @@ const App = () => {
 
           <div className="Footer">
             <div className={"Credits"}>
-              ©️ 2023 <a href="https://github.com/anweisen">anweisen</a> & <a href={"https://github.com/kxmischesdomi"}>KxmischesDomi</a> • powered by <a href="https://www.themoviedb.org/">tmdb.org</a>
+              <div>©️ 2023 <a href="https://github.com/anweisen">anweisen</a> & <a href={"https://github.com/kxmischesdomi"}>KxmischesDomi</a></div>
+              <span>•</span>
+              <div>powered by <a href="https://www.themoviedb.org/">tmdb.org</a></div>
             </div>
           </div>
 
