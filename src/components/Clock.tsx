@@ -1,13 +1,13 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faShareAlt} from "@fortawesome/free-solid-svg-icons";
-import {useEffect, useState} from "react";
+import {faDownload, faShareAlt} from "@fortawesome/free-solid-svg-icons";
+import React, {useEffect, useState} from "react";
 import {TvSeriesDetails} from "../tmdb/types";
 import {lookup, lookupRuntime} from "../tmdb/api";
 import {encodeItems, formatTime, Item, timesOf, useForceUpdate} from "../utils";
 import Loader from "./Loader";
 import "./Clock.scss";
 
-const Clock = ({items}: { items: Item[] }) => {
+const Clock = ({items, isSharedData, openModal, closeModal}: { items: Item[], isSharedData: boolean, openModal: (modal: React.ReactElement) => void, closeModal: () =>  void }) => {
   const [time, setTime] = useState(0);
   const [wage, setWage] = useState(-1);
   const [updater, forceUpdate] = useForceUpdate();
@@ -50,39 +50,55 @@ const Clock = ({items}: { items: Item[] }) => {
         {!finished ? <Loader/> : <>
           <div className="Or">OR</div>
           <div className="Days">{(time / 60 / 24).toFixed(1)} days</div>
-          <div className="Wage">{(time / 60 * (wage <= 0 ? 12 : wage)).toLocaleString("en-US", {maximumFractionDigits: 0})}€ at <div onClick={event => {
-            const wageInput: string | null = prompt("Minimum Wage:");
+          <div className="Wage">
+            <div className={"WageEarned"}>{(time / 60 * (wage <= 0 ? 12 : wage)).toLocaleString("en-US", {maximumFractionDigits: 0})}€</div>
+            <div onClick={event => {
+              const wageInput: string | null = prompt("Minimum Wage:");
 
-            if (wageInput !== null) {
-              const wage: number = parseFloat(wageInput);
+              if (wageInput !== null) {
+                const wage: number = parseFloat(wageInput);
 
-              if (!isNaN(wage)) {
-                setWage(wage);
+                if (!isNaN(wage)) {
+                  setWage(wage);
+                }
               }
-            }
 
-          }} className={"WageAmount"}>{wage <= 0 ? "minimum wage" : wage + "€/h"}</div></div>
+            }} className={"WageAmount"}>at {wage <= 0 ? "minimum wage" : wage + "€/h"}</div>
+          </div>
         </>}
       </div>
 
-      <div className="Share" onClick={event => {
-        const url = `https://watched.anweisen.net?${encodeItems(items)}`;
+      <div className={"ButtonWrapper"}>
+        {!isSharedData ?
+          <div className="Button" onClick={event => {
+            const url = `https://watched.anweisen.net?${encodeItems(items)}`;
 
-        if (navigator.share) {
-          navigator.share({
-            title: formatTime(time) + " wasted",
-            text: formatTime(time) + " wasted watching series",
-            url: url,
-          })
-            .then(() => console.log("Successful share"))
-            .catch((error) => console.log("Error sharing", error));
-        } else {
-          navigator.clipboard.writeText(url)
-            .then(() => console.log("Successful copy"))
-            .catch((error) => console.log("Error copying", error));
-        }
-      }}><FontAwesomeIcon icon={faShareAlt}/> share your results
+            if (navigator.share) {
+              navigator.share({
+                title: formatTime(time) + " wasted",
+                text: formatTime(time) + " wasted watching series",
+                url: url,
+              })
+                .then(() => console.log("Successful share"))
+                .catch((error) => console.log("Error sharing", error));
+            } else {
+              navigator.clipboard.writeText(url)
+                .then(() => console.log("Successful copy"))
+                .catch((error) => console.log("Error copying", error));
+            }
+          }}><FontAwesomeIcon icon={faShareAlt}/> share your history
+          </div>
+          : <div className="Button" onClick={event => openModal(<ImportModal/>)}>
+            <FontAwesomeIcon icon={faDownload}/> import this history
+          </div>}
       </div>
+    </div>
+  );
+};
+const ImportModal = () => {
+  return (
+    <div className={"AnimatedModalContent DefaultModalContent"}>
+      asd
     </div>
   );
 };

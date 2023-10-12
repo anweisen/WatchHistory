@@ -5,12 +5,15 @@ import Menu from "./components/Menu";
 import Clock from "./components/Clock";
 import {decodeItems, Item} from "./utils";
 import "./App.scss";
+import Modal from "./components/ui/Modal";
 
 
 const App = () => {
   const [items, setItems] = useState<Item[]>([]);
   const [menuSubject, setMenuSubject] = useState<Item>();
   const [isSharedData, setIsSharedData] = useState(false);
+  const [modalStack, setModalStack] = useState<React.ReactNode[]>([]);
+  const [modalClosing, setModalClosing] = useState(false);
 
   useEffect(() => {
     const queryParameters = new URLSearchParams(window.location.search);
@@ -30,7 +33,7 @@ const App = () => {
   }, []);
 
   const saveItem = (item: Item) => {
-    closeMenu();
+    closeModal();
     setItems(prev => {
       const array = [item, ...prev.filter(value => value.id !== item.id)];
       localStorage.setItem("items", JSON.stringify(array));
@@ -38,26 +41,46 @@ const App = () => {
     });
   };
   const removeItem = (item: Item) => {
-    closeMenu();
+    closeModal();
     setItems(prev => {
       const array = prev.filter(value => value.id !== item.id);
       localStorage.setItem("items", JSON.stringify(array));
       return array;
     });
   };
+
+  const openModal = (modal: React.ReactNode) => {
+    setModalStack(prev => [...prev, [modal, false]]);
+  };
+  const closeModal = () => {
+    setModalClosing(true);
+    setTimeout(() => {
+      setModalClosing(false);
+      setModalStack(prev => {
+        const stack = [...prev];
+        stack.pop();
+        return stack;
+      });
+    }, 300);
+  };
+
   const openMenu = (item: Item) => {
-    setMenuSubject(items.find(value => value.id === item.id) || item);
+    // setMenuSubject(items.find(value => value.id === item.id) || item);
+    openModal(<Menu item={item} saveItem={saveItem} removeItem={removeItem} cancel={closeModal}/>);
   };
-  const closeMenu = () => {
-    setMenuSubject(undefined);
-  };
+
+  console.log(modalStack);
+  console.log(modalClosing);
 
   return (
     <div className="App">
-      {menuSubject && <Menu item={menuSubject} saveItem={saveItem} removeItem={removeItem} cancel={closeMenu}/>}
+
+      <Modal visible={!modalClosing && modalStack.length > 0}>
+        {modalStack[0]}
+      </Modal>
 
       <div className="Content">
-        <Clock items={items}/>
+        <Clock items={items} isSharedData={isSharedData} openModal={openModal} closeModal={closeModal}/>
         <Search openMenu={openMenu}/>
         <List items={items} openMenu={openMenu}/>
 
@@ -66,8 +89,8 @@ const App = () => {
             ©️ 2023 <a href="https://github.com/anweisen">anweisen</a> & <a href={"https://github.com/kxmischesdomi"}>KxmischesDomi</a> • powered by <a href="https://www.themoviedb.org/">tmdb.org</a>
           </div>
         </div>
-      </div>
 
+      </div>
     </div>
   );
 };
