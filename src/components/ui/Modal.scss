@@ -8,7 +8,7 @@ body:has(.Modal.Visible) {
 		animation: modal-fadeout-wrapper .15s ease-out forwards;
 
 		.AnimatedModalContent {
-			animation: modal-fadeout .3s ease-out;
+			animation: modal-fadeout .25s ease-out;
 		}
 
 		@keyframes modal-fadeout-wrapper {

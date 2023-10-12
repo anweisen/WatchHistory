@@ -19,7 +19,13 @@ const setTimes = (plus: boolean, season: number, seasons: number, item: Item) =>
   return {...item, times: times};
 };
 
-const Menu = ({item, saveItem, removeItem, cancel}: { item: Item, saveItem: (item: Item) => void, removeItem: (item: Item) => void, cancel: () => void }) => {
+const Menu = ({item, saveItem, removeItem, cancel, isSharedData}: {
+  item: Item,
+  saveItem: (item: Item) => void,
+  removeItem: (item: Item) => void,
+  cancel: () => void,
+  isSharedData: boolean
+}) => {
   const [state, setState] = useState<Item>(item);
   const [details, setDetails] = useState<TvSeriesDetails | MovieDetails>();
   const [totalPlaytime, setTotalPlaytime] = useState<number>();
@@ -45,7 +51,7 @@ const Menu = ({item, saveItem, removeItem, cancel}: { item: Item, saveItem: (ite
               <div className="OriginalName">{(details as TvSeriesDetails).original_name}</div>
               <span>
                 <div className="Year">{(details as TvSeriesDetails).first_air_date?.substring(0, 4)} - {(details as TvSeriesDetails).last_air_date?.substring(0, 4)}</div>
-                {totalPlaytime && <div className="Playtime"><FontAwesomeIcon icon={faClock} />  {formatTime(totalPlaytime)}</div>}
+                {totalPlaytime && <div className="Playtime"><FontAwesomeIcon icon={faClock}/> {formatTime(totalPlaytime)}</div>}
               </span>
             </div>
           </div>
@@ -60,12 +66,12 @@ const Menu = ({item, saveItem, removeItem, cancel}: { item: Item, saveItem: (ite
                   <div className="Runtime">{formatTime(lookupRuntime((details as TvSeriesDetails), forceUpdate)?.at(index))}</div>
                 </div>
                 <div className="Controls">
-                  <div className="Minus"
-                       onClick={event => setState(setTimes(false, season.season_number, (details as TvSeriesDetails).number_of_seasons || season.season_number, state))}>
+                  <div className={"Minus" + (isSharedData ? " Disabled" : "")}
+                       onClick={!isSharedData ? () => setState(setTimes(false, season.season_number, (details as TvSeriesDetails).number_of_seasons || season.season_number, state)) : () => {}}>
                     <FontAwesomeIcon icon={faMinus}/></div>
                   <div className="Display">{timesOf(state.times[season.season_number])}x</div>
-                  <div className="Plus"
-                       onClick={event => setState(setTimes(true, season.season_number, (details as TvSeriesDetails).number_of_seasons || season.season_number, state))}>
+                  <div className={"Plus" + (isSharedData ? " Disabled" : "")}
+                       onClick={!isSharedData ? () => setState(setTimes(true, season.season_number, (details as TvSeriesDetails).number_of_seasons || season.season_number, state)) : () => {}}>
                     <FontAwesomeIcon icon={faPlus}/></div>
                 </div>
               </div>)}
@@ -77,8 +83,8 @@ const Menu = ({item, saveItem, removeItem, cancel}: { item: Item, saveItem: (ite
           </div>
         </>}
         <div className="Buttons">
-          <div className="Button Save" onClick={() => saveItem(state)}><FontAwesomeIcon icon={faCheck}/> Save</div>
-          <div className="Button Remove" onClick={() => removeItem(state)}><FontAwesomeIcon icon={faTrash}/> Remove</div>
+          <div className={"Button Save" + (isSharedData ? " Disabled" : "")} onClick={!isSharedData ? () => saveItem(state) : () => {}}><FontAwesomeIcon icon={faCheck}/> Save</div>
+          <div className={"Button Remove" + (isSharedData ? " Disabled" : "")} onClick={!isSharedData ? () => removeItem(state) : () => {}}><FontAwesomeIcon icon={faTrash}/> Remove</div>
           <div className="Button Cancel" onClick={() => cancel()}><FontAwesomeIcon icon={faReply}/> Cancel</div>
         </div>
       </> : <>

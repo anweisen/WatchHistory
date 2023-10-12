@@ -1,4 +1,4 @@
-import React, {createContext, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import Search from "./components/Search";
 import List from "./components/List";
 import Menu from "./components/Menu";
@@ -67,19 +67,19 @@ const App = () => {
 
   const openMenu = (item: Item) => {
     // setMenuSubject(items.find(value => value.id === item.id) || item);
-    openModal(<Menu item={item} saveItem={saveItem} removeItem={removeItem} cancel={closeModal}/>);
+    openModal(<Menu item={item} saveItem={saveItem} removeItem={removeItem} cancel={closeModal} isSharedData={isSharedData}/>);
   };
 
   return (
-      <ModalContext.Provider value={{ openModal: openModal, closeModal: closeModal }}>
-    <div className="App">
+    <ModalContext.Provider value={{openModal: openModal, closeModal: closeModal}}>
+      <div className="App">
 
         <Modal visible={!modalClosing && modalStack.length > 0}>
           {modalStack[0]}
         </Modal>
 
         <div className="Content">
-          <Clock items={items} isSharedData={isSharedData} />
+          <Clock items={items} isSharedData={isSharedData}/>
           <Search openMenu={openMenu}/>
           <List items={items} openMenu={openMenu}/>
 
@@ -90,8 +90,8 @@ const App = () => {
           </div>
 
         </div>
-    </div>
-      </ModalContext.Provider>
+      </div>
+    </ModalContext.Provider>
   );
 };
 export default App;

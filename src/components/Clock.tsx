@@ -71,7 +71,7 @@ const Clock = ({items, isSharedData}: { items: Item[], isSharedData: boolean }) 
   return (
     <div className={"Clock" + (!finished ? " Loading" : "")}>
       <div>
-        <div className="Title">you've wasted over</div>
+        <div className="Title">{isSharedData ? "someone" : "you've"} wasted over</div>
         <div className="Main">{formatTime(time)}</div>
         {!finished ? <Loader/> : <>
           <div className="Or">OR</div>
