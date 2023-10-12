@@ -58,8 +58,10 @@ const App = () => {
         <Search openMenu={openMenu}/>
         <List items={items} openMenu={openMenu}/>
 
-        <div className="Credits">
-          ©️ 2023 <a href="https://github.com/anweisen">anweisen</a> • powered by <a href="https://www.themoviedb.org/">tmdb.org</a>
+        <div className="Footer">
+          <div className={"Credits"}>
+            ©️ 2023 <a href="https://github.com/anweisen">anweisen</a> & <a href={"https://github.com/kxmischesdomi"}>KxmischesDomi</a> • powered by <a href="https://www.themoviedb.org/">tmdb.org</a>
+          </div>
         </div>
       </div>
 

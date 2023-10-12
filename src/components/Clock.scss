@@ -1,4 +1,8 @@
 .Clock {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+
 	text-align: center;
 	font-family: "Poppins", sans-serif;
 
@@ -38,7 +42,7 @@
 
 
 	.Share {
-		margin: 30px auto -30px;
+		margin: 0 auto 0;
 		padding: 1px 10px;
 		color: var(--text-secondary);
 		user-select: none;
