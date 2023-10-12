@@ -10,15 +10,18 @@ import "./App.scss";
 const App = () => {
   const [items, setItems] = useState<Item[]>([]);
   const [menuSubject, setMenuSubject] = useState<Item>();
+  const [isSharedData, setIsSharedData] = useState(false);
 
   useEffect(() => {
     const queryParameters = new URLSearchParams(window.location.search);
     if (queryParameters.size > 0) {
       const items = decodeItems(queryParameters.keys().next().value);
+      setIsSharedData(true);
       setItems(items);
       console.log(items);
     } else {
       const items = JSON.parse(localStorage.getItem("items") || "[]");
+      setIsSharedData(false);
       setItems(items);
     }
 
