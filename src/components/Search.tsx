@@ -60,7 +60,7 @@ const Search = ({openMenu}: { openMenu: (item: Item) => void }) => {
     <div className="Search">
 
       <div className="SearchBar">
-        <input type="text" placeholder="Add something.." ref={ref} id={"search-input"}
+        <input type="new-password" autoCorrect="off" autoComplete="off" placeholder="add something.." ref={ref} id={"search-input"}
                onChange={event => search(event.target.value)}
                onFocus={event => setFocus(true)}
           // onBlur={event => setFocus(false)} # closes popup before click is registered
@@ -70,7 +70,7 @@ const Search = ({openMenu}: { openMenu: (item: Item) => void }) => {
 
       <span className="SearchResultsContainer">
         <div className="SearchResults" style={!focus ? {display: "none"} : undefined}>
-          {!series && !movies ? <Loader/> : !series?.length && !movies?.length ? <div className="None"><FontAwesomeIcon icon={faCircleXmark}/>Try another show</div> : undefined}
+          {!series && !movies ? <Loader/> : !series?.length && !movies?.length ? <div className="None"><FontAwesomeIcon icon={faCircleXmark}/>try another show</div> : undefined}
 
           {series?.map((value, index) => <div className="Result" key={index}
                                               onClick={event => open({id: value.id, series: true, times: []})}>
