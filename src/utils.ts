@@ -87,3 +87,40 @@ export const useForceUpdate = (): [number, () => void] => {
   const forceUpdate = () => setUpdate(prev => prev + 1);
   return [updater, forceUpdate];
 };
+
+export const mergeItemSets = (itemSet1: Item[], itemSet2: Item[]): Item[] => {
+  const newItemSet = {...itemSet1};
+
+  itemSet2.forEach(item1 => {
+    var anyFound = false;
+    newItemSet.forEach(item2 => {
+      if (item1.id === item2.id) {
+
+        var times1 = item1.times;
+        var times2 = item1.times;
+        var finalTimes: number[] = [];
+
+        for (var i = 0; i < Math.max(times1.length, times2.length); i++) {
+          var biggestTime: number = 0;
+
+          if (i < times1.length) {
+            biggestTime = times1[i];
+          }
+
+          if (i < times2.length && times2[i] > biggestTime) {
+            biggestTime = times2[i];
+          }
+
+          finalTimes.push(biggestTime);
+        }
+
+        anyFound = true;
+      }
+    });
+    if (!anyFound) {
+      newItemSet.push(item1);
+    }
+  });
+
+  return newItemSet;
+}
