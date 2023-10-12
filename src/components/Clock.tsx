@@ -1,17 +1,43 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faDownload, faShareAlt} from "@fortawesome/free-solid-svg-icons";
-import React, {useEffect, useState} from "react";
+import {
+    faArrowRightArrowLeft,
+    faCheck,
+    faCodeBranch,
+    faDownload,
+    faReply,
+    faShareAlt,
+    faTrash
+} from "@fortawesome/free-solid-svg-icons";
+import React, {useContext, useEffect, useState} from "react";
 import {TvSeriesDetails} from "../tmdb/types";
 import {lookup, lookupRuntime} from "../tmdb/api";
 import {encodeItems, formatTime, Item, timesOf, useForceUpdate} from "../utils";
 import Loader from "./Loader";
 import "./Clock.scss";
+import {ModalContext} from "./ui/ModalContext";
+import SimpleModal from "./ui/SimpleModal";
 
-const Clock = ({items, isSharedData, openModal, closeModal}: { items: Item[], isSharedData: boolean, openModal: (modal: React.ReactElement) => void, closeModal: () =>  void }) => {
+const Clock = ({items, isSharedData}: { items: Item[], isSharedData: boolean }) => {
+
+  const { openModal, closeModal } = useContext(ModalContext)
+
   const [time, setTime] = useState(0);
   const [wage, setWage] = useState(-1);
   const [updater, forceUpdate] = useForceUpdate();
   const [finished, setFinished] = useState(false);
+
+  const ImportModal = () => {
+      return (
+          <div className={"ImportModal AnimatedModalContent DefaultModalContent"}>
+            <SimpleModal title={"Are you sure?"} body={"You already have data in your local storage. Do you want to overwrite the current data or merge it with the new data?"}
+                         buttons={<>
+                           <div className="Button Overwrite" onClick={() => { closeModal() }}><FontAwesomeIcon icon={faArrowRightArrowLeft}/>Overwrite</div>
+                           <div className="Button Merge" onClick={() => { closeModal() }}><FontAwesomeIcon icon={faCodeBranch}/> Merge</div>
+                         </>}
+            />
+          </div>
+      );
+  };
 
   useEffect(() => {
     let finished = true;
@@ -92,13 +118,6 @@ const Clock = ({items, isSharedData, openModal, closeModal}: { items: Item[], is
             <FontAwesomeIcon icon={faDownload}/> import this history
           </div>}
       </div>
-    </div>
-  );
-};
-const ImportModal = () => {
-  return (
-    <div className={"AnimatedModalContent DefaultModalContent"}>
-      asd
     </div>
   );
 };

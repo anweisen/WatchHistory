@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {createContext, useEffect, useState} from "react";
 import Search from "./components/Search";
 import List from "./components/List";
 import Menu from "./components/Menu";
@@ -6,6 +6,7 @@ import Clock from "./components/Clock";
 import {decodeItems, Item} from "./utils";
 import "./App.scss";
 import Modal from "./components/ui/Modal";
+import {ModalContext} from "./components/ui/ModalContext";
 
 
 const App = () => {
@@ -69,30 +70,28 @@ const App = () => {
     openModal(<Menu item={item} saveItem={saveItem} removeItem={removeItem} cancel={closeModal}/>);
   };
 
-  console.log(modalStack);
-  console.log(modalClosing);
-
   return (
+      <ModalContext.Provider value={{ openModal: openModal, closeModal: closeModal }}>
     <div className="App">
 
-      <Modal visible={!modalClosing && modalStack.length > 0}>
-        {modalStack[0]}
-      </Modal>
+        <Modal visible={!modalClosing && modalStack.length > 0}>
+          {modalStack[0]}
+        </Modal>
 
-      <div className="Content">
-        <Clock items={items} isSharedData={isSharedData} openModal={openModal} closeModal={closeModal}/>
-        <Search openMenu={openMenu}/>
-        <List items={items} openMenu={openMenu}/>
+        <div className="Content">
+          <Clock items={items} isSharedData={isSharedData} />
+          <Search openMenu={openMenu}/>
+          <List items={items} openMenu={openMenu}/>
 
-        <div className="Footer">
-          <div className={"Credits"}>
-            ©️ 2023 <a href="https://github.com/anweisen">anweisen</a> & <a href={"https://github.com/kxmischesdomi"}>KxmischesDomi</a> • powered by <a href="https://www.themoviedb.org/">tmdb.org</a>
+          <div className="Footer">
+            <div className={"Credits"}>
+              ©️ 2023 <a href="https://github.com/anweisen">anweisen</a> & <a href={"https://github.com/kxmischesdomi"}>KxmischesDomi</a> • powered by <a href="https://www.themoviedb.org/">tmdb.org</a>
+            </div>
           </div>
-        </div>
 
-      </div>
+        </div>
     </div>
+      </ModalContext.Provider>
   );
 };
-
 export default App;
