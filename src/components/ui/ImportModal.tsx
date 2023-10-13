@@ -3,9 +3,13 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React, {useContext, useState} from "react";
 import {ModalContext} from "../context/ModalContext";
 import "./ImportModal.scss";
+import {AppContext} from "../context/AppContext";
+import {mergeItemSets} from "../../utils";
 
 const ImportModal = () => {
-  const {closeModal} = useContext(ModalContext);
+  const { closeModal } = useContext(ModalContext);
+  const { items, setItems, writeItemsToCookies, retrieveItemsFromCookies } = useContext(AppContext);
+
   const [importMethod, setImportMethod] = useState("");
 
   function changeImportMethod(method: string) {
@@ -22,10 +26,15 @@ const ImportModal = () => {
     if (importMethod === "merge") {
       // Merge data and replace saved data
 
+      let mergedItems = mergeItemSets(items, retrieveItemsFromCookies());
+      writeItemsToCookies(mergedItems);
+
     } else if (importMethod === "replace") {
       // Replace old data and set new data
+      writeItemsToCookies(items);
     }
 
+    window.location.href = window.location.origin;
     // Redirect to own page
 
   }

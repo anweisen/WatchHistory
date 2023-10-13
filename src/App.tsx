@@ -33,6 +33,14 @@ const App = () => {
     document.body.classList.add(theme);
   }, []);
 
+  const retrieveItemsFromCookies = (): Item[] => {
+    return JSON.parse(localStorage.getItem("items") || "[]");
+  };
+
+  const writeItemsToCookies = (items: Item[]) => {
+    localStorage.setItem("items", JSON.stringify(items));
+  };
+
   const saveItem = (item: Item) => {
     closeModal();
     setItems(prev => {
@@ -70,7 +78,7 @@ const App = () => {
   };
 
   return (
-    <AppContext.Provider value={{items: items, isSharedData: isSharedData}}>
+    <AppContext.Provider value={{items: items, setItems: setItems, writeItemsToCookies: writeItemsToCookies, retrieveItemsFromCookies: retrieveItemsFromCookies, isSharedData: isSharedData}}>
       <ModalContext.Provider value={{openModal: openModal, closeModal: closeModal}}>
         <div className="App">
 

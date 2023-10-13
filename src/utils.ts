@@ -89,7 +89,7 @@ export const useForceUpdate = (): [number, () => void] => {
 };
 
 export const mergeItemSets = (itemSet1: Item[], itemSet2: Item[]): Item[] => {
-  const newItemSet = {...itemSet1};
+  const newItemSet = [...itemSet1];
 
   itemSet2.forEach(item1 => {
     var anyFound = false;
