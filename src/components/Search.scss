@@ -33,6 +33,11 @@
 		color: inherit;
 		background: none;
 		border: none;
+
+		&.Disabled {
+			filter: brightness(55%);
+			cursor: not-allowed;
+		}
 	}
 
 	svg {

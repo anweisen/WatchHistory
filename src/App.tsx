@@ -80,7 +80,7 @@ const App = () => {
 
         <div className="Content">
           <Clock items={items} isSharedData={isSharedData}/>
-          <Search openMenu={openMenu}/>
+          <Search openMenu={openMenu} isSharedData={isSharedData}/>
           <List items={items} openMenu={openMenu}/>
 
           <div className="Footer">

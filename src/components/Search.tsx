@@ -8,7 +8,7 @@ import Loader from "./Loader";
 import "./Search.scss";
 
 let timer: any;
-const Search = ({openMenu}: { openMenu: (item: Item) => void }) => {
+const Search = ({openMenu, isSharedData}: { openMenu: (item: Item) => void, isSharedData: boolean }) => {
   const ref = useRef<HTMLInputElement>(null);
   const [focus, setFocus] = useState(false);
   const [series, setSeries] = useState<SearchTvSeriesEntry[] | undefined>([]);
@@ -59,12 +59,12 @@ const Search = ({openMenu}: { openMenu: (item: Item) => void }) => {
   return (
     <div className="Search">
 
-      <div className="SearchBar">
-        <input type="new-password" autoCorrect="off" autoComplete="off" placeholder="add something.." ref={ref} id={"search-input"}
+      <div className={"SearchBar"}>
+        <input className={(isSharedData ? " Disabled" : "")} type="new-password" autoCorrect="off" autoComplete="off" placeholder="add something.." ref={ref} id={"search-input"}
                onChange={event => search(event.target.value)}
                onFocus={event => setFocus(true)}
           // onBlur={event => setFocus(false)} # closes popup before click is registered
-        />
+            disabled={isSharedData}/>
         <FontAwesomeIcon icon={faSearch}/>
       </div>
 
