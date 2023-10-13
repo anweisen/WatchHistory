@@ -6,11 +6,8 @@ import Clock from "./components/Clock";
 import {decodeItems, Item} from "./utils";
 import "./App.scss";
 import Modal from "./components/ui/Modal";
-import { ModalContext } from "./components/context/ModalContext";
-import { AppContext } from "./components/context/AppContext";
-import {
-  useContext
-} from "../../../../../../AppData/Local/JetBrains/Toolbox/apps/WebStorm/ch-0/223.8214.51/plugins/javascript-impl/jsLanguageServicesImpl/external/react";
+import {ModalContext} from "./components/context/ModalContext";
+import {AppContext} from "./components/context/AppContext";
 
 
 const App = () => {
@@ -75,31 +72,31 @@ const App = () => {
   };
 
   return (
-      <AppContext.Provider value={{ items: items, isSharedData: isSharedData }}>
-        <ModalContext.Provider value={{openModal: openModal, closeModal: closeModal}}>
-          <div className="App">
+    <AppContext.Provider value={{items: items, isSharedData: isSharedData}}>
+      <ModalContext.Provider value={{openModal: openModal, closeModal: closeModal}}>
+        <div className="App">
 
-            <Modal visible={!modalClosing && modalStack.length > 0}>
-              {modalStack[0]}
-            </Modal>
+          <Modal visible={!modalClosing && modalStack.length > 0}>
+            {modalStack[0]}
+          </Modal>
 
-            <div className="Content">
-              <Clock items={items} />
-              <Search openMenu={openMenu}/>
-              <List items={items} openMenu={openMenu}/>
+          <div className="Content">
+            <Clock items={items}/>
+            <Search openMenu={openMenu}/>
+            <List items={items} openMenu={openMenu}/>
 
-              <div className="Footer">
-                <div className={"Credits"}>
-                  <div>©️ 2023 <a href="https://github.com/anweisen">anweisen</a> & <a href={"https://github.com/kxmischesdomi"}>KxmischesDomi</a></div>
-                  <span>•</span>
-                  <div>powered by <a href="https://www.themoviedb.org/">tmdb.org</a></div>
-                </div>
+            <div className="Footer">
+              <div className={"Credits"}>
+                <div>©️ 2023 <a href="https://github.com/anweisen">anweisen</a> & <a href={"https://github.com/kxmischesdomi"}>KxmischesDomi</a></div>
+                <span>•</span>
+                <div>powered by <a href="https://www.themoviedb.org/">tmdb.org</a></div>
               </div>
-
             </div>
+
           </div>
-        </ModalContext.Provider>
-      </AppContext.Provider>
+        </div>
+      </ModalContext.Provider>
+    </AppContext.Provider>
   );
 };
 export default App;

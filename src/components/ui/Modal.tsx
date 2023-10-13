@@ -4,7 +4,7 @@ import "./Modal.scss";
 const Modal = ({visible, children}: { visible: boolean, children: React.ReactNode }) => {
     return (
       <div className={"Modal" + (visible ? " Visible" : "")}>
-          {children}
+        {children}
       </div>
     );
   }

@@ -28,6 +28,7 @@
     font-size: 30px;
     text-align: center;
     color: var(--text-primary);
+    font-family: "Poppins", sans-serif;
   }
 
   .Explanation {
@@ -59,11 +60,11 @@
       gap: 8px;
       cursor: pointer;
       user-select: none;
-      transition: color .2s, border-color .2s;
+      transition: color .2s, border-color .2s, transform .2s, scale .2s;
 
       &:hover {
         color: var(--text-primary);
-        border-color: var(--icon-primary);
+        border-color: var(--text-secondary);
         border-width: 2px;
       }
 

@@ -1,67 +1,67 @@
 .SimpleModal {
 
-  .ModalWrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
+	.ModalWrapper {
+		display: flex;
+		flex-direction: column;
+		gap: 40px;
 
-    .ModalContent {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
+		.ModalContent {
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
 
-      .ModalTitle {
-        font-size: 32px;
-        text-align: center;
-        color: var(--text-primary);
-      }
+			.ModalTitle {
+				font-size: 32px;
+				text-align: center;
+				color: var(--text-primary);
+			}
 
-      .ModalBody {
-        font-size: 16px;
-        text-align: center;
-        color: var(--text-secondary);
-      }
-    }
+			.ModalBody {
+				font-size: 16px;
+				text-align: center;
+				color: var(--text-secondary);
+			}
+		}
 
-    .Buttons {
-      display: flex;
-      gap: 15px;
-      justify-content: center;
-      margin-top: auto;
+		.Buttons {
+			display: flex;
+			gap: 15px;
+			justify-content: center;
+			margin-top: auto;
 
-      @media (max-width: 400px) {
-        gap: 7px;
-      }
+			@media (max-width: 400px) {
+				gap: 7px;
+			}
 
-      .Button {
-        padding: 4px 10px;
-        border-radius: 4px;
-        font-family: "Poppins", sans-serif;
-        font-size: 16px;
-        color: var(--text-primary);
-        user-select: none;
-        cursor: pointer;
-        background: var(--background-popup-secondary);
-        display: flex;
-        align-items: center;
-        gap: 5px;
+			.Button {
+				padding: 4px 10px;
+				border-radius: 4px;
+				font-family: "Poppins", sans-serif;
+				font-size: 16px;
+				color: var(--text-primary);
+				user-select: none;
+				cursor: pointer;
+				background: var(--background-popup-secondary);
+				display: flex;
+				align-items: center;
+				gap: 5px;
 
-        @media (max-width: 650px) {
-          font-size: 14px;
-        }
+				@media (max-width: 650px) {
+					font-size: 14px;
+				}
 
-        &.Overwrite {
-          background: var(--action-fail);
-        }
+				&.Overwrite {
+					background: var(--action-fail);
+				}
 
-        &.Merge {
-          background: #0545c2;
-        }
+				&.Merge {
+					background: #0545c2;
+				}
 
-      }
+			}
 
-    }
+		}
 
-  }
+	}
 
 }

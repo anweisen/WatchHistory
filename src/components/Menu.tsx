@@ -36,8 +36,7 @@ const Menu = ({item, saveItem, removeItem, cancel, isSharedData}: {
   }, [item]);
   useEffect(() => {
     if (!details) return;
-    setTotalPlaytime(lookupRuntime(details as TvSeriesDetails, () => {
-    })?.reduce((prev, current) => prev + current));
+    setTotalPlaytime(lookupRuntime(details as TvSeriesDetails, forceUpdate)?.reduce((prev, current) => prev + current));
   }, [details]);
 
   return (

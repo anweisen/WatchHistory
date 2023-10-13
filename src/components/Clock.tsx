@@ -1,5 +1,5 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowRightArrowLeft, faCodeBranch, faDownload, faReply, faShareAlt} from "@fortawesome/free-solid-svg-icons";
+import {faDownload, faShareAlt} from "@fortawesome/free-solid-svg-icons";
 import React, {useContext, useEffect, useState} from "react";
 import {TvSeriesDetails} from "../tmdb/types";
 import {lookup, lookupRuntime} from "../tmdb/api";
@@ -7,13 +7,13 @@ import {encodeItems, formatTime, Item, timesOf, useForceUpdate} from "../utils";
 import Loader from "./Loader";
 import "./Clock.scss";
 import ImportModal from "./ui/ImportModal";
-import { ModalContext } from "./context/ModalContext";
-import { AppContext } from "./context/AppContext";
+import {ModalContext} from "./context/ModalContext";
+import {AppContext} from "./context/AppContext";
 
 const Clock = ({items}: { items: Item[] }) => {
 
-  const {openModal  } = useContext(ModalContext);
-  const { isSharedData } = useContext(AppContext);
+  const {openModal} = useContext(ModalContext);
+  const {isSharedData} = useContext(AppContext);
 
   const [time, setTime] = useState(0);
   const [wage, setWage] = useState(-1);
