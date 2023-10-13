@@ -34,7 +34,7 @@ const ImportModal = () => {
       writeItemsToCookies(items);
     }
 
-    window.location.href = window.location.origin;
+    // window.location.href = window.location.origin;
     // Redirect to own page
 
   }

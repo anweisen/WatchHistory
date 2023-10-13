@@ -89,36 +89,36 @@ export const useForceUpdate = (): [number, () => void] => {
 };
 
 export const mergeItemSets = (itemSet1: Item[], itemSet2: Item[]): Item[] => {
-  const newItemSet = [...itemSet1];
+  const newItemSet: Item[] = [];
 
-  itemSet2.forEach(item1 => {
-    var anyFound = false;
-    newItemSet.forEach(item2 => {
-      if (item1.id === item2.id) {
+  itemSet1.forEach(item => {
 
-        var times1 = item1.times;
-        var times2 = item1.times;
-        var finalTimes: number[] = [];
+    let newItem = {...item};
 
-        for (var i = 0; i < Math.max(times1.length, times2.length); i++) {
-          var biggestTime: number = 0;
+    console.log(newItem);
 
-          if (i < times1.length) {
-            biggestTime = times1[i];
-          }
+    let foundSameItem = itemSet2.find(item2 => item2.id === item.id);
+    console.log(foundSameItem);
 
-          if (i < times2.length && times2[i] > biggestTime) {
-            biggestTime = times2[i];
-          }
+    if (foundSameItem) {
 
-          finalTimes.push(biggestTime);
-        }
+      for (let i = 0; i < Math.max(item.times.length, foundSameItem.times.length); i++) {
+        const value1 = item.times[i] || 0;
+        const value2 = foundSameItem.times[i] || 0;
 
-        anyFound = true;
+        newItem.times[i] = Math.max(value1, value2);
+        console.log("Found biggest number for times " + i + " which is " + Math.max(value1, value2));
       }
-    });
-    if (!anyFound) {
-      newItemSet.push(item1);
+
+    } else {
+      newItemSet.push(newItem);
+    }
+
+  });
+
+  itemSet2.forEach(item => {
+    if (!newItemSet.some(item1 => item1.id === item.id)) {
+      newItemSet.push({...item});
     }
   });
 
