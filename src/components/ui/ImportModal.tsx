@@ -34,11 +34,12 @@ const ImportModal = () => {
       writeItemsToCookies(items);
     }
 
+    // TODO: Re-enable after logic works
     // window.location.href = window.location.origin;
-    // Redirect to own page
 
   }
 
+  // TODO: Check if data exists. If not disable merge button and change text
   return (
     <div className={"ImportModal AnimatedModalContent DefaultModalContent"}>
       <div className={"ModalTitle"}>Are you sure?</div>
