@@ -1,4 +1,4 @@
-import {faCheck, faClock, faMinus, faPlus, faReply, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faCheck, faClock, faLaptop, faMinus, faPlus, faReply, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useEffect, useState} from "react";
 import {MovieDetails, TvSeriesDetails} from "../tmdb/types";
@@ -47,7 +47,8 @@ const Menu = ({item, saveItem, removeItem, cancel, isSharedData}: {
             <img className="Poster" src={provideImageUrl((details as TvSeriesDetails).poster_path)} alt=""/>
             <div className="Info">
               <div className="Name">{(details as TvSeriesDetails).name}</div>
-              <div className="OriginalName">{(details as TvSeriesDetails).original_name}</div>
+              <div className="Tagline">{((details as TvSeriesDetails).name === (details as TvSeriesDetails).original_name) ? (details as TvSeriesDetails).tagline || (details as TvSeriesDetails).original_name : (details as TvSeriesDetails).original_name}</div>
+              {/*<div className="OriginalName">{(details as TvSeriesDetails).original_name}</div>*/}
               <span>
                 <div className="Year">{(details as TvSeriesDetails).first_air_date?.substring(0, 4)} - {(details as TvSeriesDetails).last_air_date?.substring(0, 4)}</div>
                 {totalPlaytime && <div className="Playtime"><FontAwesomeIcon icon={faClock}/> {formatTime(totalPlaytime)}</div>}
