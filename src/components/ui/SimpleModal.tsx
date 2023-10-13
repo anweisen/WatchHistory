@@ -2,8 +2,8 @@ import React, {useContext} from "react";
 import "./Modal.scss";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faReply} from "@fortawesome/free-solid-svg-icons";
-import {ModalContext} from "./ModalContext";
 import "./SimpleModal.scss"
+import { ModalContext } from "../context/ModalContext";
 
 const SimpleModal = ({title, body, buttons}: { title: React.ReactNode, body: React.ReactNode, buttons: React.ReactNode }) => {
 

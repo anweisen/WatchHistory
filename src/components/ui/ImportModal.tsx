@@ -1,8 +1,9 @@
 import { faArrowRightArrowLeft, faCheck, faCodeBranch, faReply } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useContext, useState } from "react";
-import { ModalContext } from "./ModalContext";
 import "./ImportModal.scss"
+import { mergeItemSets } from "../../utils";
+import { ModalContext } from "../context/ModalContext";
 
 const ImportModal = () => {
 
@@ -23,6 +24,7 @@ const ImportModal = () => {
 
         if (importMethod === "merge") {
             // Merge data and replace saved data
+
         } else if (importMethod === "replace") {
             // Replace old data and set new data
         }

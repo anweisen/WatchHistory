@@ -6,12 +6,14 @@ import {lookup, lookupRuntime} from "../tmdb/api";
 import {encodeItems, formatTime, Item, timesOf, useForceUpdate} from "../utils";
 import Loader from "./Loader";
 import "./Clock.scss";
-import {ModalContext} from "./ui/ModalContext";
 import ImportModal from "./ui/ImportModal";
+import { ModalContext } from "./context/ModalContext";
+import { AppContext } from "./context/AppContext";
 
-const Clock = ({items, isSharedData}: { items: Item[], isSharedData: boolean }) => {
+const Clock = ({items}: { items: Item[] }) => {
 
-  const {openModal} = useContext(ModalContext);
+  const {openModal  } = useContext(ModalContext);
+  const { isSharedData } = useContext(AppContext);
 
   const [time, setTime] = useState(0);
   const [wage, setWage] = useState(-1);

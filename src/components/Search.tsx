@@ -1,14 +1,18 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircleXmark, faFilm, faLaptop, faSearch} from "@fortawesome/free-solid-svg-icons";
-import {useEffect, useRef, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import {provideImageUrl, searchMovies, searchSeries} from "../tmdb/api";
 import {SearchMoviesEntry, SearchTvSeriesEntry} from "../tmdb/types";
 import {Item} from "../utils";
 import Loader from "./Loader";
 import "./Search.scss";
+import { AppContext } from "./context/AppContext";
 
 let timer: any;
-const Search = ({openMenu, isSharedData}: { openMenu: (item: Item) => void, isSharedData: boolean }) => {
+const Search = ({openMenu}: { openMenu: (item: Item) => void }) => {
+
+  const { isSharedData } = useContext(AppContext);
+
   const ref = useRef<HTMLInputElement>(null);
   const [focus, setFocus] = useState(false);
   const [series, setSeries] = useState<SearchTvSeriesEntry[] | undefined>([]);
