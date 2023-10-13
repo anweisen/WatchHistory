@@ -78,7 +78,7 @@ const Clock = ({items}: { items: Item[] }) => {
       <div className={"ButtonWrapper"}>
         {!isSharedData ?
           <div className="Button" onClick={event => {
-            const url = `https://watched.anweisen.net?${encodeItems(items)}`;
+            const url = `${window.location.origin}?${encodeItems(items)}`;
 
             if (navigator.share) {
               navigator.share({
