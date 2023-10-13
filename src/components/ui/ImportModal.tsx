@@ -5,7 +5,6 @@ import {ModalContext} from "../context/ModalContext";
 import "./ImportModal.scss";
 
 const ImportModal = () => {
-
   const {closeModal} = useContext(ModalContext);
   const [importMethod, setImportMethod] = useState("");
 

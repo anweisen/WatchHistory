@@ -1,4 +1,4 @@
-import {faCheck, faClock, faLaptop, faMinus, faPlus, faReply, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faCheck, faClock, faMinus, faPlus, faReply, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useEffect, useState} from "react";
 import {MovieDetails, TvSeriesDetails} from "../tmdb/types";
@@ -14,8 +14,8 @@ const setTimes = (plus: boolean, season: number, seasons: number, item: Item) =>
     for (let i = 0; i < item.times.length; i++)
       times[i] = item.times[i];
   }
-  if (plus) times[season] = (times[season] === undefined ? 1 : times[season]) + 1;
-  else if (times[season] !== 0) times[season] = (times[season] === undefined ? 1 : times[season]) - 1;
+  if (plus) times[season] = timesOf(times[season]) + 1;
+  else if (times[season] !== 0) times[season] = timesOf(times[season]) - 1;
   return {...item, times: times};
 };
 
@@ -48,7 +48,6 @@ const Menu = ({item, saveItem, removeItem, cancel, isSharedData}: {
             <div className="Info">
               <div className="Name">{(details as TvSeriesDetails).name}</div>
               <div className="Tagline">{((details as TvSeriesDetails).name === (details as TvSeriesDetails).original_name) ? (details as TvSeriesDetails).tagline || (details as TvSeriesDetails).original_name : (details as TvSeriesDetails).original_name}</div>
-              {/*<div className="OriginalName">{(details as TvSeriesDetails).original_name}</div>*/}
               <span>
                 <div className="Year">{(details as TvSeriesDetails).first_air_date?.substring(0, 4)} - {(details as TvSeriesDetails).last_air_date?.substring(0, 4)}</div>
                 {totalPlaytime && <div className="Playtime"><FontAwesomeIcon icon={faClock}/> {formatTime(totalPlaytime)}</div>}
@@ -67,11 +66,11 @@ const Menu = ({item, saveItem, removeItem, cancel, isSharedData}: {
                 </div>
                 <div className="Controls">
                   <div className={"Minus" + (isSharedData ? " Disabled" : "")}
-                       onClick={!isSharedData ? () => setState(setTimes(false, season.season_number, (details as TvSeriesDetails).number_of_seasons || season.season_number, state)) : () => {}}>
+                       onClick={!isSharedData ? () => setState(setTimes(false, season.season_number, (details as TvSeriesDetails).number_of_seasons || season.season_number, state)) : undefined}>
                     <FontAwesomeIcon icon={faMinus}/></div>
                   <div className="Display">{timesOf(state.times[season.season_number])}x</div>
                   <div className={"Plus" + (isSharedData ? " Disabled" : "")}
-                       onClick={!isSharedData ? () => setState(setTimes(true, season.season_number, (details as TvSeriesDetails).number_of_seasons || season.season_number, state)) : () => {}}>
+                       onClick={!isSharedData ? () => setState(setTimes(true, season.season_number, (details as TvSeriesDetails).number_of_seasons || season.season_number, state)) : undefined}>
                     <FontAwesomeIcon icon={faPlus}/></div>
                 </div>
               </div>)}
@@ -83,8 +82,12 @@ const Menu = ({item, saveItem, removeItem, cancel, isSharedData}: {
           </div>
         </>}
         <div className="Buttons">
-          <div className={"Button Save" + (isSharedData ? " Disabled" : "")} onClick={!isSharedData ? () => saveItem(state) : () => {}}><FontAwesomeIcon icon={faCheck}/> Save</div>
-          <div className={"Button Remove" + (isSharedData ? " Disabled" : "")} onClick={!isSharedData ? () => removeItem(state) : () => {}}><FontAwesomeIcon icon={faTrash}/> Remove</div>
+          <div className={"Button Save" + (isSharedData ? " Disabled" : "")} onClick={!isSharedData ? () => saveItem(state) : () => {
+          }}><FontAwesomeIcon icon={faCheck}/> Save
+          </div>
+          <div className={"Button Remove" + (isSharedData ? " Disabled" : "")} onClick={!isSharedData ? () => removeItem(state) : () => {
+          }}><FontAwesomeIcon icon={faTrash}/> Remove
+          </div>
           <div className="Button Cancel" onClick={() => cancel()}><FontAwesomeIcon icon={faReply}/> Cancel</div>
         </div>
       </> : <>

@@ -3,16 +3,15 @@ import Search from "./components/Search";
 import List from "./components/List";
 import Menu from "./components/Menu";
 import Clock from "./components/Clock";
-import {decodeItems, Item} from "./utils";
-import "./App.scss";
 import Modal from "./components/ui/Modal";
+import {decodeItems, Item} from "./utils";
 import {ModalContext} from "./components/context/ModalContext";
 import {AppContext} from "./components/context/AppContext";
+import "./App.scss";
 
 
 const App = () => {
   const [items, setItems] = useState<Item[]>([]);
-  const [menuSubject, setMenuSubject] = useState<Item>();
   const [isSharedData, setIsSharedData] = useState(false);
   const [modalStack, setModalStack] = useState<React.ReactNode[]>([]);
   const [modalClosing, setModalClosing] = useState(false);
@@ -67,7 +66,6 @@ const App = () => {
   };
 
   const openMenu = (item: Item) => {
-    // setMenuSubject(items.find(value => value.id === item.id) || item);
     openModal(<Menu item={item} saveItem={saveItem} removeItem={removeItem} cancel={closeModal} isSharedData={isSharedData}/>);
   };
 
