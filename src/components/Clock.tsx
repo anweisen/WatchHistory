@@ -7,40 +7,16 @@ import {encodeItems, formatTime, Item, timesOf, useForceUpdate} from "../utils";
 import Loader from "./Loader";
 import "./Clock.scss";
 import {ModalContext} from "./ui/ModalContext";
+import ImportModal from "./ui/ImportModal";
 
 const Clock = ({items, isSharedData}: { items: Item[], isSharedData: boolean }) => {
 
-  const {openModal, closeModal} = useContext(ModalContext);
+  const {openModal} = useContext(ModalContext);
 
   const [time, setTime] = useState(0);
   const [wage, setWage] = useState(-1);
   const [updater, forceUpdate] = useForceUpdate();
   const [finished, setFinished] = useState(false);
-
-  const ImportModal = () => {
-    return (
-      <div className={"ImportModal AnimatedModalContent DefaultModalContent"}>
-        <div className={"ModalTitle"}>Are you sure?</div>
-        <div className={"Explanation"}>
-          Seems like you have already saved some data in your localstorage.
-          Wanna overwrite the old data and replace with the new data or merge both watch histories together?
-        </div>
-        <div className={"Interact"}>
-          <div className={"Button"}>
-            <FontAwesomeIcon icon={faArrowRightArrowLeft}/>
-            <div>Overwrite</div>
-          </div>
-          <div className={"Button"}>
-            <FontAwesomeIcon icon={faCodeBranch}/>
-            <div>Merge</div>
-          </div>
-        </div>
-        <div className={"Buttons"}>
-          <div className="Button Cancel" onClick={() => closeModal()}><FontAwesomeIcon icon={faReply}/> Cancel</div>
-        </div>
-      </div>
-    );
-  };
 
   useEffect(() => {
     let finished = true;
