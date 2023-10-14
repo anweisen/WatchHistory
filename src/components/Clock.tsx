@@ -52,7 +52,10 @@ const Clock = ({items}: { items: Item[] }) => {
   return (
     <div className={"Clock" + (!finished ? " Loading" : "")}>
       <div>
-        <div className="Title">{isSharedData ? "someone" : "you've"} wasted over</div>
+        <div className={"TitleWrapper"}>
+          {isSharedData && <div className={"TitleNotice"} onClick={() => { window.location.href = window.location.origin }}>This could be you</div>}
+          <div className="Title">{isSharedData ? "⤿ someone" : "you've"} wasted over</div>
+        </div>
         <div className="Main">{formatTime(time)}</div>
         {!finished ? <Loader/> : <>
           <div className="Or">OR</div>

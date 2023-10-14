@@ -13,10 +13,29 @@
 		//filter: brightness(50%);
 	}
 
-	.Title {
-		font-family: "Quicksand", sans-serif;
-		font-size: 20px;
-		color: var(--text-secondary);
+	.TitleWrapper {
+
+		.TitleNotice {
+			font-family: "Quicksand", sans-serif;
+			font-size: 13px;
+			color: var(--text-secondary);
+			transition: color ease .2s;
+			cursor: pointer;
+
+			&:hover {
+				color: var(--text-primary);
+			}
+
+			position: relative;
+			right: 110px;
+		}
+
+		.Title {
+			font-family: "Quicksand", sans-serif;
+			font-size: 20px;
+			color: var(--text-secondary);
+		}
+
 	}
 
 	.Main {
