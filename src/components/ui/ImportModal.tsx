@@ -34,8 +34,7 @@ const ImportModal = () => {
       writeItemsToCookies(items);
     }
 
-    // TODO: Re-enable after logic works
-    // window.location.href = window.location.origin;
+    window.location.href = window.location.origin;
 
   }
 
