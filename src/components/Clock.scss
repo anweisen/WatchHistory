@@ -65,7 +65,13 @@
 
 		.WageAmount {
 			cursor: pointer;
+			transition: color ease .2s;
+
+			&:hover {
+				color: var(--text-primary);
+			}
 		}
+
 	}
 
 
