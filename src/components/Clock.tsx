@@ -53,7 +53,7 @@ const Clock = ({items}: { items: Item[] }) => {
     <div className={"Clock" + (!finished ? " Loading" : "")}>
       <div>
         <div className={"TitleWrapper"}>
-          {isSharedData && <div className={"TitleNotice"} onClick={() => { window.location.href = window.location.origin }}>This could be you</div>}
+          {isSharedData && <div className={"TitleNotice"} onClick={() => { window.location.href = window.location.origin }}>this could be you</div>}
           <div className="Title">{isSharedData ? "⤿ someone" : "you've"} wasted over</div>
         </div>
         <div className="Main">{formatTime(time)}</div>
