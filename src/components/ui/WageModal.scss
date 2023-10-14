@@ -1,0 +1,54 @@
+.WageModal {
+
+  .ModalBody {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    .Inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 0 20px;
+
+      .Input {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        color: var(--text-primary);
+        text-align: left;
+
+        sup {
+          text-align: right;
+        }
+
+        input {
+          padding: 4px 10px;
+          border-radius: 8px;
+          font-family: "Poppins", sans-serif;
+          font-size: 16px;
+          color: var(--text-primary);
+          user-select: none;
+          background: var(--background-popup-secondary);
+          border: none;
+
+          &[type=number] {
+            -moz-appearance: textfield;
+            appearance: textfield;
+            margin: 0;
+          }
+
+          &[type=number]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+            display: none;
+          }
+        }
+
+      }
+
+    }
+
+  }
+
+}

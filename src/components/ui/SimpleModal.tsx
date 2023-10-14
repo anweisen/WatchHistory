@@ -5,27 +5,27 @@ import {ModalContext} from "../context/ModalContext";
 import "./Modal.scss";
 import "./SimpleModal.scss";
 
-const SimpleModal = ({title, body, buttons}: { title: React.ReactNode, body: React.ReactNode, buttons: React.ReactNode }) => {
+const SimpleModal = ({className, title, body, buttons}: { className?: string, title: React.ReactNode, body: React.ReactNode, buttons: React.ReactNode }) => {
 
     const {closeModal} = useContext(ModalContext);
 
     return (
-      <div className={"SimpleModal"}>
-        <div className={"ModalWrapper"}>
-          <div className={"ModalContent"}>
-            <div className={"ModalTitle"}>
-              {title}
+        <div className={`SimpleModal AnimatedModalContent DefaultModalContent ${className ? className : ""}`}>
+          <div className={"ModalWrapper"}>
+            <div className={"ModalContent"}>
+              <div className={"ModalTitle"}>
+                {title}
+              </div>
+              <div className={"ModalBody"}>
+                {body}
+              </div>
             </div>
-            <div className={"ModalBody"}>
-              {body}
+            <div className="Buttons">
+              {buttons}
+              <div className="Button Cancel" onClick={() => closeModal()}><FontAwesomeIcon icon={faReply}/> Cancel</div>
             </div>
-          </div>
-          <div className="Buttons">
-            {buttons}
-            <div className="Button Cancel" onClick={() => closeModal()}><FontAwesomeIcon icon={faReply}/> Cancel</div>
           </div>
         </div>
-      </div>
     );
   }
 ;

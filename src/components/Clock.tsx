@@ -1,5 +1,5 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faDownload, faShareAlt} from "@fortawesome/free-solid-svg-icons";
+import {faCheck, faDownload, faShareAlt} from "@fortawesome/free-solid-svg-icons";
 import React, {useContext, useEffect, useState} from "react";
 import {TvSeriesDetails} from "../tmdb/types";
 import {lookup, lookupRuntime} from "../tmdb/api";
@@ -9,14 +9,17 @@ import "./Clock.scss";
 import ImportModal from "./ui/ImportModal";
 import {ModalContext} from "./context/ModalContext";
 import {AppContext} from "./context/AppContext";
+import SimpleModal from "./ui/SimpleModal";
+import WageModal from "./ui/WageModal";
 
 const Clock = ({items}: { items: Item[] }) => {
 
-  const {openModal} = useContext(ModalContext);
+  const {openModal, closeModal} = useContext(ModalContext);
   const {isSharedData} = useContext(AppContext);
 
   const [time, setTime] = useState(0);
   const [wage, setWage] = useState(-1);
+  const [currency, setCurrency] = useState("€");
   const [updater, forceUpdate] = useForceUpdate();
   const [finished, setFinished] = useState(false);
 
@@ -58,22 +61,13 @@ const Clock = ({items}: { items: Item[] }) => {
         </div>
         <div className="Main">{formatTime(time)}</div>
         {!finished ? <Loader/> : <>
-          <div className="Or">OR</div>
+          <div className="Or">or</div>
           <div className="Days">{(time / 60 / 24).toFixed(1)} days</div>
           <div className="Wage">
-            <div className={"WageEarned"}>{(time / 60 * (wage <= 0 ? 12 : wage)).toLocaleString("en-US", {maximumFractionDigits: 0})}€</div>
+            <div className={"WageEarned"}>{(time / 60 * (wage <= 0 ? 12 : wage)).toLocaleString("en-US", {maximumFractionDigits: 0})}{currency}</div>
             <div onClick={event => {
-              const wageInput: string | null = prompt("Minimum Wage:");
-
-              if (wageInput !== null) {
-                const wage: number = parseFloat(wageInput);
-
-                if (!isNaN(wage)) {
-                  setWage(wage);
-                }
-              }
-
-            }} className={"WageAmount"}>at {wage <= 0 ? "minimum wage" : wage + "€/h"}</div>
+              openModal(<WageModal wage={wage} setWage={setWage} currency={currency} setCurrency={setCurrency} />);
+            }} className={"WageAmount"}>at {wage <= 0 ? "minimum wage" : wage + currency + "/h"}</div>
           </div>
         </>}
       </div>

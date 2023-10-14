@@ -3,6 +3,7 @@ body:has(.Modal.Visible) {
 }
 
 .Modal {
+
 	&:not(.Visible) {
 		display: none;
 		animation: modal-fadeout-wrapper .15s ease-out forwards;
@@ -116,11 +117,11 @@ body:has(.Modal.Visible) {
 			}
 
 			&.Save {
-				background: var(--action-success);
+				background: var(--action-success) !important;
 			}
 
 			&.Remove {
-				background: var(--action-fail);
+				background: var(--action-fail) !important;
 			}
 
 			&.Disabled {

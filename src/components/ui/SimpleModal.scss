@@ -1,4 +1,28 @@
 .SimpleModal {
+	width: 25% !important;
+	gap: 30px !important;
+
+	@media (max-width: 1500px) {
+		width: 30% !important;
+	}
+	@media (max-width: 1200px) {
+		width: 35% !important;
+	}
+	@media (max-width: 1000px) {
+		width: 40% !important;
+	}
+	@media (max-width: 900px) {
+		width: 45% !important;
+	}
+	@media (max-width: 800px) {
+		width: 55% !important;
+	}
+	@media (max-width: 700px) {
+		width: 60% !important;
+	}
+	@media (max-width: 650px) {
+		width: 90% !important;
+	}
 
 	.ModalWrapper {
 		display: flex;
@@ -48,14 +72,6 @@
 
 				@media (max-width: 650px) {
 					font-size: 14px;
-				}
-
-				&.Overwrite {
-					background: var(--action-fail);
-				}
-
-				&.Merge {
-					background: #0545c2;
 				}
 
 			}
