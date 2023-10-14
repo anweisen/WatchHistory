@@ -110,9 +110,8 @@ export const mergeItemSets = (itemSet1: Item[], itemSet2: Item[]): Item[] => {
         console.log("Found biggest number for times " + i + " which is " + Math.max(value1, value2));
       }
 
-    } else {
-      newItemSet.push(newItem);
     }
+    newItemSet.push(newItem);
 
   });
 
