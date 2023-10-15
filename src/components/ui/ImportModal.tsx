@@ -25,7 +25,6 @@ const ImportModal = () => {
 
     if (importMethod === "merge") {
       // Merge data and replace saved data
-
       let mergedItems = mergeItemSets(items, retrieveItemsFromCookies());
       writeItemsToCookies(mergedItems);
 
@@ -35,7 +34,6 @@ const ImportModal = () => {
     }
 
     window.location.href = window.location.origin;
-
   }
 
   // TODO: Check if data exists. If not disable merge button and change text

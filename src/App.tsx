@@ -8,6 +8,8 @@ import {decodeItems, Item} from "./utils";
 import {ModalContext} from "./components/context/ModalContext";
 import {AppContext} from "./components/context/AppContext";
 import "./App.scss";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 
 const App = () => {
@@ -15,6 +17,7 @@ const App = () => {
   const [isSharedData, setIsSharedData] = useState(false);
   const [modalStack, setModalStack] = useState<React.ReactNode[]>([]);
   const [modalClosing, setModalClosing] = useState(false);
+  const [utilitiesOpen, setUtilitiesOpen] = useState(false);
 
   useEffect(() => {
     const queryParameters = new URLSearchParams(window.location.search);
@@ -85,6 +88,15 @@ const App = () => {
           <Modal visible={!modalClosing && modalStack.length > 0}>
             {modalStack[0]}
           </Modal>
+
+          <div className={"Utilities"} onClick={() => setUtilitiesOpen(!utilitiesOpen) } >
+            <div className={"MainButton"}>
+              <FontAwesomeIcon icon={faUser} />
+            </div>
+            <div className={`UtilitiesWindow ${utilitiesOpen ? "Visible" : ""}`} data-visible={utilitiesOpen}>
+              <div>In Work</div>
+            </div>
+          </div>
 
           <div className="Content">
             <Clock items={items}/>
