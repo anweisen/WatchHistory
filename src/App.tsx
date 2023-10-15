@@ -89,8 +89,8 @@ const App = () => {
             {modalStack[0]}
           </Modal>
 
-          <div className={"Utilities"} onClick={() => setUtilitiesOpen(!utilitiesOpen) } >
-            <div className={"MainButton"}>
+          <div className={"Utilities"}>
+            <div className={"MainButton"} onClick={() => setUtilitiesOpen(!utilitiesOpen) }>
               <FontAwesomeIcon icon={faUser} />
             </div>
             <div className={`UtilitiesWindow ${utilitiesOpen ? "Visible" : ""}`} data-visible={utilitiesOpen}>
