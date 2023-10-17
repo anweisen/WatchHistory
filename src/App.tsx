@@ -10,14 +10,17 @@ import {AppContext} from "./components/context/AppContext";
 import "./App.scss";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-
+import ContextMenu from "./components/ui/ContextMenu";
+import {GoogleOAuthProvider} from "@react-oauth/google";
+import {User, UserContext} from "./components/context/UserContext";
 
 const App = () => {
+  const clientId = "844222772441-jvkf4clda9h3sh3amdntjehmii17iugo.apps.googleusercontent.com";
+
   const [items, setItems] = useState<Item[]>([]);
   const [isSharedData, setIsSharedData] = useState(false);
   const [modalStack, setModalStack] = useState<React.ReactNode[]>([]);
   const [modalClosing, setModalClosing] = useState(false);
-  const [utilitiesOpen, setUtilitiesOpen] = useState(false);
 
   useEffect(() => {
     const queryParameters = new URLSearchParams(window.location.search);
@@ -81,40 +84,37 @@ const App = () => {
   };
 
   return (
-    <AppContext.Provider value={{items: items, setItems: setItems, writeItemsToCookies: writeItemsToCookies, retrieveItemsFromCookies: retrieveItemsFromCookies, isSharedData: isSharedData}}>
-      <ModalContext.Provider value={{openModal: openModal, closeModal: closeModal}}>
-        <div className="App">
+      <GoogleOAuthProvider clientId={clientId}>
+        <User>
+          <AppContext.Provider value={{items: items, setItems: setItems, writeItemsToCookies: writeItemsToCookies, retrieveItemsFromCookies: retrieveItemsFromCookies, isSharedData: isSharedData}}>
+            <ModalContext.Provider value={{openModal: openModal, closeModal: closeModal}}>
+              <div className="App">
 
-          <Modal visible={!modalClosing && modalStack.length > 0}>
-            {modalStack[0]}
-          </Modal>
+                <Modal visible={!modalClosing && modalStack.length > 0}>
+                  {modalStack[0]}
+                </Modal>
 
-          <div className={"Utilities"}>
-            <div className={"MainButton"} onClick={() => setUtilitiesOpen(!utilitiesOpen) }>
-              <FontAwesomeIcon icon={faUser} />
-            </div>
-            <div className={`UtilitiesWindow ${utilitiesOpen ? "Visible" : ""}`} data-visible={utilitiesOpen}>
-              <div>In Work</div>
-            </div>
-          </div>
+                <ContextMenu />
 
-          <div className="Content">
-            <Clock items={items}/>
-            <Search openMenu={openMenu}/>
-            <List items={items} openMenu={openMenu}/>
+                <div className="Content">
+                  <Clock items={items}/>
+                  <Search openMenu={openMenu}/>
+                  <List items={items} openMenu={openMenu}/>
 
-            <div className="Footer">
-              <div className={"Credits"}>
-                <div>©️ 2023 <a href="https://github.com/anweisen">anweisen</a> & <a href={"https://github.com/kxmischesdomi"}>KxmischesDomi</a></div>
-                <span>•</span>
-                <div>powered by <a href="https://www.themoviedb.org/">tmdb.org</a></div>
+                  <div className="Footer">
+                    <div className={"Credits"}>
+                      <div>©️ 2023 <a href="https://github.com/anweisen">anweisen</a> & <a href={"https://github.com/kxmischesdomi"}>KxmischesDomi</a></div>
+                      <span>•</span>
+                      <div>powered by <a href="https://www.themoviedb.org/">tmdb.org</a></div>
+                    </div>
+                  </div>
+
+                </div>
               </div>
-            </div>
-
-          </div>
-        </div>
-      </ModalContext.Provider>
-    </AppContext.Provider>
+            </ModalContext.Provider>
+          </AppContext.Provider>
+        </User>
+      </GoogleOAuthProvider>
   );
 };
 export default App;

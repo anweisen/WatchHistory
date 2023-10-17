@@ -1,0 +1,128 @@
+.ContextMenu {
+  position: relative;
+
+  .ContextWindow {
+
+    position: absolute;
+    top: 70px;
+    right: 10px;
+
+    width: 200px;
+    height: auto;
+    border-radius: 20px;
+    background: var(--background-border);
+
+    font-family: "Poppins", sans-serif;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+
+    hr {
+      opacity: 50%;
+      width: 80%;
+      margin: auto;
+    }
+
+    .Button {
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      height: 40px;
+      width: 90%;
+
+      margin: auto;
+      border-radius: 10px;
+
+      cursor: pointer;
+
+      &:hover {
+        background: var(--background-popup-secondary);
+      }
+
+      .ButtonIcon {
+        color: var(--text-primary);
+      }
+
+      .ButtonTitle {
+        color: var(--text-primary);
+        text-align: center;
+      }
+    }
+
+    .S9gUrf-YoZ4jf {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .SignedInAs {
+      color: var(--text-secondary);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .UserName {
+      color: var(--text-primary);
+      font-size: 16px;
+      text-align: center;
+    }
+
+    &:not(.Visible) {
+      display: none;
+
+      animation: modal-fadeout-wrapper .15s ease-out forwards;
+
+      @keyframes modal-fadeout-wrapper {
+        from {
+          display: grid;
+        }
+        to {
+          display: none;
+          opacity: 0;
+        }
+      }
+    }
+
+    &.Visible {
+      animation: modal-fadein-wrapper .15s ease-out forwards;
+
+      @keyframes modal-fadein-wrapper {
+        from {
+          display: none;
+          opacity: 0;
+        }
+        to {
+          display: grid;
+        }
+
+      }
+    }
+
+  }
+
+  .MainButton {
+    position: absolute;
+
+    right: 40px;
+    top: 20px;
+
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    background: var(--text-secondary);
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .ProfilePicture {
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
+    }
+  }
+
+}
