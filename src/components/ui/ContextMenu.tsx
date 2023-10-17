@@ -1,6 +1,6 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheck, faTrash, faUser} from "@fortawesome/free-solid-svg-icons";
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import "./ContextMenu.scss"
 import LoginButton from "./account/LoginButton";
 import {UserContext} from "../context/UserContext";
@@ -16,10 +16,31 @@ const ContextMenu = () => {
 
   const { name, picture } = useContext(UserContext);
 
+  const ref: any = useRef("contextMenu");
+
+  function useClickOutside(ref: any, onClickOutside: any) {
+    useEffect(() => {
+
+      function handleClickOutside(event: { target: any; }) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          onClickOutside();
+        }
+      }
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+
+    }, [ref, onClickOutside]);
+  }
+  useClickOutside(ref, () => {
+    setUtilitiesOpen(false);
+  });
+
 
   return (
       <div className={"ContextMenu"}>
-        <div className={"MainButton"} onClick={() => setUtilitiesOpen(!utilitiesOpen) }>
+        <div className={"MainButton"} onClick={() => setUtilitiesOpen(!utilitiesOpen) } ref={ref}>
           {picture !== "" && (
               <img className={"ProfilePicture"} src={picture} alt={""}/>
           )}
