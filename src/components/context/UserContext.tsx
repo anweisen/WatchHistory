@@ -38,7 +38,7 @@ export const User = ({ children }: { children: React.ReactNode }) => {
 
   const [loggedIn, setLoggedIn] = useState(false);
   const [email, setEmail] = useState('');
-  const [name, setName] = useState('Someone');
+  const [name, setName] = useState('');
   const [picture, setPicture] = useState('');
   const [locale, setLocale] = useState('');
 

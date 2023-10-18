@@ -51,8 +51,8 @@ const ContextMenu = () => {
         </div>
         <div className={`ContextWindow ${utilitiesOpen ? "Visible" : ""}`}>
           <div>
-            <p className={"SignedInAs"}>Signed in as</p>
-            <p className={"UserName"}>{name}</p>
+            <p className={"SignedInAs"}>Signed in as:</p>
+            <p className={"UserName"}>{name || "someone"}</p>
           </div>
           <hr/>
           <div className={"Button"} onClick={() => {
@@ -73,7 +73,6 @@ const ContextMenu = () => {
           <hr/>
           {loggedIn ? (
               <LogoutButton />
-
           ) : (
               <LoginButton />
           )}
