@@ -39,15 +39,14 @@ const ContextMenu = () => {
   });
 
   return (
-      <div className={"ContextMenu"}>
-        <div className={"MainButton"} onClick={() => setUtilitiesOpen(!utilitiesOpen) } ref={ref}>
+      <div className={"ContextMenu"} ref={ref}>
+        <div className={"MainButton"} onClick={() => setUtilitiesOpen(!utilitiesOpen) }>
           {picture !== "" && (
               <img className={"ProfilePicture"} src={picture} alt={""}/>
           )}
           {picture === "" && (
               <FontAwesomeIcon icon={faUser} />
           )}
-          
         </div>
         <div className={`ContextWindow ${utilitiesOpen ? "Visible" : ""}`}>
           <div>
