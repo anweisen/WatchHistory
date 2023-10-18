@@ -1,25 +1,38 @@
-import {GoogleLogin} from "@react-oauth/google";
+import {CredentialResponse, GoogleLogin} from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
-import {useContext} from "react";
+import {useContext, useEffect} from "react";
 import {UserContext} from "../../context/UserContext";
-import {Decipher} from "crypto";
 
 const LoginButton = () => {
 
-  var { setName, setEmail, setLocale, setPicture } = useContext(UserContext);
+  const { setName, setEmail, setLocale, setPicture } = useContext(UserContext);
+
+  const processJwt = (jwt: any) => {
+    const decoded: any = jwt_decode(jwt);
+    console.log(decoded);
+    setEmail(decoded.email);
+    setName(decoded.given_name);
+    setPicture(decoded.picture);
+    setLocale(decoded.locale);
+  };
+
+  useEffect(() => {
+    const jwtCredential = localStorage.getItem('auth');
+    if (jwtCredential) {
+      processJwt(jwtCredential);
+    }
+  }, []);
+
+  const handleGoogleResponse = (credentialResponse: CredentialResponse) => {
+    if (credentialResponse.credential != null) {
+      localStorage.setItem("auth", credentialResponse.credential);
+      processJwt(credentialResponse.credential);
+    }
+  }
 
   return (
       <GoogleLogin size={"large"} text={"signin"} locale={"en-US"}
-                   onSuccess={credentialResponse => {
-                     if (credentialResponse.credential != null) {
-                       const decoded: any = jwt_decode(credentialResponse.credential);
-                       console.log(decoded);
-                       setEmail(decoded.email);
-                       setName(decoded.given_name);
-                       setPicture(decoded.picture);
-                       setLocale(decoded.locale);
-                     }
-                   }}
+                   onSuccess={handleGoogleResponse}
                    onError={() => {
                      console.log('Login Failed');
                    }}
