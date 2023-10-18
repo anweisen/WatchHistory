@@ -7,6 +7,7 @@ import {UserContext} from "../context/UserContext";
 import {AppContext} from "../context/AppContext";
 import {ModalContext} from "../context/ModalContext";
 import SimpleModal from "./SimpleModal";
+import LogoutButton from "./account/LogoutButton";
 
 const ContextMenu = () => {
 
@@ -14,7 +15,7 @@ const ContextMenu = () => {
   const { setItems, writeItemsToCookies } = useContext(AppContext);
   const { openModal, closeModal } = useContext(ModalContext);
 
-  const { name, picture } = useContext(UserContext);
+  const { loggedIn, name, picture } = useContext(UserContext);
 
   const ref: any = useRef("contextMenu");
 
@@ -37,7 +38,6 @@ const ContextMenu = () => {
     setUtilitiesOpen(false);
   });
 
-
   return (
       <div className={"ContextMenu"}>
         <div className={"MainButton"} onClick={() => setUtilitiesOpen(!utilitiesOpen) } ref={ref}>
@@ -51,7 +51,7 @@ const ContextMenu = () => {
         </div>
         <div className={`ContextWindow ${utilitiesOpen ? "Visible" : ""}`}>
           <div>
-            <p className={"SignedInAs"}>Signed in as:</p>
+            <p className={"SignedInAs"}>Signed in as</p>
             <p className={"UserName"}>{name}</p>
           </div>
           <hr/>
@@ -71,7 +71,12 @@ const ContextMenu = () => {
             <p className={"ButtonTitle"}>Reset History</p>
           </div>
           <hr/>
-          <LoginButton />
+          {loggedIn ? (
+              <LogoutButton />
+
+          ) : (
+              <LoginButton />
+          )}
         </div>
       </div>
   );

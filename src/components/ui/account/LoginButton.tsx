@@ -5,27 +5,10 @@ import {UserContext} from "../../context/UserContext";
 
 const LoginButton = () => {
 
-  const { setName, setEmail, setLocale, setPicture } = useContext(UserContext);
-
-  const processJwt = (jwt: any) => {
-    const decoded: any = jwt_decode(jwt);
-    console.log(decoded);
-    setEmail(decoded.email);
-    setName(decoded.given_name);
-    setPicture(decoded.picture);
-    setLocale(decoded.locale);
-  };
-
-  useEffect(() => {
-    const jwtCredential = localStorage.getItem('auth');
-    if (jwtCredential) {
-      processJwt(jwtCredential);
-    }
-  }, []);
+  const { processJwt } = useContext(UserContext);
 
   const handleGoogleResponse = (credentialResponse: CredentialResponse) => {
     if (credentialResponse.credential != null) {
-      localStorage.setItem("auth", credentialResponse.credential);
       processJwt(credentialResponse.credential);
     }
   }
@@ -36,11 +19,10 @@ const LoginButton = () => {
                    onError={() => {
                      console.log('Login Failed');
                    }}
-                   useOneTap={true}
+                   useOneTap={(localStorage.getItem("auth") === null)}
                    cancel_on_tap_outside={true}
                    width={140}
                    shape={"pill"}
-
       />
   );
 };
