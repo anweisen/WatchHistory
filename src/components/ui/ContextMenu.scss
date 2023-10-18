@@ -39,6 +39,7 @@
 
       cursor: pointer;
 
+      transition: background-color ease .2s;
       &:hover {
         background: var(--background-popup-secondary);
       }
