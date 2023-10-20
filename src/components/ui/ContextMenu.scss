@@ -1,131 +1,158 @@
 .ContextMenu {
-  position: relative;
+	position: relative;
 
-  .ContextWindow {
+	.ContextWindow {
+		position: absolute;
+		top: 70px;
+		right: 10px;
 
-    position: absolute;
-    top: 70px;
-    right: 10px;
+		width: 200px;
+		height: auto;
+		border-radius: 20px;
+		background: var(--background-border);
 
-    width: 200px;
-    height: auto;
-    border-radius: 20px;
-    background: var(--background-border);
+		font-family: "Poppins", sans-serif;
 
-    font-family: "Poppins", sans-serif;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		padding: 10px 20px;
 
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 10px;
+		hr {
+			opacity: 50%;
+			width: 80%;
+			margin: auto;
+		}
 
-    hr {
-      opacity: 50%;
-      width: 80%;
-      margin: auto;
-    }
+		.Button {
+			display: flex;
+			justify-content: flex-start;
+			gap: 20px;
+			padding: 0 0 0 20px;
+			align-items: center;
+			height: 40px;
+			width: 90%;
 
-    .Button {
-      display: flex;
-      justify-content: flex-start;
-      gap: 20px;
-      padding: 0 0 0 20px;
-      align-items: center;
-      height: 40px;
-      width: 90%;
+			margin: auto;
+			border-radius: 10px;
 
-      margin: auto;
-      border-radius: 10px;
+			cursor: pointer;
+			user-select: none;
 
-      cursor: pointer;
+			transition: background-color ease .2s;
 
-      transition: background-color ease .2s;
-      &:hover {
-        background: var(--background-popup-secondary);
-      }
+			&:hover {
+				background: var(--background-popup-secondary);
+			}
 
-      .ButtonIcon {
-        color: var(--text-primary);
-      }
+			color: var(--text-primary);
 
-      .ButtonTitle {
-        color: var(--text-primary);
-        text-align: center;
-      }
-    }
+			.ButtonTitle {
+				text-align: center;
+			}
 
-    .S9gUrf-YoZ4jf {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+			&.Logout {
+				color: var(--action-fail);
 
-    .SignedInAs {
-      color: var(--text-secondary);
-      font-size: 12px;
-      text-align: center;
-    }
+				&:hover {
+					background: var(--action-fail-background);
+				}
+			}
+		}
 
-    .UserName {
-      color: var(--text-primary);
-      font-size: 16px;
-      text-align: center;
-    }
+		.S9gUrf-YoZ4jf {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
 
-    &:not(.Visible) {
-      display: none;
+		.SignedInAs {
+			color: var(--text-secondary);
+			font-size: 12px;
+			text-align: center;
+		}
 
-      animation: modal-fadeout-wrapper .15s ease-out forwards;
+		.UserName {
+			color: var(--text-primary);
+			font-size: 16px;
+			text-align: center;
+		}
 
-      @keyframes modal-fadeout-wrapper {
-        from {
-          display: grid;
-        }
-        to {
-          display: none;
-          opacity: 0;
-        }
-      }
-    }
+		.LoggedOut {
+			text-align: center;
+			padding: 7px 0;
 
-    &.Visible {
-      animation: modal-fadein-wrapper .15s ease-out forwards;
+			svg {
+				font-size: 20px;
+				color: var(--action-fail-background);
+			}
 
-      @keyframes modal-fadein-wrapper {
-        from {
-          display: none;
-          opacity: 0;
-        }
-        to {
-          display: grid;
-        }
+			p {
+				color: var(--icon-primary);
+			}
+		}
 
-      }
-    }
+		&:not(.Visible) {
+			display: none;
 
-  }
+			animation: context-fadeout .15s ease-in-out forwards;
 
-  .MainButton {
-    position: absolute;
+			@keyframes context-fadeout {
+				from {
+					display: grid;
+				}
+				to {
+					transform: translateY(-5px);
+					display: none;
+					opacity: 0;
+				}
+			}
+		}
 
-    right: 40px;
-    top: 20px;
+		&.Visible {
+			animation: context-fadein .15s ease-in-out forwards;
 
-    width: 40px;
-    height: 40px;
-    border-radius: 20px;
-    background: var(--text-secondary);
-    cursor: pointer;
+			@keyframes context-fadein {
+				from {
+					transform: translateY(-5px);
+					display: none;
+					opacity: 0;
+				}
+				to {
+					display: grid;
+				}
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+			}
+		}
 
-    .ProfilePicture {
-      width: 100%;
-      height: 100%;
-      border-radius: 20px;
-    }
-  }
+	}
+
+	.MainButton {
+		position: absolute;
+
+		right: 40px;
+		top: 20px;
+
+		@media (max-width: 600px) {
+			right: 20px;
+		}
+
+		width: 40px;
+		height: 40px;
+		border-radius: 20px;
+		background: var(--background-border);
+		color: var(--icon-primary);
+		cursor: pointer;
+
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		.ProfilePicture {
+			width: 100%;
+			height: 100%;
+			border-radius: 20px;
+		}
+	}
 
 }

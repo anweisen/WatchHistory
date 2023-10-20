@@ -33,7 +33,6 @@ const WageModal = ({wage, setWage, currency, setCurrency}: {wage: number, setWag
                   setLocalWage(-1);
                 }
 
-
               }} />
             </div>
             <div className={"Input"}>
@@ -45,7 +44,6 @@ const WageModal = ({wage, setWage, currency, setCurrency}: {wage: number, setWag
                 } else {
                   setLocalCurrency("€");
                 }
-
 
               }} />
             </div>

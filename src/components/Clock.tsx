@@ -1,16 +1,15 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCheck, faDownload, faShareAlt} from "@fortawesome/free-solid-svg-icons";
+import {faDownload, faShareAlt} from "@fortawesome/free-solid-svg-icons";
 import React, {useContext, useEffect, useState} from "react";
 import {TvSeriesDetails} from "../tmdb/types";
 import {lookup, lookupRuntime} from "../tmdb/api";
 import {encodeItems, formatTime, Item, timesOf, useForceUpdate} from "../utils";
-import Loader from "./Loader";
-import "./Clock.scss";
 import ImportModal from "./ui/ImportModal";
 import {ModalContext} from "./context/ModalContext";
 import {AppContext} from "./context/AppContext";
-import SimpleModal from "./ui/SimpleModal";
 import WageModal from "./ui/WageModal";
+import Loader from "./Loader";
+import "./Clock.scss";
 
 const Clock = ({items}: { items: Item[] }) => {
 
@@ -56,17 +55,17 @@ const Clock = ({items}: { items: Item[] }) => {
     <div className={"Clock" + (!finished ? " Loading" : "")}>
       <div>
         <div className={"TitleWrapper"}>
-          {isSharedData && <div className={"TitleNotice"} onClick={() => { window.location.href = window.location.origin }}>this could be you</div>}
+          {isSharedData && <div className={"TitleNotice"} onClick={() => window.location.href = window.location.origin}>this could be you</div>}
           <div className="Title">{isSharedData ? "⤿ someone" : "you've"} wasted over</div>
         </div>
         <div className="Main">{formatTime(time)}</div>
         {!finished ? <Loader/> : <>
-          <div className="Or">or</div>
+          <div className="Or">OR</div>
           <div className="Days">{(time / 60 / 24).toFixed(1)} days</div>
           <div className="Wage">
             <div className={"WageEarned"}>{(time / 60 * (wage <= 0 ? 12 : wage)).toLocaleString("en-US", {maximumFractionDigits: 0})}{currency}</div>
             <div onClick={event => {
-              openModal(<WageModal wage={wage} setWage={setWage} currency={currency} setCurrency={setCurrency} />);
+              openModal(<WageModal wage={wage} setWage={setWage} currency={currency} setCurrency={setCurrency}/>);
             }} className={"WageAmount"}>at {wage <= 0 ? "minimum wage" : wage + currency + "/h"}</div>
           </div>
         </>}
@@ -90,9 +89,9 @@ const Clock = ({items}: { items: Item[] }) => {
                 .then(() => console.log("Successful copy"))
                 .catch((error) => console.log("Error copying", error));
             }
-          }}><FontAwesomeIcon icon={faShareAlt}/> share your history
-          </div>
-          : <div className="Button" onClick={event => openModal(<ImportModal/>)}>
+          }}><FontAwesomeIcon icon={faShareAlt}/> share your history</div>
+          :
+          <div className="Button" onClick={event => openModal(<ImportModal/>)}>
             <FontAwesomeIcon icon={faDownload}/> import this history
           </div>}
       </div>

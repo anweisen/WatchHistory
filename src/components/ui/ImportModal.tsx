@@ -2,9 +2,9 @@ import {faArrowRightArrowLeft, faCheck, faCodeBranch, faReply} from "@fortawesom
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React, {useContext, useState} from "react";
 import {ModalContext} from "../context/ModalContext";
-import "./ImportModal.scss";
 import {AppContext} from "../context/AppContext";
 import {mergeItemSets} from "../../utils";
+import "./ImportModal.scss";
 
 const ImportModal = () => {
   const { closeModal } = useContext(ModalContext);
