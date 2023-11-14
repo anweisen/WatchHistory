@@ -1,4 +1,4 @@
-import {faArrowRightArrowLeft, faCheck, faCodeBranch, faReply} from "@fortawesome/free-solid-svg-icons";
+import {faAngleLeft, faArrowRightArrowLeft, faCheck, faCodeBranch} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React, {useContext, useState} from "react";
 import {ModalContext} from "../context/ModalContext";
@@ -7,8 +7,8 @@ import {mergeItemSets} from "../../utils";
 import "./ImportModal.scss";
 
 const ImportModal = () => {
-  const { closeModal } = useContext(ModalContext);
-  const { items, setItems, writeItemsToCookies, retrieveItemsFromCookies } = useContext(AppContext);
+  const {closeModal} = useContext(ModalContext);
+  const {items, setItems, writeItemsToCookies, retrieveItemsFromCookies} = useContext(AppContext);
 
   const [importMethod, setImportMethod] = useState("");
 
@@ -59,10 +59,10 @@ const ImportModal = () => {
         </div>
       </div>
       <div className={"Buttons"}>
-        <div className={"Button Save" + (importMethod === "" ? " Disabled" : "")} onClick={importMethod !== "" ? () => confirmClick() : () => {
-        }}><FontAwesomeIcon icon={faCheck}/> Confirm
+        <div className={"Button Save" + (importMethod === "" ? " Disabled" : "")} onClick={importMethod !== "" ? () => confirmClick() : undefined}>
+          <FontAwesomeIcon icon={faCheck}/> Confirm
         </div>
-        <div className="Button Cancel" onClick={() => closeModal()}><FontAwesomeIcon icon={faReply}/> Cancel</div>
+        <div className="Button Cancel" onClick={() => closeModal()}><FontAwesomeIcon icon={faAngleLeft}/> Cancel</div>
       </div>
     </div>
   );

@@ -1,54 +1,87 @@
 .WageModal {
 
-  .ModalBody {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
+	.ModalBody {
+		display: flex;
+		flex-direction: column;
+		gap: 30px;
 
-    .Inputs {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      padding: 0 20px;
+		.Reset {
+			color: var(--action-fail);
+			display: inline-flex;
+			align-items: center;
+			width: max-content;
+			margin: -15px auto 0 auto;
+			gap: 8px;
+			font-family: Poppins, sans-serif;
+			padding: 3px 20px;
+			border: var(--action-fail-background) solid 2px;
+			border-radius: 15px;
+			font-size: 15px;
+			transition: background .15s ease;
+			cursor: pointer;
+			user-select: none;
 
-      .Input {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-        color: var(--text-primary);
-        text-align: left;
+			&:hover {
+				background: var(--action-fail-background);
+			}
+		}
 
-        sup {
-          text-align: right;
-        }
+		.Inputs {
+			gap: 20px;
+			padding: 0 20px;
 
-        input {
-          padding: 4px 10px;
-          border-radius: 8px;
-          font-family: "Poppins", sans-serif;
-          font-size: 16px;
-          color: var(--text-primary);
-          user-select: none;
-          background: var(--background-popup-secondary);
-          border: none;
+			display: grid;
+			grid-template-columns: 75% 25%;
 
-          &[type=number] {
-            -moz-appearance: textfield;
-            appearance: textfield;
-            margin: 0;
-          }
+			@media (max-width: 450px) {
+				display: flex;
+				flex-direction: column;
+			}
 
-          &[type=number]::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-            display: none;
-          }
-        }
+			.Input {
+				display: flex;
+				flex-direction: column;
+				gap: 5px;
+				color: var(--text-primary);
+				text-align: left;
 
-      }
+				sup {
+					text-align: right;
+				}
 
-    }
+				input {
+					padding: 4px 10px;
+					border-radius: 8px;
+					font-family: "Poppins", sans-serif;
+					font-size: 16px;
+					color: var(--text-primary);
+					user-select: none;
+					background: var(--background-popup-secondary);
+					box-shadow: rgba(0, 0, 0, .2) 0 1px 5px;
+					border: none;
+					transition: box-shadow .1s ease-in;
 
-  }
+					&:focus {
+						box-shadow: rgba(0, 0, 0, .5) 0 1px 10px;
+					}
+
+					&[type=number] {
+						-moz-appearance: textfield;
+						appearance: textfield;
+						margin: 0;
+					}
+
+					&[type=number]::-webkit-inner-spin-button {
+						-webkit-appearance: none;
+						margin: 0;
+						display: none;
+					}
+				}
+
+			}
+
+		}
+
+	}
 
 }

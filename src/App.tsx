@@ -7,12 +7,10 @@ import Modal from "./components/ui/Modal";
 import {decodeItems, Item} from "./utils";
 import {ModalContext} from "./components/context/ModalContext";
 import {AppContext} from "./components/context/AppContext";
-import "./App.scss";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
 import ContextMenu from "./components/ui/ContextMenu";
 import {GoogleOAuthProvider} from "@react-oauth/google";
-import {User, UserContext} from "./components/context/UserContext";
+import {User} from "./components/context/UserContext";
+import "./App.scss";
 
 const App = () => {
   const clientId = "844222772441-jvkf4clda9h3sh3amdntjehmii17iugo.apps.googleusercontent.com";
@@ -84,37 +82,38 @@ const App = () => {
   };
 
   return (
-      <GoogleOAuthProvider clientId={clientId}>
-        <User>
-          <AppContext.Provider value={{items: items, setItems: setItems, writeItemsToCookies: writeItemsToCookies, retrieveItemsFromCookies: retrieveItemsFromCookies, isSharedData: isSharedData}}>
-            <ModalContext.Provider value={{openModal: openModal, closeModal: closeModal}}>
-              <div className="App">
+    <GoogleOAuthProvider clientId={clientId}>
+      <User>
+        <AppContext.Provider
+          value={{items: items, setItems: setItems, writeItemsToCookies: writeItemsToCookies, retrieveItemsFromCookies: retrieveItemsFromCookies, isSharedData: isSharedData}}>
+          <ModalContext.Provider value={{openModal: openModal, closeModal: closeModal}}>
+            <div className="App">
 
-                <Modal visible={!modalClosing && modalStack.length > 0}>
-                  {modalStack[0]}
-                </Modal>
+              <Modal visible={!modalClosing && modalStack.length > 0}>
+                {modalStack[0]}
+              </Modal>
 
-                <ContextMenu />
+              <ContextMenu/>
 
-                <div className="Content">
-                  <Clock items={items}/>
-                  <Search openMenu={openMenu}/>
-                  <List items={items} openMenu={openMenu}/>
+              <div className="Content">
+                <Clock items={items}/>
+                <Search openMenu={openMenu}/>
+                <List items={items} openMenu={openMenu}/>
 
-                  <div className="Footer">
-                    <div className={"Credits"}>
-                      <div>©️ 2023 <a href="https://github.com/anweisen">anweisen</a> & <a href={"https://github.com/kxmischesdomi"}>KxmischesDomi</a></div>
-                      <span>•</span>
-                      <div>powered by <a href="https://www.themoviedb.org/">tmdb.org</a></div>
-                    </div>
+                <div className="Footer">
+                  <div className={"Credits"}>
+                    <div>©️ 2023 <a href="https://github.com/anweisen">anweisen</a> & <a href={"https://github.com/kxmischesdomi"}>KxmischesDomi</a></div>
+                    <span>•</span>
+                    <div>powered by <a href="https://www.themoviedb.org/">tmdb.org</a></div>
                   </div>
-
                 </div>
+
               </div>
-            </ModalContext.Provider>
-          </AppContext.Provider>
-        </User>
-      </GoogleOAuthProvider>
+            </div>
+          </ModalContext.Provider>
+        </AppContext.Provider>
+      </User>
+    </GoogleOAuthProvider>
   );
 };
 export default App;

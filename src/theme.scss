@@ -7,11 +7,14 @@ body.dark {
 	--background-popup: #28282d;
 	--background-popup-secondary: #595961;
 	--background-border: #2C2C32;
+	--background-border-dark: #212125;
+
 	--text-primary: #fff;
 	--text-secondary: #8e8e92;
 	--icon-primary: #C8C8C9;
 
-	--action-success: #3cda35;
+	--action-success: #37c331;
+	--action-success-background: rgba(55, 195, 49, 0.3);
 	--action-fail: #c74444;
 	--action-fail-background: rgba(199, 68, 68, 0.3);
 }

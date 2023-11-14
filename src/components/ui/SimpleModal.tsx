@@ -1,6 +1,6 @@
 import React, {useContext} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faReply} from "@fortawesome/free-solid-svg-icons";
+import {faAngleLeft} from "@fortawesome/free-solid-svg-icons";
 import {ModalContext} from "../context/ModalContext";
 import "./Modal.scss";
 import "./SimpleModal.scss";
@@ -10,22 +10,22 @@ const SimpleModal = ({className, title, body, buttons}: { className?: string, ti
     const {closeModal} = useContext(ModalContext);
 
     return (
-        <div className={`SimpleModal AnimatedModalContent DefaultModalContent ${className ? className : ""}`}>
-          <div className={"ModalWrapper"}>
-            <div className={"ModalContent"}>
-              <div className={"ModalTitle"}>
-                {title}
-              </div>
-              <div className={"ModalBody"}>
-                {body}
-              </div>
+      <div className={`SimpleModal AnimatedModalContent DefaultModalContent ${className ? className : ""}`}>
+        <div className={"ModalWrapper"}>
+          <div className={"ModalContent"}>
+            <div className={"ModalTitle"}>
+              {title}
             </div>
-            <div className="Buttons">
-              {buttons}
-              <div className="Button Cancel" onClick={() => closeModal()}><FontAwesomeIcon icon={faReply}/> Cancel</div>
+            <div className={"ModalBody"}>
+              {body}
             </div>
           </div>
+          <div className="Buttons">
+            {buttons}
+            <div className="Button Cancel" onClick={() => closeModal()}><FontAwesomeIcon icon={faAngleLeft}/> Cancel</div>
+          </div>
         </div>
+      </div>
     );
   }
 ;

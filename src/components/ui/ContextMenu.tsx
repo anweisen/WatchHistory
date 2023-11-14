@@ -1,5 +1,5 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCheck, faLock, faTrash, faUser} from "@fortawesome/free-solid-svg-icons";
+import {faCheck, faLock, faTrash, faTrashCan, faUser} from "@fortawesome/free-solid-svg-icons";
 import React, {useContext, useEffect, useRef, useState} from "react";
 import LoginButton from "./account/LoginButton";
 import {UserContext} from "../context/UserContext";
@@ -43,10 +43,9 @@ const ContextMenu = () => {
   return (
     <div className={"ContextMenu"} ref={ref}>
       <div className={"MainButton"} onClick={() => setUtilitiesOpen(!utilitiesOpen)}>
-        {picture !== "" && (
+        {picture && picture !== "" ?
           <img className={"ProfilePicture"} src={picture} alt={""}/>
-        )}
-        {picture === "" && (<FontAwesomeIcon icon={faUser}/>)}
+          : <FontAwesomeIcon icon={faUser}/>}
       </div>
       <div className={`ContextWindow ${utilitiesOpen ? "Visible" : ""}`}>
         {name ? <div>
@@ -69,7 +68,7 @@ const ContextMenu = () => {
             }/>
           );
         }}>
-          <FontAwesomeIcon icon={faTrash} className={"ButtonIcon"}/>
+          <FontAwesomeIcon icon={faTrashCan} className={"ButtonIcon"}/>
           <p className={"ButtonTitle"}>Reset History</p>
         </div>
         <hr/>

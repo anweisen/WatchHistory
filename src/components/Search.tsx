@@ -1,17 +1,24 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCircleXmark, faFilm, faLaptop, faSearch} from "@fortawesome/free-solid-svg-icons";
+import {faCircleXmark, faImage, faLaptop, faSearch} from "@fortawesome/free-solid-svg-icons";
 import {useContext, useEffect, useRef, useState} from "react";
 import {provideImageUrl, searchMovies, searchSeries} from "../tmdb/api";
 import {SearchMoviesEntry, SearchTvSeriesEntry} from "../tmdb/types";
 import {Item} from "../utils";
 import Loader from "./Loader";
 import "./Search.scss";
-import { AppContext } from "./context/AppContext";
+import {AppContext} from "./context/AppContext";
 
 let timer: any;
+
+const UnknownThumbnail = () => (
+  <div className={"UnknownThumbnail Poster"}>
+    <FontAwesomeIcon icon={faImage}/>
+  </div>
+);
+
 const Search = ({openMenu}: { openMenu: (item: Item) => void }) => {
 
-  const { isSharedData } = useContext(AppContext);
+  const {isSharedData} = useContext(AppContext);
 
   const ref = useRef<HTMLInputElement>(null);
   const [focus, setFocus] = useState(false);
@@ -68,7 +75,7 @@ const Search = ({openMenu}: { openMenu: (item: Item) => void }) => {
                onChange={event => search(event.target.value)}
                onFocus={event => setFocus(true)}
           // onBlur={event => setFocus(false)} # closes popup before click is registered
-            disabled={isSharedData}/>
+               disabled={isSharedData}/>
         <FontAwesomeIcon icon={faSearch}/>
       </div>
 
@@ -76,20 +83,21 @@ const Search = ({openMenu}: { openMenu: (item: Item) => void }) => {
         <div className="SearchResults" style={!focus ? {display: "none"} : undefined}>
           {!series && !movies ? <Loader/> : !series?.length && !movies?.length ? <div className="None"><FontAwesomeIcon icon={faCircleXmark}/>try another show</div> : undefined}
 
-          {series?.map((value, index) => <div className="Result" key={index}
-                                              onClick={event => open({id: value.id, series: true, times: []})}>
-            <img className="Poster" src={provideImageUrl(value.poster_path || value.backdrop_path, "w92")} alt="?"/>
+          {series?.map((value, index) => <div className="Result" key={index} onClick={() => open({id: value.id, series: true, times: []})}>
+            {!(value.poster_path || value.backdrop_path) ? <UnknownThumbnail/> :
+              <img className="Poster" src={provideImageUrl(value.poster_path || value.backdrop_path, "w92")} alt=""/>}
             <div className="Name">{value.name}</div>
             {value.name !== value.original_name && <div className="OriginalName">{value.original_name}</div>}
             <FontAwesomeIcon className="Type" icon={faLaptop}/>
           </div>)}
-          {movies?.map((value, index) => <div className="Result" key={index}
-                                              onClick={event => open({id: value.id, series: false, times: []})}>
-            <img className="Poster" src={provideImageUrl(value.poster_path || value.backdrop_path, "w92")} alt="?"/>
-            <div className="Name">{value.title}</div>
-            {value.title !== value.original_title && <div className="OriginalName">{value.original_title}</div>}
-            <FontAwesomeIcon className="Type" icon={faFilm}/>
-          </div>)}
+
+          {/*{movies?.map((value, index) => <div className="Result" key={index}*/}
+          {/*                                    onClick={() => open({id: value.id, series: false, times: []})}>*/}
+          {/*  <img className="Poster" src={provideImageUrl(value.poster_path || value.backdrop_path, "w92")} alt="?"/>*/}
+          {/*  <div className="Name">{value.title}</div>*/}
+          {/*  {value.title !== value.original_title && <div className="OriginalName">{value.original_title}</div>}*/}
+          {/*  <FontAwesomeIcon className="Type" icon={faFilm}/>*/}
+          {/*</div>)}*/}
         </div>
       </span>
 

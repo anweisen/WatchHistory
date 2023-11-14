@@ -64,8 +64,8 @@ const Clock = ({items}: { items: Item[] }) => {
           <div className="Days">{(time / 60 / 24).toFixed(1)} days</div>
           <div className="Wage">
             <div className={"WageEarned"}>{(time / 60 * (wage <= 0 ? 12 : wage)).toLocaleString("en-US", {maximumFractionDigits: 0})}{currency}</div>
-            <div onClick={event => {
-              openModal(<WageModal wage={wage} setWage={setWage} currency={currency} setCurrency={setCurrency}/>);
+            <div onClick={() => {
+              openModal(<WageModal wage={wage} setWage={setWage} currency={currency} setCurrency={setCurrency} defaultCurrency={"€"} defaultWage={12}/>);
             }} className={"WageAmount"}>at {wage <= 0 ? "minimum wage" : wage + currency + "/h"}</div>
           </div>
         </>}
