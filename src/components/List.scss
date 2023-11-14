@@ -42,4 +42,124 @@
 			border-radius: 10px;
 		}
 	}
+
+	.Empty {
+		padding: 10px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		gap: 30px;
+
+		color: var(--text-secondary);
+		font-size: 16px;
+
+		.Badge, .Text {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 20px;
+		}
+
+		.Text {
+			font-size: 20px;
+			max-width: 400px;
+			gap: 30px;
+			font-family: "Poppins", sans-serif;
+			font-weight: 400;
+			text-align: left;
+
+			@media (max-width: 500px) {
+				font-size: 18px;
+				flex-direction: column;
+				text-align: center;
+				gap: 10px;
+			}
+			@media (max-width: 400px) {
+				font-size: 16px;
+			}
+
+			div {
+				margin-right: 20px;
+			}
+
+			svg {
+				font-size: 40px;
+				filter: drop-shadow(0 0 5px rgba(0, 0, 0, .15));
+
+				@media (max-width: 400px) {
+					font-size: 30px;
+				}
+
+				animation: hourglass-rotate infinite 4s cubic-bezier(0.280, 0.840, 0.420, 1);
+				animation-delay: 250ms;
+
+				@keyframes hourglass-rotate {
+					0% {
+						transform: rotate(0deg);
+					}
+					50% {
+						transform: rotate(180deg);
+					}
+					0% {
+						transform: rotate(360deg);
+					}
+				}
+			}
+		}
+
+		.Button {
+			gap: 10px;
+			padding: 5px 45px;
+			color: var(--action-success);
+			border: var(--action-success-background) 2px solid;
+			border-radius: 20px;
+			text-transform: lowercase;
+			font-weight: 300;
+			font-family: "Poppins", sans-serif;
+			font-size: 16px;
+			user-select: none;
+			cursor: pointer;
+			transition: background .25s ease;
+
+			&:hover {
+				background: var(--action-success-background);
+			}
+
+			@media (max-width: 400px) {
+				font-size: 14px;
+				padding: 5px 30px;
+			}
+		}
+
+		.Up {
+			font-size: 25px;
+			animation: arrow-bounce infinite 2s cubic-bezier(0.280, 0.840, 0.420, 1);
+
+			@keyframes arrow-bounce {
+				0% {
+					transform: scale(1, 1) translateY(0);
+				}
+				10% {
+					transform: scale(1.1, .9) translateY(0);
+				}
+				30% {
+					transform: scale(.9, 1.1) translateY(-10px);
+				}
+				50% {
+					transform: scale(1.05, .95) translateY(0);
+				}
+				57% {
+					transform: scale(1, 1) translateY(-1.5px);
+				}
+				64% {
+					transform: scale(1, 1) translateY(0);
+				}
+				100% {
+					transform: scale(1, 1) translateY(0);
+				}
+			}
+		}
+
+	}
 }

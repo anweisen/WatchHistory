@@ -6,9 +6,7 @@ import "./Modal.scss";
 import "./SimpleModal.scss";
 
 const SimpleModal = ({className, title, body, buttons}: { className?: string, title: React.ReactNode, body: React.ReactNode, buttons: React.ReactNode }) => {
-
     const {closeModal} = useContext(ModalContext);
-
     return (
       <div className={`SimpleModal AnimatedModalContent DefaultModalContent ${className ? className : ""}`}>
         <div className={"ModalWrapper"}>

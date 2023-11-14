@@ -63,7 +63,7 @@ const Search = ({openMenu}: { openMenu: (item: Item) => void }) => {
         setFocus(false);
       }
     };
-    document.addEventListener("click", handler);
+    document.addEventListener("click", handler, {capture: true});
     return () => document.removeEventListener("click", handler);
   });
 
@@ -73,7 +73,7 @@ const Search = ({openMenu}: { openMenu: (item: Item) => void }) => {
       <div className={"SearchBar"}>
         <input className={(isSharedData ? " Disabled" : "")} type="new-password" autoCorrect="off" autoComplete="off" placeholder="add something.." ref={ref} id={"search-input"}
                onChange={event => search(event.target.value)}
-               onFocus={event => setFocus(true)}
+               onFocus={() => setFocus(true)}
           // onBlur={event => setFocus(false)} # closes popup before click is registered
                disabled={isSharedData}/>
         <FontAwesomeIcon icon={faSearch}/>

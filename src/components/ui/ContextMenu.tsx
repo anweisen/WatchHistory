@@ -1,5 +1,5 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCheck, faLock, faTrash, faTrashCan, faUser} from "@fortawesome/free-solid-svg-icons";
+import {faCheck, faLock, faTrashCan, faUser} from "@fortawesome/free-solid-svg-icons";
 import React, {useContext, useEffect, useRef, useState} from "react";
 import LoginButton from "./account/LoginButton";
 import {UserContext} from "../context/UserContext";

@@ -18,7 +18,7 @@ const LoginButton = () => {
                  onError={() => {
                    console.log("Login Failed");
                  }}
-                 useOneTap={(localStorage.getItem("auth") === null)}
+                 // useOneTap={(localStorage.getItem("auth") === null)}
                  cancel_on_tap_outside={true}
                  width={140}
                  shape={"pill"}
