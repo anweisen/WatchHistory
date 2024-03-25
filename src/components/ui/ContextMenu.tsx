@@ -8,6 +8,7 @@ import {ModalContext} from "../context/ModalContext";
 import SimpleModal from "./SimpleModal";
 import LogoutButton from "./account/LogoutButton";
 import "./ContextMenu.scss";
+import ResetModal from "./ResetModal";
 
 const ContextMenu = () => {
 
@@ -57,16 +58,7 @@ const ContextMenu = () => {
         </div>}
         <hr/>
         <div className={"Button"} onClick={() => {
-          openModal(
-            <SimpleModal title={"Are you sure?"} body={"This will delete all of your current saved history!"} buttons={
-              <div className={"Button Save"} onClick={() => {
-                setItems([]);
-                writeItemsToCookies([]);
-                closeModal();
-              }}><FontAwesomeIcon icon={faCheck}/> Confirm
-              </div>
-            }/>
-          );
+          openModal(<ResetModal/>);
         }}>
           <FontAwesomeIcon icon={faTrashCan} className={"ButtonIcon"}/>
           <p className={"ButtonTitle"}>Reset History</p>
