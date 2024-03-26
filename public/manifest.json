@@ -1,6 +1,8 @@
 {
-  "short_name": "React App",
+  "short_name": "Watched",
   "name": "Watch History",
+  "description": "Analyze how much time you have wasted watching tv series in your life",
+  "author": "anweisen",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,18 +10,18 @@
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192"
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
     },
     {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
     }
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#2C2C32",
-  "background_color": "#2C2C32"
+  "theme_color": "#23232A",
+  "background_color": "#23232A"
 }
