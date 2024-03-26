@@ -73,7 +73,8 @@ const Search = ({openMenu}: { openMenu: (item: Item) => void }) => {
     <div className="Search">
 
       <div className={"SearchBar"}>
-        <input className={(isSharedData ? " Disabled" : "")} type="new-password" autoCorrect="off" autoComplete="off" placeholder="add something.." ref={ref} id={"search-input"}
+        <input className={(isSharedData ? " Disabled" : "")} type="new-password" autoCorrect="off" autoComplete="off" placeholder="add something.."
+               ref={ref} id={"search-input"}
                onChange={event => search(event.target.value)}
                onFocus={() => {
                  setFocus(true);
@@ -94,11 +95,12 @@ const Search = ({openMenu}: { openMenu: (item: Item) => void }) => {
 
       <span className="SearchResultsContainer">
         <div className="SearchResults" style={!focus ? {display: "none"} : undefined}>
-          {!series && !movies ? <Loader/> : !series?.length && !movies?.length ? <div className="None"><FontAwesomeIcon icon={faCircleXmark}/>try another show</div> : undefined}
+          {!series && !movies ? <Loader/> : !series?.length && !movies?.length ?
+            <div className="None"><FontAwesomeIcon icon={faCircleXmark}/>try another show</div> : undefined}
 
           {series?.map((value, index) => <div className="Result" key={index} onClick={() => open({id: value.id, series: true, times: []})}>
-            {!(value.poster_path || value.backdrop_path) ? <UnknownThumbnail/> :
-              <img className="Poster" src={provideImageUrl(value.poster_path || value.backdrop_path, "w92")} alt=""/>}
+            {!value.poster_path ? <UnknownThumbnail/> :
+              <img className="Poster" src={provideImageUrl(value.poster_path, "w92")} alt=""/>}
             <div className="Name">{value.name}</div>
             {value.name !== value.original_name && <div className="OriginalName">{value.original_name}</div>}
             <FontAwesomeIcon className="Type" icon={faLaptop}/>

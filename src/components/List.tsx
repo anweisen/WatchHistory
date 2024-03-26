@@ -2,9 +2,9 @@ import React from "react";
 import {TvSeriesDetails} from "../tmdb/types";
 import {lookup, provideImageUrl} from "../tmdb/api";
 import {Item, useForceUpdate} from "../utils";
-import "./List.scss";
-import {faCaretUp, faChevronUp, faCircleXmark, faHourglass, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {faHourglass} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import "./List.scss";
 
 const List = ({items, openMenu}: { items: Item[], openMenu: (item: Item) => void }) => {
   const [, forceUpdate] = useForceUpdate();
@@ -18,14 +18,12 @@ const List = ({items, openMenu}: { items: Item[], openMenu: (item: Item) => void
             </div>) :
         <div className={"Empty"}>
           <div className={"Text"}>
-            <FontAwesomeIcon icon={faHourglass} />
+            <FontAwesomeIcon icon={faHourglass}/>
             <div>You currently have no shows added to your history</div>
           </div>
-          <div className={"Badge"} onClick={() => {
-            document.getElementById("search-input")!!.focus();
-          }}>
+          <div className={"Badge"} onClick={() => document.getElementById("search-input")!!.focus()}>
             <div className={"Button"}>try adding a show</div>
-            <div className={"Up"}><FontAwesomeIcon icon={faCaretUp} /></div>
+            <div className={"Button"}>explore shows</div>
           </div>
         </div>}
     </div>

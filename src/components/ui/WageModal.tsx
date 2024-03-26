@@ -13,7 +13,7 @@ const WageModal = ({wage, setWage, currency, setCurrency, defaultWage, defaultCu
   const [localCurrency, setLocalCurrency] = useState(currency ? currency : defaultCurrency);
 
   return (
-    <SimpleModal className={"WageModal"} title={"Set Your Wage"} body={<>
+    <SimpleModal className={"WageModal"} title={"Set Your Salary"} body={<>
       <div>See what you could've earned in all the time you wasted. <br/> And then cry about it</div>
       <div className={"Inputs"}>
         <div className={"Input"}>
@@ -30,13 +30,11 @@ const WageModal = ({wage, setWage, currency, setCurrency, defaultWage, defaultCu
         <div className={"Input"}>
           <label>Currency</label>
           <input type={"text"} className={""} placeholder={""} defaultValue={localCurrency} onChange={(event) => {
-
             if (event.target.value) {
               setLocalCurrency(event.target.value);
             } else {
               setLocalCurrency(defaultCurrency);
             }
-
           }}/>
         </div>
       </div>

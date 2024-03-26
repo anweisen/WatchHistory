@@ -41,16 +41,32 @@
 	.Main {
 		font-size: 40px;
 		color: var(--text-primary);
+
+		@media (max-width: 800px) {
+			font-size: 35px;
+		}
 	}
 
 	.Or {
 		font-size: 20px;
 		color: var(--text-secondary);
+		
+		@media (max-width: 800px) {
+			font-size: 18px;
+			line-height: 1rem;
+		}
+		@media (max-width: 600px) {
+			font-size: 16px;
+		}
 	}
 
 	.Days {
 		font-size: 30px;
 		color: var(--text-primary);
+
+		@media (max-width: 800px) {
+			font-size: 25px;
+		}
 	}
 
 	.Wage {

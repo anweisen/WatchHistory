@@ -58,23 +58,23 @@ const Menu = ({item, saveItem, removeItem, cancel, isSharedData}: {
           <div className="History">
             <div className="Title">Watch History</div>
             <div className="Seasons">
-              {(details as TvSeriesDetails).seasons.filter(season => season.air_date && Date.parse(season.air_date) < Date.now()).map((season, index) => <div
-                key={season.season_number} className="Season">
-                <div className="SeasonStats">
-                  <div className="Name">{season.name}</div>
-                  <div className="Episodes">{season.episode_count}</div>
-                  <div className="Runtime">{formatTime(lookupRuntime((details as TvSeriesDetails), forceUpdate)?.at(index))}</div>
-                </div>
-                <div className="Controls">
-                  <div className={"Minus" + (isSharedData ? " Disabled" : "")}
-                       onClick={!isSharedData ? () => setState(setTimes(false, season.season_number, (details as TvSeriesDetails).number_of_seasons || season.season_number, state)) : undefined}>
-                    <FontAwesomeIcon icon={faMinus}/></div>
-                  <div className="Display">{timesOf(state.times[season.season_number])}x</div>
-                  <div className={"Plus" + (isSharedData ? " Disabled" : "")}
-                       onClick={!isSharedData ? () => setState(setTimes(true, season.season_number, (details as TvSeriesDetails).number_of_seasons || season.season_number, state)) : undefined}>
-                    <FontAwesomeIcon icon={faPlus}/></div>
-                </div>
-              </div>)}
+              {(details as TvSeriesDetails).seasons.filter(season => season.air_date && Date.parse(season.air_date) < Date.now()).map((season, index) =>
+                <div key={season.season_number} className="Season">
+                  <div className="SeasonStats">
+                    <div className="Name">{season.name}</div>
+                    <div className="Episodes">{season.episode_count}</div>
+                    <div className="Runtime">{formatTime(lookupRuntime((details as TvSeriesDetails), forceUpdate)?.at(index))}</div>
+                  </div>
+                  <div className="Controls">
+                    <div className={"Minus" + (isSharedData ? " Disabled" : "")}
+                         onClick={!isSharedData ? () => setState(setTimes(false, season.season_number, (details as TvSeriesDetails).number_of_seasons || season.season_number, state)) : undefined}>
+                      <FontAwesomeIcon icon={faMinus}/></div>
+                    <div className="Display">{timesOf(state.times[season.season_number])}x</div>
+                    <div className={"Plus" + (isSharedData ? " Disabled" : "")}
+                         onClick={!isSharedData ? () => setState(setTimes(true, season.season_number, (details as TvSeriesDetails).number_of_seasons || season.season_number, state)) : undefined}>
+                      <FontAwesomeIcon icon={faPlus}/></div>
+                  </div>
+                </div>)}
             </div>
           </div>
         </> : <> {/* Movie */}
