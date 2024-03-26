@@ -47,6 +47,7 @@ const Search = ({openMenu}: { openMenu: (item: Item) => void }) => {
     }, 250);
   };
 
+  // focus input field when key pressed
   useEffect(() => {
     const handler = (event: KeyboardEvent) => {
       if (event.key.length === 1) {
@@ -57,6 +58,7 @@ const Search = ({openMenu}: { openMenu: (item: Item) => void }) => {
     document.addEventListener("keypress", handler);
     return () => document.removeEventListener("keypress", handler);
   });
+  // register outside click, close results
   useEffect(() => {
     const handler = (event: Event) => {
       if (event.target !== ref.current) {
@@ -73,8 +75,19 @@ const Search = ({openMenu}: { openMenu: (item: Item) => void }) => {
       <div className={"SearchBar"}>
         <input className={(isSharedData ? " Disabled" : "")} type="new-password" autoCorrect="off" autoComplete="off" placeholder="add something.." ref={ref} id={"search-input"}
                onChange={event => search(event.target.value)}
-               onFocus={() => setFocus(true)}
-          // onBlur={event => setFocus(false)} # closes popup before click is registered
+               onFocus={() => {
+                 setFocus(true);
+                 const element = document.getElementsByClassName("SearchBar").item(0);
+                 if (element) {
+                   // delay the scroll, as on mobile devices the expansion of the keyboard happens after and has to be taken into account
+                   setTimeout(() => {
+                     const targetY = element.getBoundingClientRect().y + window.scrollY - 25; // + 25px of padding above
+                     // enough space & not out of screen, no need to scroll
+                     if (window.innerHeight - element.getBoundingClientRect().bottom > 550 && element.getBoundingClientRect().top > 0) return;
+                     window.scroll(0, targetY); // scrollTo / scrollIntoView are animated but a bit biggy therefor no suitable
+                   }, 10);
+                 }
+               }}
                disabled={isSharedData}/>
         <FontAwesomeIcon icon={faSearch}/>
       </div>
