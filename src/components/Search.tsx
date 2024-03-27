@@ -8,8 +8,6 @@ import Loader from "./Loader";
 import "./Search.scss";
 import {AppContext} from "./context/AppContext";
 
-let timer: any;
-
 const UnknownThumbnail = () => (
   <div className={"UnknownThumbnail Poster"}>
     <FontAwesomeIcon icon={faImage}/>
@@ -31,6 +29,7 @@ const Search = ({openMenu}: { openMenu: (item: Item) => void }) => {
     setMovies([]);
     openMenu(item);
   };
+  let timer: any;
   const search = (input: string) => {
     if (input.length === 0) {
       setSeries([]);

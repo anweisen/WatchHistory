@@ -1,147 +1,142 @@
 
 .Search {
-	display: grid;
-	place-items: center;
+  display: grid;
+  place-items: center;
 }
 
 .SearchBar {
+  display: flex;
+  gap: 10px;
+  color: var(--text-primary);
+  font-size: 20px;
+  padding: 5px 20px;
+  border: var(--background-border) solid 2px;
+  border-radius: 5px;
 
-	display: flex;
-	gap: 10px;
-	color: var(--text-primary);
-	font-size: 20px;
-	padding: 5px 20px;
-	border: var(--background-border) solid 2px;
-	border-radius: 5px;
+  width: 70%;
+  box-sizing: border-box;
 
-	width: 70%;
+  @media (max-width: 650px) {
+    width: 80%;
+  }
+  @media (max-width: 500px) {
+    width: 85%;
+    font-size: 18px;
+  }
 
-	@media (max-width: 650px) {
-		width: 80%;
-		box-sizing: border-box;
-	}
-	@media (max-width: 500px) {
-		width: 85%;
-		box-sizing: border-box;
-		font-size: 18px;
-	}
+  input {
+    width: 100%;
+    font-family: "Poppins", sans-serif;
+    font-size: inherit;
+    color: inherit;
+    background: none;
+    border: none;
 
-	input {
-		width: 100%;
-		font-family: "Poppins", sans-serif;
-		font-size: inherit;
-		color: inherit;
-		background: none;
-		border: none;
+    &.Disabled {
+      filter: brightness(55%);
+      cursor: not-allowed;
+    }
+  }
 
-		&.Disabled {
-			filter: brightness(55%);
-			cursor: not-allowed;
-		}
-	}
-
-	svg {
-		margin: auto;
-		color: var(--icon-primary);
-	}
+  svg {
+    margin: auto;
+    color: var(--icon-primary);
+  }
 
 }
 
 
 .SearchResultsContainer {
-	width: 70%;
-	z-index: 2;
+  width: 70%;
+  z-index: 2;
 
-	@media (max-width: 650px) {
-		width: 85%;
-	}
+  @media (max-width: 650px) {
+    width: 85%;
+  }
 
-	::-webkit-scrollbar {
-		display: none;
-	}
+  ::-webkit-scrollbar {
+    display: none;
+  }
 
-	.SearchResults {
-		position: absolute;
-		display: flex;
-		flex-direction: column;
-		gap: 10px;
-		width: inherit;
-		background: var(--background-popup);
-		padding: 10px 15px;
-		box-sizing: border-box;
-		border-bottom-left-radius: 5px;
-		border-bottom-right-radius: 5px;
-		user-select: none;
-		overflow: scroll;
-		max-height: 300px;
+  .SearchResults {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: inherit;
+    background: var(--background-popup);
+    padding: 10px 15px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    user-select: none;
+    overflow-y: scroll;
+    max-height: 300px;
+    margin-top: 4px;
 
-		@media (max-width: 650px) {
-			margin-top: 4px;
-			border-radius: 5px;
-		}
+    .None {
+      font-size: 20px;
+      color: var(--icon-primary);
+      font-family: "Poppins", sans-serif;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+    }
 
-		.None {
-			font-size: 20px;
-			color: var(--icon-primary);
-			font-family: "Poppins", sans-serif;
-			display: flex;
-			gap: 10px;
-			align-items: center;
-			justify-content: center;
-		}
+    .Result {
+      display: flex;
+      gap: 10px;
+      font-weight: 300;
+      font-family: "Poppins", sans-serif;
 
-		.Result {
-			display: flex;
-			gap: 10px;
-			font-weight: 300;
-			font-family: "Poppins", sans-serif;
+      .Poster {
+        height: 55px;
+        width: 36.66px;
+        border-radius: 5px;
 
-			.Poster {
-				height: 55px;
-				width: 36.66px;
-				border-radius: 5px;
+        &.UnknownThumbnail {
+          background: var(--background-border-dark);
+          display: grid;
+          place-items: center;
+          color: var(--background-popup-secondary);
+        }
+      }
 
-				&.UnknownThumbnail {
-					background: var(--background-border-dark);
-					display: grid;
-					place-items: center;
-					color: var(--background-popup-secondary);
-				}
-			}
+      .Name {
+        color: var(--text-primary);
+        font-size: 20px;
+        margin: auto 0;
 
-			.Name {
-				color: var(--text-primary);
-				font-size: 20px;
-				margin: auto 0;
+        @media (max-width: 650px) {
+          font-size: 17px;
+        }
+      }
 
-				@media (max-width: 650px) {
-					font-size: 17px;
-				}
-			}
+      .OriginalName {
+        color: var(--text-secondary);
+        font-size: 16px;
+        margin: auto 0;
+        @media (max-width: 650px) {
+          font-size: 12px;
+        }
+      }
 
-			.OriginalName {
-				color: var(--text-secondary);
-				font-size: 16px;
-				margin: auto 0;
-				@media (max-width: 650px) {
-					font-size: 12px;
-				}
-			}
+      .Type {
+        justify-self: right;
+        margin: auto 0 auto auto;
+        color: var(--text-secondary);
+      }
 
-			.Type {
-				justify-self: right;
-				margin: auto 0 auto auto;
-				color: var(--text-secondary);
-			}
+      transition: all .1s ease;
 
-			transition: all .1s ease;
+      &:hover {
+        .Name {
+          font-weight: 500;
+          letter-spacing: .5px;
+        }
+      }
 
-			&:hover {
-				font-weight: 500;
-				letter-spacing: .5px;
-			}
+    }
 
-		}
-
-	}
+  }
 }
