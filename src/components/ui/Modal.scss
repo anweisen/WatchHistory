@@ -37,14 +37,14 @@ body:has(.Modal.Visible) {
 
 		@keyframes modal-fadein {
 			from {
-				transform: scale(.95) rotate(3deg);
+				transform: scale(.95) rotate(2deg);
 				opacity: 0;
 			}
 			25% {
 				opacity: 1;
 			}
 			75% {
-				transform: scale(1.025) rotate(-1deg);
+				transform: scale(1.01) rotate(-0.5deg);
 			}
 		}
 	}
