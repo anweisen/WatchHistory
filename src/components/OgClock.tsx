@@ -9,9 +9,9 @@ import {ModalContext} from "./context/ModalContext";
 import {AppContext} from "./context/AppContext";
 import WageModal from "./ui/WageModal";
 import Loader from "./Loader";
-import "./Clock.scss";
+import "./OgClock.scss";
 
-const Clock = ({items}: { items: Item[] }) => {
+const OgClock = ({items}: { items: Item[] }) => {
 
   const {openModal, closeModal} = useContext(ModalContext);
   const {isSharedData} = useContext(AppContext);
@@ -52,7 +52,7 @@ const Clock = ({items}: { items: Item[] }) => {
   }, [items, updater, forceUpdate]);
 
   return (
-    <div className={"Clock" + (!finished ? " Loading" : "")}>
+    <div className={"OgClock" + (!finished ? " Loading" : "")}>
       <div>
         <div className={"TitleWrapper"}>
           {isSharedData && <div className={"TitleNotice"} onClick={() => window.location.href = window.location.origin}>this could be you</div>}
@@ -98,4 +98,4 @@ const Clock = ({items}: { items: Item[] }) => {
     </div>
   );
 };
-export default Clock;
+export default OgClock;

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import Search from "./components/Search";
 import List from "./components/List";
 import Menu from "./components/Menu";
-import Clock from "./components/Clock";
+import OgClock from "./components/OgClock";
 import Modal from "./components/ui/Modal";
 import {decodeItems, Item} from "./utils";
 import {ModalContext} from "./components/context/ModalContext";
@@ -10,8 +10,8 @@ import {AppContext} from "./components/context/AppContext";
 import ContextMenu from "./components/ui/ContextMenu";
 import {GoogleOAuthProvider} from "@react-oauth/google";
 import {User} from "./components/context/UserContext";
-import "./App.scss";
 import Footer from "./components/Footer";
+import "./App.scss";
 
 const App = () => {
   const clientId = "844222772441-jvkf4clda9h3sh3amdntjehmii17iugo.apps.googleusercontent.com";
@@ -97,7 +97,7 @@ const App = () => {
               <ContextMenu/>
 
               <div className="Content">
-                <Clock items={items}/>
+                <OgClock items={items}/>
                 <Search openMenu={openMenu}/>
                 <List items={items} openMenu={openMenu}/>
 
