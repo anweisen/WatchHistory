@@ -11,6 +11,7 @@ import ContextMenu from "./components/ui/ContextMenu";
 import {GoogleOAuthProvider} from "@react-oauth/google";
 import {User} from "./components/context/UserContext";
 import "./App.scss";
+import Footer from "./components/Footer";
 
 const App = () => {
   const clientId = "844222772441-jvkf4clda9h3sh3amdntjehmii17iugo.apps.googleusercontent.com";
@@ -100,14 +101,7 @@ const App = () => {
                 <Search openMenu={openMenu}/>
                 <List items={items} openMenu={openMenu}/>
 
-                <div className="Footer">
-                  <div className={"Credits"}>
-                    <div>©️ 2023 <a href="https://github.com/anweisen">anweisen</a> & <a href={"https://github.com/kxmischesdomi"}>KxmischesDomi</a></div>
-                    <span>•</span>
-                    <div>powered by <a href="https://www.themoviedb.org/">tmdb.org</a></div>
-                  </div>
-                </div>
-
+                <Footer/>
               </div>
             </div>
           </ModalContext.Provider>
