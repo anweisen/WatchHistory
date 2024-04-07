@@ -83,11 +83,9 @@ const Menu = ({item, saveItem, removeItem, cancel, isSharedData}: {
           </div>
         </>}
         <div className="Buttons">
-          <div className={"Button Save" + (isSharedData ? " Disabled" : "")} onClick={!isSharedData ? () => saveItem(state) : () => {
-          }}><FontAwesomeIcon icon={faCheck}/> Save
+          <div className={"Button Save" + (isSharedData ? " Disabled" : "")} onClick={!isSharedData ? () => saveItem(state) : undefined}><FontAwesomeIcon icon={faCheck}/> Save
           </div>
-          <div className={"Button Remove" + (isSharedData ? " Disabled" : "")} onClick={!isSharedData ? () => removeItem(state) : () => {
-          }}><FontAwesomeIcon icon={faTrashCan}/> Remove
+          <div className={"Button Remove" + (isSharedData ? " Disabled" : "")} onClick={!isSharedData ? () => removeItem(state) : undefined}><FontAwesomeIcon icon={faTrashCan}/> Remove
           </div>
           <div className="Button Cancel" onClick={() => cancel()}><FontAwesomeIcon icon={faAngleLeft}/> Cancel</div>
         </div>

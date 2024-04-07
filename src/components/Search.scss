@@ -13,7 +13,7 @@
   border: var(--background-border) solid 2px;
   border-radius: 5px;
 
-  width: 70%;
+  width: 75%;
   box-sizing: border-box;
 
   @media (max-width: 650px) {
@@ -47,7 +47,7 @@
 
 
 .SearchResultsContainer {
-  width: 70%;
+  width: 75%;
   z-index: 2;
 
   @media (max-width: 650px) {

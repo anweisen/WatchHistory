@@ -83,7 +83,7 @@ const Search = ({openMenu}: { openMenu: (item: Item) => void }) => {
                    setTimeout(() => {
                      const targetY = element.getBoundingClientRect().y + window.scrollY - 25; // + 25px of padding above
                      // enough space & not out of screen, no need to scroll
-                     if (window.innerHeight - element.getBoundingClientRect().bottom > 550 && element.getBoundingClientRect().top > 0) return;
+                     if (window.innerHeight - element.getBoundingClientRect().bottom > 300 && element.getBoundingClientRect().top > 0) return;
                      window.scroll(0, targetY); // scrollTo / scrollIntoView are animated but a bit biggy therefor no suitable
                    }, 10);
                  }
