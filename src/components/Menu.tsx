@@ -58,12 +58,12 @@ const Menu = ({item, saveItem, removeItem, cancel, isSharedData}: {
           <div className="History">
             <div className="Title">Watch History</div>
             <div className="Seasons">
-              {(details as TvSeriesDetails).seasons.filter(season => season.air_date && Date.parse(season.air_date) < Date.now()).map((season, index) =>
+              {(details as TvSeriesDetails).seasons.filter(season => season.air_date && Date.parse(season.air_date) < Date.now() && season.episode_count > 0 && season.name !== "Specials").map((season, index) =>
                 <div key={season.season_number} className="Season">
                   <div className="SeasonStats">
                     <div className="Name">{season.name}</div>
                     <div className="Episodes">{season.episode_count}</div>
-                    <div className="Runtime">{formatTime(lookupRuntime((details as TvSeriesDetails), forceUpdate)?.at(index))}</div>
+                    <div className="Runtime">{formatTime(lookupRuntime((details as TvSeriesDetails), forceUpdate)?.at(season.season_number))}</div>
                   </div>
                   <div className="Controls">
                     <div className={"Minus" + (isSharedData ? " Disabled" : "")}
