@@ -12,47 +12,59 @@ const log = (value: any) => {
 export const provideImageUrl = (path: string | undefined, size: string = "w185"): string | undefined =>
   path && `https://image.tmdb.org/t/p/${size}${path}`;
 
-export const searchSeries = async (name: string) => {
-  return await fetch(`https://api.themoviedb.org/3/search/tv?query=${encodeURIComponent(name)}&include_adult=false&language=${language}&page=1`, {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${token}`
+const fetchWithRetry = async (path: string, maxRetries = 4, retryDelay = 5_000) => {
+  let retry = 1;
+
+  const doFetch = (): Promise<any> => {
+    const retryFetch = () => {
+        if (retry > maxRetries) {
+          throw new Error("429 Too Many Request: exceeded max retry count!");
+        }
+      console.log(`Encountered Error! Retry ${retry} for ${path} in ${retryDelay / 1000}s..`);
+      retry++;
+      return new Promise(resolve => setTimeout(resolve, retryDelay)).then(doFetch);
     }
-  }).then<SearchResults<SearchTvSeriesEntry>>(value => value.json());
-  // .then(log);
+
+    return fetch(`https://api.themoviedb.org/3${path}`, {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${token}`
+      }
+    }).then(response => {
+      if (response.ok) {
+        return response.json();
+      } else if (response.status === 429) {
+        return retryFetch();
+      } else {
+        throw new Error("Fetch failed with status " + response.status);
+      }
+    }, () => {
+      return retryFetch()
+    })
+  };
+
+  return await doFetch();
+};
+
+export const searchSeries = async (name: string) => {
+  return await fetchWithRetry(`/search/tv?query=${encodeURIComponent(name)}&include_adult=false&language=${language}&page=1`)
+    .then<SearchResults<SearchTvSeriesEntry>>(value => value);
 };
 export const searchMovies = async (name: string) => {
-  return await fetch(`https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(name)}&include_adult=false&language=${language}&page=1`, {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${token}`
-    }
-  }).then<SearchResults<SearchMoviesEntry>>(value => value.json());
-  // .then(log);
+  return await fetchWithRetry(`/search/movie?query=${encodeURIComponent(name)}&include_adult=false&language=${language}&page=1`,)
+    .then<SearchResults<SearchMoviesEntry>>(value => value);
 };
 
 export const lookupSeries = async (id: number) => {
-  return await fetch(`https://api.themoviedb.org/3/tv/${id}?language=${language}`, {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${token}`
-    }
-  }).then<TvSeriesDetails>(value => value.json())
+  return await fetchWithRetry(`/tv/${id}?language=${language}`)
+    .then<TvSeriesDetails>(value => value)
     .then(log)
-    .catch(reason => console.error(`could not find series ${id}`))
-    ;
+    .catch(reason => console.error(`could not find series ${id}`));
 };
 export const lookupMovie = async (id: number) => {
-  return await fetch(`https://api.themoviedb.org/3/movie/${id}?language=${language}`, {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${token}`
-    }
-  }).then<MovieDetails>(value => value.json())
+  return await fetchWithRetry(`/movie/${id}?language=${language}`)
+    .then<MovieDetails>(value => value)
     .then(log);
 };
 
@@ -64,13 +76,8 @@ export const fetchSeriesRuntime = (series: TvSeriesDetails) => {
   return Promise.all(arr);
 };
 export const fetchSeasonRuntime = async (seriesId: number, seasonNumber: number) => {
-  return fetch(`https://api.themoviedb.org/3/tv/${seriesId}/season/${seasonNumber}`, {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${token}`
-    }
-  }).then<{ episodes: [{ runtime: number }] }>(value => value.json())
+  return fetchWithRetry(`/tv/${seriesId}/season/${seasonNumber}`)
+    .then<{ episodes: [{ runtime: number }] }>(value => value)
     .then(value => value.episodes.reduce((prev, cur) => prev + cur.runtime, 0));
 };
 
@@ -114,3 +121,4 @@ export const lookupRuntime = (series: TvSeriesDetails, callback: () => void) => 
   });
   return undefined;
 };
+;
