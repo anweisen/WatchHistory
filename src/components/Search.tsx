@@ -3,7 +3,7 @@ import {faCircleXmark, faImage, faLaptop, faSearch} from "@fortawesome/free-soli
 import {useContext, useEffect, useRef, useState} from "react";
 import {provideImageUrl, searchMovies, searchSeries} from "../tmdb/api";
 import {SearchMoviesEntry, SearchTvSeriesEntry} from "../tmdb/types";
-import {Item} from "../utils";
+import {findItemById, Item} from "../utils";
 import Loader from "./Loader";
 import "./Search.scss";
 import {AppContext} from "./context/AppContext";
@@ -16,7 +16,7 @@ const UnknownThumbnail = () => (
 
 const Search = ({openMenu}: { openMenu: (item: Item) => void }) => {
 
-  const {isSharedData} = useContext(AppContext);
+  const {isSharedData, items} = useContext(AppContext);
 
   const ref = useRef<HTMLInputElement>(null);
   const [focus, setFocus] = useState(false);
@@ -97,7 +97,8 @@ const Search = ({openMenu}: { openMenu: (item: Item) => void }) => {
           {!series && !movies ? <Loader/> : !series?.length && !movies?.length ?
             <div className="None"><FontAwesomeIcon icon={faCircleXmark}/>try another show</div> : undefined}
 
-          {series?.map((value, index) => <div className="Result" key={index} onClick={() => open({id: value.id, series: true, times: []})}>
+          {series?.map((value, index) => <div className="Result" key={index}
+                                              onClick={() => open(findItemById(items, value.id, true) || {id: value.id, series: true, times: []})}>
             {!value.poster_path ? <UnknownThumbnail/> :
               <img className="Poster" src={provideImageUrl(value.poster_path, "w92")} alt=""/>}
             <div className="Name">{value.name}</div>

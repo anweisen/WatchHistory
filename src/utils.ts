@@ -122,4 +122,6 @@ export const mergeItemSets = (itemSet1: Item[], itemSet2: Item[]): Item[] => {
   });
 
   return newItemSet;
-}
+};
+
+export const findItemById = (items: Item[], id: number, series: boolean): Item | undefined => items.find(item => item.id === id && item.series === series);
