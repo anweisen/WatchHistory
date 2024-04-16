@@ -12,26 +12,31 @@ const log = (value: any) => {
 export const provideImageUrl = (path: string | undefined, size: string = "w185"): string | undefined =>
   path && `https://image.tmdb.org/t/p/${size}${path}`;
 
-const fetchWithRetry = async (path: string, maxRetries = 4, retryDelay = 5_000) => {
+const fetchWithRetry = async (path: string, abortSignal: AbortSignal | undefined = undefined, maxRetries = 4, retryDelay = 5_000) => {
   let retry = 1;
 
   const doFetch = (): Promise<any> => {
     const retryFetch = () => {
-        if (retry > maxRetries) {
-          throw new Error("429 Too Many Request: exceeded max retry count!");
-        }
+      if (abortSignal?.aborted) {
+        throw new Error("Aborted request!");
+      }
+      if (retry > maxRetries) {
+        throw new Error("429 Too Many Request: exceeded max retry count!");
+      }
       console.log(`Encountered Error! Retry ${retry} for ${path} in ${retryDelay / 1000}s..`);
       retry++;
       return new Promise(resolve => setTimeout(resolve, retryDelay)).then(doFetch);
-    }
+    };
 
     return fetch(`https://api.themoviedb.org/3${path}`, {
       method: "GET",
+      signal: abortSignal,
       headers: {
         accept: "application/json",
         Authorization: `Bearer ${token}`
       }
     }).then(response => {
+      abortSignal?.throwIfAborted();
       if (response.ok) {
         return response.json();
       } else if (response.status === 429) {
@@ -40,19 +45,19 @@ const fetchWithRetry = async (path: string, maxRetries = 4, retryDelay = 5_000) 
         throw new Error("Fetch failed with status " + response.status);
       }
     }, () => {
-      return retryFetch()
-    })
+      return retryFetch();
+    });
   };
 
   return await doFetch();
 };
 
-export const searchSeries = async (name: string) => {
-  return await fetchWithRetry(`/search/tv?query=${encodeURIComponent(name)}&include_adult=false&language=${language}&page=1`)
+export const searchSeries = async (name: string, abort: AbortSignal | undefined) => {
+  return await fetchWithRetry(`/search/tv?query=${encodeURIComponent(name)}&include_adult=false&language=${language}&page=1`, abort)
     .then<SearchResults<SearchTvSeriesEntry>>(value => value);
 };
-export const searchMovies = async (name: string) => {
-  return await fetchWithRetry(`/search/movie?query=${encodeURIComponent(name)}&include_adult=false&language=${language}&page=1`,)
+export const searchMovies = async (name: string, abort: AbortSignal | undefined) => {
+  return await fetchWithRetry(`/search/movie?query=${encodeURIComponent(name)}&include_adult=false&language=${language}&page=1`, abort)
     .then<SearchResults<SearchMoviesEntry>>(value => value);
 };
 
@@ -70,7 +75,7 @@ export const lookupMovie = async (id: number) => {
 
 export const fetchSeriesRuntime = (series: TvSeriesDetails) => {
   const arr: Promise<number>[] = Array(series.number_of_seasons);
-  arr[0] =  Promise.resolve(0)
+  arr[0] = Promise.resolve(0);
 
   for (let season of series.seasons) {
     arr[season.season_number] = fetchSeasonRuntime(series.id, season.season_number);

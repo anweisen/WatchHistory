@@ -1,12 +1,12 @@
+import {useContext, useEffect, useRef, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircleXmark, faImage, faLaptop, faSearch} from "@fortawesome/free-solid-svg-icons";
-import {useContext, useEffect, useRef, useState} from "react";
-import {provideImageUrl, searchMovies, searchSeries} from "../tmdb/api";
+import Loader from "./Loader";
+import {AppContext} from "./context/AppContext";
+import {provideImageUrl, searchSeries} from "../tmdb/api";
 import {SearchMoviesEntry, SearchTvSeriesEntry} from "../tmdb/types";
 import {findItemById, Item} from "../utils";
-import Loader from "./Loader";
 import "./Search.scss";
-import {AppContext} from "./context/AppContext";
 
 const UnknownThumbnail = () => (
   <div className={"UnknownThumbnail Poster"}>
@@ -29,21 +29,35 @@ const Search = ({openMenu}: { openMenu: (item: Item) => void }) => {
     setMovies([]);
     openMenu(item);
   };
-  let timer: any;
+
+  let inputDelayTimer = useRef<any>();
+  let inputSearchAbort = useRef<AbortController>(new AbortController());
   const search = (input: string) => {
+    inputSearchAbort.current?.abort(); // abort current request
+    if (inputDelayTimer.current) clearTimeout(inputDelayTimer.current);
+
+    // create new separate abort control
+    let abortController = new AbortController();
+    let abortSignal = abortController.signal;
+    inputSearchAbort.current = abortController;
+
+    // display "no results"
     if (input.length === 0) {
       setSeries([]);
       setMovies([]);
       return;
     }
+    // displays loader
     setSeries(undefined);
     setMovies(undefined);
 
-    if (timer) clearTimeout(timer);
-    timer = setTimeout(() => {
-      searchSeries(input).then(search => setSeries(search.results.splice(0, 3)));
-      searchMovies(input).then(search => setMovies(search.results.splice(0, 3)));
-    }, 250);
+    inputDelayTimer.current = setTimeout(() => {
+      if (abortSignal.aborted) return;
+      searchSeries(input, abortSignal)
+        .then(search => setSeries(search.results.splice(0, 3)))
+        .catch(_ => undefined);
+      // searchMovies(input, inputSearchAbort).then(search => setMovies(search.results.splice(0, 3))).catch(_ => undefined);
+    }, 100);
   };
 
   // focus input field when key pressed
