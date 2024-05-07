@@ -26,6 +26,6 @@ for even a small medium amount of shows entered.
 
 ![](./.img/search.png)
 
-### Enter Rematches
+### Enter Rewatches
 
 ![](./.img/rewatches.png)
