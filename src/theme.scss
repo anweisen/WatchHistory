@@ -3,18 +3,22 @@ body.light {
 }
 
 body.dark {
-	--background: linear-gradient(180deg, rgb(35, 35, 42), rgb(25, 25, 32));
-	--background-popup: #28282d;
-	--background-popup-secondary: #595961;
-	--background-border: #2C2C32;
-	--background-border-dark: #212125;
+  --background: linear-gradient(180deg, rgb(35, 35, 42), rgb(25, 25, 32));
+  --background-popup: #28282d;
+  --background-popup-secondary: #595961;
+  --background-border: #2C2C32;
+  --background-border-dark: #212125;
 
-	--text-primary: #fff;
-	--text-secondary: #8e8e92;
-	--icon-primary: #C8C8C9;
+  --text-primary: #fff;
+  --text-secondary: #8e8e92;
+  --icon-primary: #C8C8C9;
 
-	--action-success: #37c331;
-	--action-success-background: #37c3314c; // a=0.3
-	--action-fail: #c74444;
-	--action-fail-background: #c744444c; // a=0.3
+  --action-success: #37c331;
+  --action-success-background: #37c3314c; // a=0.3
+  --action-fail: #c74444;
+  --action-fail-background: #c744444c; // a=0.3
+
+  --rank-gold: #D2B61F;
+  --rank-silver: #ABA9A1;
+  --rank-bronze: #A56C17;
 }
