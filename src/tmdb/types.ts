@@ -45,7 +45,7 @@ export interface TvSeriesDetails {
   created_by: object;
   episode_run_time: number[];
   first_air_date: string;
-  genres: object[];
+  genres: TvSeriesGenre[];
   homepage: string;
   id: number;
   in_production: boolean;
@@ -72,6 +72,11 @@ export interface TvSeriesDetails {
   type: string;
   vote_average: number;
   vote_count: number;
+}
+
+export interface TvSeriesGenre {
+  id: number;
+  name: string;
 }
 
 export interface TvSeriesSeason {
