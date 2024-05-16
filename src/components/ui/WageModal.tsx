@@ -46,7 +46,7 @@ const WageModal = ({wage, setWage, currency, setCurrency, defaultWage, defaultCu
       }}><FontAwesomeIcon icon={faCheck}/> Save
       </div>
       <div className={"Button Remove"} onClick={() => {
-        setWage(defaultWage);
+        setWage(-1);
         setCurrency(defaultCurrency);
         closeModal();
       }}><FontAwesomeIcon icon={faTrashCan}/> Reset
