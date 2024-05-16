@@ -1,0 +1,164 @@
+.ProfileOptions {
+  z-index: 3;
+  position: absolute;
+  right: 0;
+  top: 70%;
+  margin-top: 10px;
+  padding: 10px 20px;
+  background: var(--background-border);
+  border-radius: 10px;
+  width: 200px;
+
+  font-family: "Poppins", sans-serif;
+  filter: drop-shadow(1px 2px 3px rgba(0, 0, 0, .15));
+
+  &.Expanded {
+    display: unset;
+    animation: expand-options .15s ease-in-out forwards;
+  }
+
+  &:not(.Expanded) {
+    display: none;
+    animation: hide-options .15s ease-in-out forwards;
+  }
+
+  @keyframes expand-options {
+    from {
+      transform: translateY(-5px);
+      opacity: 0;
+    }
+  }
+  @keyframes hide-options {
+    from {
+      display: unset;
+    }
+    to {
+      transform: translateY(-5px);
+      opacity: 0;
+    }
+  }
+
+  hr {
+    margin: 7px 0;
+    border-color: rgba(255, 255, 255, .1);
+  }
+
+  .Button {
+    display: flex;
+    font-size: 16px;
+    place-items: center;
+    justify-content: flex-start;
+    gap: 18px;
+    text-align: center;
+    padding: 5px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color .1s ease;
+    margin-top: 2px;
+    color: var(--icon-primary);
+    user-select: none;
+
+    svg {
+      width: 20px;
+    }
+
+    p {
+    }
+
+    &.Danger {
+      color: var(--action-fail);
+
+      &:hover {
+        background: var(--action-fail-background);
+      }
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .ButtonSlider {
+      border-radius: 10px;
+      width: 30px;
+      height: 16px;
+      border: var(--action-fail-background) solid 2px;
+      background: var(--action-fail-background);
+      position: relative;
+
+      &.On {
+        border-color: var(--action-success-background);
+        background: var(--action-success-background);
+
+        &::after {
+          background: var(--action-success);
+          transform: translateX(100%);
+        }
+      }
+
+      &::after {
+        content: "";
+        border-radius: 100%;
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        top: 3px;
+        left: 5px;
+        background: var(--action-fail);
+        transition: transform ease-out .25s;
+      }
+    }
+  }
+
+  .SignedInAs {
+    color: var(--text-secondary);
+    font-size: 12px;
+    text-align: center;
+  }
+
+  .UserName {
+    color: var(--text-primary);
+    font-size: 18px;
+    text-align: center;
+
+    svg {
+      color: var(--icon-primary);
+      font-size: 16px;
+    }
+  }
+
+  .LoggedOut {
+    text-align: center;
+    padding: 7px 0;
+
+    svg {
+      font-size: 20px;
+      color: var(--action-fail-background);
+    }
+
+    p {
+      font-size: 16px;
+      color: var(--text-secondary);
+    }
+
+    .Login {
+      background: var(--background-border-dark);
+      padding: 4px 5px;
+      border-radius: 15px;
+      margin-top: 6px;
+      user-select: none;
+      cursor: pointer;
+      transition: scale ease .15s;
+
+      &:hover {
+        scale: 1.03;
+      }
+
+
+      svg {
+        font-size: inherit;
+        margin-right: 10px;
+        color: var(--text-primary);
+      }
+    }
+  }
+}
