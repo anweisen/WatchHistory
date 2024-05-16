@@ -1,4 +1,5 @@
 import React from "react";
+import {TvSeriesSeason} from "./tmdb/types";
 
 export const formatTime = (minutes: number | undefined) => {
   if (minutes === undefined || isNaN(minutes)) return "?";
@@ -6,6 +7,27 @@ export const formatTime = (minutes: number | undefined) => {
   minutes %= 60;
   return (hours > 0 ? (hours.toFixed(0) + "h ") : "") + minutes.toFixed(0) + "m";
 };
+
+export const shareHistory = (items: Item[]) => {
+  const url = `${window.location.origin}?${encodeItems(items)}`;
+
+  if (navigator.share) {
+    navigator.share({
+      title: "check your wasted time watching series",
+      url: url,
+    })
+      .then(() => console.log("Successful share"))
+      .catch((error) => console.log("Error sharing", error));
+  } else {
+    navigator.clipboard.writeText(url)
+      .then(() => console.log("Successful copy"))
+      .catch((error) => console.log("Error copying", error));
+  }
+}
+
+export const isValidSeason = (season: TvSeriesSeason): boolean => {
+  return season.name !== "Specials" && season.episode_count > 0 && season.air_date !== undefined && Date.parse(season.air_date) < Date.now();
+}
 
 export interface Item {
   id: number;
