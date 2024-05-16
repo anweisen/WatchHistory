@@ -52,6 +52,10 @@ const fetchWithRetry = async (path: string, abortSignal: AbortSignal | undefined
   return await doFetch();
 };
 
+export const discoverSeries = async (page: number) => {
+  return await fetchWithRetry(`/discover/tv?language=${language}&include_adult=true&include_null_first_air_dates=false&sort_by=vote_count.desc&page=${page}`)
+    .then<SearchResults<SearchTvSeriesEntry>>(value => value)
+}
 export const searchSeries = async (name: string, abort: AbortSignal | undefined) => {
   return await fetchWithRetry(`/search/tv?query=${encodeURIComponent(name)}&include_adult=false&language=${language}&page=1`, abort)
     .then<SearchResults<SearchTvSeriesEntry>>(value => value);
