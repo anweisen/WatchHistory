@@ -78,18 +78,13 @@ export const lookupMovie = async (id: number) => {
 };
 
 export const fetchSeriesRuntime = (series: TvSeriesDetails) => {
-  const arr: Promise<number>[] = Array(series.number_of_seasons);
+  const arr: Promise<number>[] = Array(Math.max(series.number_of_seasons || 1, series.seasons.length));
   arr[0] = Promise.resolve(0);
 
   for (let season of series.seasons) {
     arr[season.season_number] = fetchSeasonRuntime(series.id, season.season_number);
   }
-  return Promise.all(arr).then(arr => {
-    if (series.id === 66732) {
-      console.log(arr);
-    }
-    return arr;
-  });
+  return Promise.all(arr);
 };
 export const fetchSeasonRuntime = async (seriesId: number, seasonNumber: number) => {
   return fetchWithRetry(`/tv/${seriesId}/season/${seasonNumber}`)
