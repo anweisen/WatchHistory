@@ -1,224 +1,240 @@
 
 .Menu {
 
-	.Head {
-		display: flex;
-		gap: 20px;
+  .Head {
+    display: flex;
+    gap: 20px;
 
-		.Poster {
-			height: 150px;
-			width: 108px;
-			border-radius: 10px;
+    .Poster {
+      height: 150px;
+      width: 108px;
+      border-radius: 10px;
 
-			@media (max-width: 650px) {
-				height: 125px;
-				width: 90px;
-			}
+      @media (max-width: 650px) {
+        height: 125px;
+        width: 90px;
+      }
 
-			transition: all .3s;
+      transition: all .3s;
 
-			&:hover {
-				transform: scale(1.025);
-				filter: brightness(90%);
-			}
-		}
+      &:hover {
+        transform: scale(1.025);
+        filter: brightness(90%);
+      }
+    }
 
-		.Info {
-			display: flex;
-			flex-direction: column;
-			margin: auto 0;
+    .Info {
+      display: flex;
+      flex-direction: column;
+      margin: auto 0;
 
-			.Name {
-				color: var(--text-primary);
-				font-size: 28px;
-				font-family: "Poppins", sans-serif;
-				display: inline-flex;
-				align-items: center;
-				gap: 10px;
+      .Name {
+        color: var(--text-primary);
+        font-size: 28px;
+        font-family: "Poppins", sans-serif;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
 
-				//svg {
-				//	color: var(--text-secondary);
-				//	font-size: 20px;
-				//}
+        svg {
+        	color: var(--text-secondary);
+        	font-size: .6em;
+        }
 
-				@media (max-width: 650px) {
-					font-size: 24px;
-				}
-				@media (max-width: 400px) {
-					font-size: 20px;
-				}
-			}
+        @media (max-width: 800px) {
+          font-size: 24px;
+        }
+        @media (max-width: 650px) {
+          font-size: 20px;
+        }
+        @media (max-width: 450px) {
+          line-height: 1.1em;
+          font-size: 18px;
+        }
+      }
 
-			.Tagline {
-				color: var(--text-secondary);
-				font-size: 16px;
-				font-family: "Quicksand", sans-serif;
-				font-weight: 400;
+      .Tagline {
+        color: var(--text-secondary);
+        font-size: 16px;
+        font-family: "Quicksand", sans-serif;
+        font-weight: 400;
 
-				::before {
-					content: "•";
-				}
+        ::before {
+          content: "•";
+        }
 
-				@media (max-width: 400px) {
-					font-size: 14px;
-				}
-			}
+        @media (max-width: 450px) {
+          font-size: 14px;
+        }
+        @media (max-width: 400px) {
+          font-size: 13px;
+        }
+      }
 
-			.OriginalName {
-				color: var(--text-secondary);
-				font-size: 16px;
-				font-family: "Quicksand", sans-serif;
-				font-weight: 400;
+      .OriginalName {
+        color: var(--text-secondary);
+        font-size: 16px;
+        font-family: "Quicksand", sans-serif;
+        font-weight: 400;
 
-				@media (max-width: 400px) {
-					font-size: 14px;
-				}
-			}
+        @media (max-width: 400px) {
+          font-size: 14px;
+        }
+      }
 
-			.Year {
-				color: var(--text-secondary);
-				font-size: 16px;
-				font-family: "Poppins", sans-serif;
-				font-weight: 400;
+      .Year, .Playtime {
+        color: var(--text-secondary);
+        font-size: 16px;
+        font-family: "Poppins", sans-serif;
+        display: flex;
+        gap: 6px;
+        align-items: center;
 
-				@media (max-width: 450px) {
-					font-size: 14px;
-				}
-			}
+        @media (max-width: 450px) {
+          font-size: 14px;
+        }
 
-			.Playtime {
-				color: var(--text-secondary);
-				font-size: 16px;
-				font-family: "Poppins", sans-serif;
-				font-weight: 300;
-				display: flex;
-				gap: 6px;
-				align-items: center;
-				margin: auto 0;
+        svg {
+          width: 1em;
+        }
+      }
 
-				@media (max-width: 450px) {
-					font-size: 14px;
-				}
-				@media (max-width: 375px) {
-					display: none;
-				}
-			}
+      .Year {
+        font-weight: 400;
+        //@media (max-width: 390px) {
+        //  display: none;
+        //}
+      }
 
-			span {
-				margin-top: 10px;;
-				display: flex;
-				flex-direction: column;
-				column-gap: 15px;
+      .Playtime {
+        margin: auto 0;
+        font-weight: 300;
+      }
 
-				@media (max-width: 650px) {
-					align-items: center;
-					flex-direction: row;
-				}
-			}
-		}
-	}
+      span {
+        margin-top: 10px;;
+        display: flex;
+        flex-direction: column;
+        column-gap: 15px;
 
-	.History {
-		overflow-y: scroll;
-		max-height: 55%;
+        @media (max-width: 650px) {
+          align-items: center;
+          flex-direction: row;
+        }
 
-		.Title {
-			font-family: "Poppins", sans-serif;
-			font-size: 18px;
-			color: var(--text-primary);
-		}
+        @media (max-width: 400px) {
+          flex-direction: column;
+          align-items: unset;
+        }
+      }
+    }
+  }
 
-		.Seasons {
-			display: flex;
-			flex-direction: column;
-			gap: 2px;
+  .History {
+    overflow-y: scroll;
+    max-height: 55%;
 
-			.Season {
-				font-family: "Poppins", sans-serif;
-				font-size: 16px;
-				font-weight: 300;
-				color: var(--text-secondary);
+    .Title {
+      font-family: "Poppins", sans-serif;
+      font-size: 18px;
+      color: var(--text-primary);
+    }
 
-				display: flex;
-				justify-content: space-between;
+    .Seasons {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
 
-				.SeasonStats {
-					display: flex;
-					gap: 8px;
-					flex-wrap: wrap;
+      .Season {
+        font-family: "Poppins", sans-serif;
+        font-size: 16px;
+        font-weight: 300;
+        color: var(--text-secondary);
 
-					.Name {
-						font-weight: 400;
-					}
+        display: flex;
+        justify-content: space-between;
 
-					.Episodes {
-						&::before {
-							content: "•";
-							margin-right: 8px;
-						}
+        .SeasonStats {
+          display: flex;
+          gap: 8px;
+          overflow: hidden;
+          white-space: nowrap;
 
-						&::after {
-							content: " Episodes";
-						}
+          .Name {
+            font-weight: 400;
+          }
 
-						@media (max-width: 500px) {
-							display: none;
-						}
-					}
+          .Episodes {
+            &::before {
+              content: "•";
+              margin-right: 8px;
+            }
 
-					.Runtime {
-						&::before {
-							content: "•";
-							margin-right: 8px;
-						}
+            &::after {
+              content: " Episodes";
+              @media (max-width: 650px) {
+                content: "x";
+              }
+            }
 
-						@media (max-width: 360px) {
-							display: none;
-						}
-					}
+            @media (max-width: 450px) {
+              display: none;
+            }
+          }
 
-				}
+          .Runtime {
+            &::before {
+              content: "•";
+              margin-right: 8px;
+            }
 
-				.Controls {
-					display: flex;
-					align-items: center;
-					gap: 5px;
-					margin-right: 2.5%;
-					user-select: none;
+            @media (max-width: 360px) {
+              //display: none;
+            }
+          }
 
-					.Plus, .Minus {
-						display: flex;
-						color: var(--text-primary);
-						padding: 5px;
-						border-radius: 50%;
-						background: var(--background-popup-secondary);
-						cursor: pointer;
-						scale: .95;
+        }
 
-						&:hover {
-							scale: 1;
-						}
+        .Controls {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          margin-right: 2.5%;
+          user-select: none;
 
-						svg {
-							margin: auto;
-							width: 12px;
-							height: 12px;
-						}
+          .Plus, .Minus {
+            display: flex;
+            color: var(--text-primary);
+            padding: 5px;
+            border-radius: 50%;
+            background: var(--background-popup-secondary);
+            cursor: pointer;
+            scale: .95;
 
-						&.Disabled {
-							filter: brightness(55%);
-							cursor: not-allowed;
-						}
-					}
+            &:hover {
+              scale: 1;
+            }
 
-					.Display {
-						font-weight: 500;
-						min-width: 1.5rem;
-						text-align: center;
-					}
+            svg {
+              margin: auto;
+              width: 12px;
+              height: 12px;
+            }
 
-				}
-			}
-		}
-	}
+            &.Disabled {
+              filter: brightness(55%);
+              cursor: not-allowed;
+            }
+          }
+
+          .Display {
+            font-weight: 500;
+            min-width: 1.5rem;
+            text-align: center;
+          }
+
+        }
+      }
+    }
+  }
 }
