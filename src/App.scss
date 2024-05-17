@@ -1,14 +1,30 @@
+body {
+  background: var(--background);
+}
+
 .App {
-	background: var(--background);
-	position: relative;
+  position: relative;
 
-	.Content {
-		min-height: 100vh;
-		padding: 40px 0 0 0;
-		box-sizing: border-box;
-		display: flex;
-		flex-direction: column;
-		gap: 40px;
-	}
+  .Content {
+    min-height: 100vh;
+    padding: 40px 0 120px 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin: 0 10%;
 
+    @media (min-width: 1900px) {
+      margin: 0 12%;
+    }
+    @media (max-width: 650px) {
+      padding-top: 20px;
+      margin: 0 8%;
+      gap: 30px;
+    }
+    @media (max-width: 400px) {
+      gap: 20px;
+      margin: 0 5%;
+    }
+  }
 }
