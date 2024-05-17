@@ -1,0 +1,158 @@
+.Discover {
+  display: grid;
+
+  .Head {
+    font-family: "Poppins", sans-serif;
+
+    .Title {
+      font-size: 36px;
+      font-weight: 500;
+      color: var(--icon-primary);
+
+      @media (max-width: 650px) {
+        font-size: 30px;
+      }
+      @media (max-width: 450px) {
+        font-size: 26px;
+      }
+    }
+
+    .Subtitle {
+      font-size: 22px;
+      font-weight: 300;
+      color: var(--text-secondary);
+      display: flex;
+      gap: 25px;
+
+      @media (max-width: 650px) {
+        font-size: 18px;
+        margin-top: 10px;
+        flex-direction: column;
+        gap: 5px;
+      }
+      @media (max-width: 450px) {
+        font-size: 16px;
+      }
+    }
+
+    .BackButton {
+      font-weight: 400;
+      color: var(--text-secondary);
+      font-size: 16px;
+      padding: 4px 15px;
+      border-radius: 10px;
+      background: var(--background-border);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      user-select: none;
+      width: max-content;
+
+      @media (max-width: 650px) {
+        font-size: 14px;
+      }
+
+      &:hover {
+        color: var(--icon-primary);
+      }
+    }
+
+  }
+
+  .JumpButton {
+    z-index: 2;
+    position: fixed;
+    bottom: 2.5vw;
+    right: 2.5vw;
+    width: 50px;
+    height: 50px;
+    color: var(--icon-primary);
+    background: var(--background-popup-secondary);
+    font-size: 24px;
+    border-radius: 100px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    user-select: none;
+    animation: jump-button-fadein .25s ease-out;
+    transition: color ease .1s;
+
+    @keyframes jump-button-fadein {
+      from {
+        opacity: 0;
+        transform: translateY(-3px);
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    &:hover {
+      color: var(--text-primary);
+    }
+  }
+
+  hr {
+    margin: 25px 0;
+    border: var(--background-border) solid 1px;
+  }
+
+  .List {
+    justify-content: space-between;
+    min-height: unset;
+
+    .Item {
+      position: relative;
+
+      .Overlay {
+        user-select: none;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, .5);
+        border-radius: 10px;
+
+        > * {
+          padding: 5px;
+        }
+
+        .Number {
+          font-family: "Quicksand", sans-serif;
+          font-size: 40px;
+          font-weight: 600;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          color: var(--text-primary);
+        }
+
+        svg {
+          color: var(--icon-primary);
+          font-size: 20px;
+          position: absolute;
+          top: 3%;
+          transition: transform ease .2s;
+
+          &:hover {
+            transform: scale(1.1);
+          }
+        }
+
+        .Delete {
+          left: 3%;
+        }
+
+        .Edit {
+          right: 3%;
+        }
+      }
+    }
+  }
+
+  .Loader {
+    margin-top: 50px;
+  }
+
+}
