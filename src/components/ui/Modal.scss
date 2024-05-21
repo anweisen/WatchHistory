@@ -3,6 +3,10 @@ body:has(.Modal.Visible) {
   overflow: hidden !important;
   overscroll-behavior: contain;
   margin-right: 8px;
+
+  @media (max-width: 650px) {
+    margin-right: 4px;
+  }
 }
 
 .Modal {
