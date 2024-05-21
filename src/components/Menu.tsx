@@ -43,7 +43,14 @@ const Menu = ({item, saveItem, removeItem, cancel, isSharedData}: {
   useEffect(() => {
     if (!details) return;
     if (item.series) {
-      setTotalPlaytime(lookupRuntime(details as TvSeriesDetails, forceUpdate)?.reduce((prev, current) => prev + current));
+      const series = details as TvSeriesDetails;
+      const seasonRuntime = lookupRuntime(series, forceUpdate);
+      if (!seasonRuntime) return;
+
+      const sum = series.seasons.filter(isValidSeason)
+        .map(value => seasonRuntime[value.season_number])
+        .reduce((prev, curr) => prev + curr);
+      setTotalPlaytime(sum);
     } else {
       setTotalPlaytime((details as MovieDetails).runtime);
     }
@@ -126,7 +133,7 @@ const MovieMenu = ({details, totalPlaytime, isSharedData, state, setState}: {
           </div>
           <div className="Controls">
             <div className={"Minus" + (isSharedData ? " Disabled" : "")}
-                 onClick={!isSharedData ? () => setState({...state, times: [timesOf(state.times[0]) + 1]}) : undefined}>
+                 onClick={!isSharedData ? () => setState({...state, times: [timesOf(state.times[0]) - 1]}) : undefined}>
               <FontAwesomeIcon icon={faMinus}/></div>
             <div className="Display">{timesOf(state.times[0])}x</div>
             <div className={"Plus" + (isSharedData ? " Disabled" : "")}
