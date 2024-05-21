@@ -1,0 +1,295 @@
+.Welcome {
+
+  @for $i from 1 through 5 {
+    > :nth-child(#{$i}) {
+      animation: welcome-segment-fadein ease-in .3s #{.2s * ($i - 1)} backwards;
+    }
+  }
+
+  @keyframes welcome-segment-fadein {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+  }
+
+  .Head {
+    margin: 40px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .BadgeButton {
+      background: var(--background-border);
+      width: max-content;
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--icon-primary);
+      user-select: none;
+      cursor: pointer;
+      margin-bottom: 12px;
+
+      svg:first-child {
+        margin-right: 8px;
+      }
+
+      svg {
+        transition: transform ease .2s;
+        margin-left: 2px;
+        font-size: 13px;
+      }
+
+      &:hover svg:last-child {
+        transform: translateX(2px);
+      }
+
+    }
+
+    .Title {
+      font-family: "Poppins", sans-serif;
+      font-size: 42px;
+      line-height: 1em;
+      font-weight: 600;
+      color: var(--text-primary);
+      text-align: center;
+      max-width: 95%;
+
+      @media (max-width: 650px) {
+        font-size: 36px;
+      }
+      @media (max-width: 500px) {
+        font-size: 32px;
+      }
+    }
+
+    .Subtitle {
+      margin-top: 12px;
+      font-family: "Poppins", sans-serif;
+      font-size: 16px;
+      color: var(--text-secondary);
+      text-align: center;
+
+      @media (max-width: 500px) {
+        font-size: 14px;
+      }
+    }
+
+    span {
+      display: flex;
+      gap: 16px;
+    }
+
+    .LoginButton {
+      margin-top: 8px;
+      border: var(--background-border) solid 2px;
+      border-radius: 8px;
+      display: flex;
+      color: var(--text-primary);
+      font-family: "Poppins", sans-serif;
+      font-size: 15px;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 14px;
+      user-select: none;
+      cursor: pointer;
+      transition: background ease .2s;
+
+      @media (max-width: 500px) {
+        font-size: 14px;
+      }
+
+      svg {
+        color: var(--icon-primary);
+      }
+
+      &:hover {
+        background: var(--background-border);
+      }
+    }
+
+  }
+
+  .Options {
+    padding: 50px 0;
+
+    .Search {
+      margin: auto;
+      max-width: 80%;
+
+      @media (max-width: 1000px) {
+        max-width: 90%;
+      }
+
+      .SearchRow {
+        .SearchBar {
+          border-width: 3px;
+          border-radius: 16px;
+          padding: 10px 24px;
+
+          @media (max-width: 800px) {
+            padding: 8px 18px;
+          }
+        }
+
+        .DiscoverButton {
+          display: none;
+        }
+      }
+
+      .SearchResults {
+        margin-top: 8px;
+        border-radius: 16px;
+      }
+    }
+
+    .Or {
+      color: var(--text-secondary);
+      font-family: "Poppins", sans-serif;
+      font-weight: 500;
+      font-size: 18px;
+      margin: 25px 0;
+      text-align: center;
+    }
+
+    .DiscoverSection {
+      font-family: "Poppins", sans-serif;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+
+      @media (max-width: 1200px) {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      p {
+        color: var(--text-secondary);
+
+        &:nth-of-type(1) {
+          font-size: 24px;
+          color: var(--icon-primary);
+
+          @media (max-width: 600px) {
+            font-size: 20px;
+          }
+        }
+
+        &:nth-of-type(2) {
+          font-size: 18px;
+          font-weight: 300;
+
+          @media (max-width: 600px) {
+            font-size: 16px;
+          }
+        }
+      }
+
+      div {
+        font-size: 22px;
+        font-weight: 500;
+        padding: 13px 28px;
+        width: max-content;
+        border-radius: 16px;
+        color: var(--text-primary);
+        background: var(--background-border);
+        user-select: none;
+        cursor: pointer;
+        line-height: 1em;
+
+        svg {
+          margin-right: 8px;
+        }
+
+        transition: transform ease .2s;
+
+        &:hover {
+          transform: scale(1.025);
+        }
+
+        @media (max-width: 600px) {
+          font-size: 18px;
+          padding: 10px 24px;
+        }
+      }
+    }
+  }
+
+  hr {
+    margin-top: 100px;
+    margin-bottom: 50px;
+    border: var(--background-border) solid 1px;
+
+    @media (max-width: 800px) {
+      margin-top: 10px;
+      margin-bottom: 30px;
+    }
+  }
+
+  .Showcase {
+    .Entry:not(:first-child) {
+      margin-top: 36px;
+    }
+
+    span {
+      position: relative;
+      &:before {
+        display: block;
+        content: " ";
+        margin-right: 8px;
+        margin-left: 3px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+
+        width: 2px;
+        background: var(--background-border);
+      }
+    }
+
+    p {
+      margin-left: 20px;
+      color: var(--text-secondary);
+      font-size: 16px;
+      font-weight: 500;
+      font-family: "Poppins", sans-serif;
+
+      @media (max-width: 800px) {
+        margin-left: 16px;
+        font-weight: 400;
+        font-size: 15px;
+      }
+      @media (max-width: 650px) {
+        font-size: 14px;
+      }
+
+      a {
+        color: var(--text-primary);
+      }
+    }
+
+    h1 {
+      color: var(--icon-primary);
+      font-size: 28px;
+      font-weight: 500;
+      font-family: "Poppins", sans-serif;
+
+      @media (max-width: 800px) {
+        font-size: 24px;
+      }
+      @media (max-width: 650px) {
+        font-size: 18px;
+      }
+
+      &:after {
+        content: ".";
+        margin-left: 3px;
+        color: var(--text-secondary);
+      }
+    }
+  }
+
+}
