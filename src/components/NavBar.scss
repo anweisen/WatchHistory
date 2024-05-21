@@ -1,0 +1,200 @@
+.NavBar {
+  display: flex;
+  justify-content: space-between;
+
+  color: var(--text-primary);
+  font-family: "Poppins", sans-serif;
+
+  .Branding, .Profile {
+    display: flex;
+    place-items: center;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  span {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .Branding > div {
+    @media (max-width: 260px) {
+      display: none;
+    }
+  }
+
+  .Icon {
+    width: 100px;
+    height: 100px;
+
+    @media (max-width: 1200px) {
+      width: 75px;
+      height: 75px;
+    }
+    @media (max-width: 650px) {
+      width: 60px;
+      height: 60px;
+    }
+  }
+
+  .Title {
+    font-weight: 500;
+    font-size: 28px;
+    position: relative;
+
+    @media (max-width: 1200px) {
+      font-size: 22px;
+    }
+    @media (max-width: 650px) {
+      font-size: 16px;
+    }
+
+    p {
+      @media (prefers-reduced-motion: no-preference) {
+        animation: alt-title 10s 0s infinite;
+      }
+    }
+
+    .AltTitle {
+      @media (prefers-reduced-motion: no-preference) {
+        animation: alt-title 10s 5s infinite;
+      }
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      white-space: nowrap;
+    }
+
+    @keyframes alt-title {
+      from {
+        opacity: 0;
+        transform: translateY(-.5em) rotate(-2.5deg);
+      }
+      8% {
+        transform: none;
+        opacity: 1;
+      }
+      46% {
+        transform: none;
+        opacity: 1;
+      }
+      52% {
+        transform: translateY(-.5em);
+        opacity: 0;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+  }
+
+
+  .Sitename {
+    color: var(--icon-primary);
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 1em;
+    position: relative;
+
+    @media (max-width: 1200px) {
+      font-size: 16px;
+    }
+    @media (max-width: 650px) {
+      font-size: 14px;
+    }
+
+    span {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: max-content;
+
+      :not(:last-child) {
+        &:after {
+          content: "•";
+          margin: 0 6px;
+        }
+      }
+
+      div:hover {
+        color: var(--text-primary);
+        cursor: pointer;
+        user-select: none;
+        font-weight: 400;
+      }
+    }
+
+    p {
+      transform: none;
+      transition: transform ease .2s;
+    }
+
+    &:hover {
+      p {
+        opacity: 0;
+        transform: translateX(5px);
+      }
+
+      span {
+        display: flex;
+        opacity: 1;
+        transform: translateX(5px);
+        animation: navbar-links-fadein ease .2s;
+
+        @keyframes navbar-links-fadein {
+          from {
+            transform: translateX(0px);
+          }
+        }
+      }
+    }
+  }
+
+  .Profile {
+    position: relative;
+
+    .ProfilePicture {
+      width: 40px;
+      height: 40px;
+      border-radius: 20px;
+      background: var(--background-border);
+      color: var(--icon-primary);
+
+      display: grid;
+      place-items: center;
+
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 20px;
+      }
+
+      @media (max-width: 1200px) {
+        width: 36px;
+        height: 36px;
+      }
+      @media (max-width: 650px) {
+        width: 32px;
+        height: 32px;
+        font-size: 12px;
+      }
+    }
+
+    .ProfileExpand {
+      color: var(--icon-primary);
+      transition: transform ease .25s;
+
+      &.Expanded {
+        transform: rotate(-180deg);
+      }
+
+      @media (max-width: 650px) {
+        font-size: 14px;
+      }
+    }
+  }
+}
