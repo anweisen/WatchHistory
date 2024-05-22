@@ -1,56 +1,58 @@
 import React, {createContext, useEffect, useState} from "react";
-import {log} from "util";
-import jwt_decode from "jwt-decode";
+import jwtDecode from "jwt-decode";
+import {API_BACKEND_URL} from "../../tmdb/api";
 
 type UserType = {
   loggedIn: boolean,
-  setLoggedIn: (value: boolean) => void,
   email: string,
-  setEmail: (value: string) => void,
   name: string,
-  setName: (value: string) => void,
   picture: string,
-  setPicture: (value: string) => void,
   locale: string,
-  setLocale: (value: string) => void,
-  processJwt: (value: any) => void,
-  deleteJwt: () => void
+  processJwt: (value: string) => void,
+  deleteJwt: () => void,
+  exchangeAuthCode: (code: string) => void
 };
 
-const UserData: UserType = {
+const DefaultUserData: UserType = {
   loggedIn: false,
-  setLoggedIn: (value: boolean) => {},
   email: "",
-  setEmail: (value: string) => {},
   name: "",
-  setName: (value: string) => {},
   picture: "",
-  setPicture: (value: string) => {},
   locale: "",
-  setLocale: (value: string) => {},
-  processJwt: (value: any) => {},
-  deleteJwt: () => {}
-}
+  processJwt: (value: string) => undefined,
+  deleteJwt: () => undefined,
+  exchangeAuthCode: (code: string) => undefined
+};
 
-export const UserContext = createContext(UserData);
+export const UserContext = createContext(DefaultUserData);
 
-export const User = ({ children }: { children: React.ReactNode }) => {
+export const UserContextProvider = ({children}: { children: React.ReactNode }) => {
 
   const [loggedIn, setLoggedIn] = useState(false);
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [picture, setPicture] = useState('');
-  const [locale, setLocale] = useState('');
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [picture, setPicture] = useState("");
+  const [locale, setLocale] = useState("");
 
-  const processJwt = (jwt: any) => {
+  const processJwt = (jwt: string) => {
     localStorage.setItem("auth", jwt);
-    const decoded: any = jwt_decode(jwt);
-    console.log(decoded);
-    setEmail(decoded.email);
-    setName(decoded.given_name);
-    setPicture(decoded.picture);
-    setLocale(decoded.locale);
-    setLoggedIn(true);
+
+    try {
+      const decoded: any = jwtDecode(jwt);
+      console.log(decoded);
+
+      if (Date.now() > decoded.exp * 1000) {
+        refreshIdToken(jwt).then(processJwt);
+      }
+
+      setEmail(decoded.email);
+      setName(decoded.name);
+      setPicture(decoded.picture);
+      setLocale(decoded.locale);
+      setLoggedIn(true);
+    } catch (ex) {
+      console.error("cannot decode jwt", ex);
+    }
   };
 
   const deleteJwt = () => {
@@ -60,20 +62,51 @@ export const User = ({ children }: { children: React.ReactNode }) => {
     setPicture("");
     setLocale("");
     setLoggedIn(false);
-  }
+  };
+
+  const exchangeAuthCode = async (code: string) => {
+    const resp = await fetch(API_BACKEND_URL + "/auth/exchange", {
+      method: "POST",
+      body: JSON.stringify({
+        code: code,
+        provider: "google"
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      }
+    }).then(value => value.json());
+    console.log(resp);
+
+    processJwt(resp.id_token);
+  };
+
+  const refreshIdToken = async (token: string) => {
+    const resp = await fetch(API_BACKEND_URL + "/auth/refresh", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    }).then(value => value.json());
+
+    return resp.id_token;
+  };
 
   useEffect(() => {
-    const jwtCredential = localStorage.getItem('auth');
+    console.log("THIS IS HAPPENMNG !!");
+    const jwtCredential = localStorage.getItem("auth");
     if (jwtCredential) {
       processJwt(jwtCredential);
     }
   }, []);
 
   return (
-      <UserContext.Provider value={{ loggedIn: loggedIn, setLoggedIn: setLoggedIn, email: email, setEmail: setEmail, name: name, setName: setName, picture: picture, setPicture: setPicture, locale: locale, setLocale: setLocale, processJwt: processJwt, deleteJwt: deleteJwt }}>
-        {children}
-      </UserContext.Provider>
+    <UserContext.Provider value={{loggedIn, email, name, picture, locale, processJwt, deleteJwt, exchangeAuthCode}}>
+      {children}
+    </UserContext.Provider>
   );
 
-}
+};
 

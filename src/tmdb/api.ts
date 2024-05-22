@@ -1,6 +1,8 @@
 import {MovieDetails, SearchMoviesEntry, SearchResults, SearchTvSeriesEntry, TvSeriesDetails} from "./types";
 import {Item} from "../utils";
 
+export const API_BACKEND_URL = process.env.API_BACKEND_URL || window.location.origin + "/api"
+
 const token = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4MDlmZWI4NjNmZWRjZmIxZDlkZGJmMTFiMTdhNWQxYyIsInN1YiI6IjYzYWIzNWI3YmU0YjM2MDBkNzNlMjcxMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0i-KWF-IHbctdJVHQvMxewEBe8nba9RDE7yT0QChQs4";
 const language = "en-US";
 
@@ -32,7 +34,7 @@ const fetchWithRetry = async (path: string, abortSignal: AbortSignal | undefined
       method: "GET",
       signal: abortSignal,
       headers: {
-        accept: "application/json",
+        Accept: "application/json",
         Authorization: `Bearer ${token}`
       }
     }).then(response => {

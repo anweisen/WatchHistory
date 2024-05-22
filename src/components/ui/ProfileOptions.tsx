@@ -17,7 +17,7 @@ const ProfileOptions = ({expanded, setExpanded, profileRef}: {
   setExpanded: (v: boolean) => void,
   profileRef: MutableRefObject<any>
 }) => {
-  const {deleteJwt, requestToken, name, email, loggedIn} = useContext(UserContext);
+  const {deleteJwt, exchangeAuthCode, name, email, loggedIn} = useContext(UserContext);
   const {openModal} = useContext(ModalContext);
   const {ogClock, setOgClock, items} = useContext(AppContext);
   const navigate = useNavigate();
@@ -34,12 +34,13 @@ const ProfileOptions = ({expanded, setExpanded, profileRef}: {
   });
 
   const googleLogin = useGoogleLogin({
+    flow: "auth-code",
     onError: errorResponse => {
       console.log(errorResponse);
     },
     onSuccess: async tokenResponse => {
       console.log(tokenResponse);
-      await requestToken(tokenResponse.access_token);
+      exchangeAuthCode(tokenResponse.code);
     },
   });
 
