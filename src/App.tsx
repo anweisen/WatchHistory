@@ -57,6 +57,18 @@ const App = () => {
     document.body.classList.add(theme);
   }, []);
 
+  useEffect(() => {
+    const handler = (event: KeyboardEvent) => {
+      if (event.key === "Esc" || event.key === "Escape") {
+        if (modalStack.length > 0) {
+          closeModal();
+        }
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [modalStack]);
+
   const retrieveItemsFromCookies = (): Item[] => {
     return JSON.parse(localStorage.getItem("items") || "[]");
   };
