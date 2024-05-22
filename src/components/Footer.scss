@@ -20,6 +20,10 @@
     color: var(--icon-primary);
     transition: color ease .1s;
 
+    &:not(:first-child) {
+      color: var(--text-secondary);
+    }
+
     &:hover {
       color: var(--text-primary);
     }
