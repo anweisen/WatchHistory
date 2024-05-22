@@ -7,6 +7,8 @@ type AppType = {
     writeItemsToCookies: (items: Item[]) => void
     retrieveItemsFromCookies: () => Item[],
     isSharedData: boolean
+    ogClock: boolean,
+    setOgClock: (v: boolean) => void
 };
 
 const AppData: AppType = {
@@ -14,7 +16,9 @@ const AppData: AppType = {
     setItems: () => {},
     writeItemsToCookies: (items: Item[]) => {},
     retrieveItemsFromCookies: () => { return [] },
-    isSharedData: false
+    isSharedData: false,
+    ogClock: false,
+    setOgClock: (v: boolean) => {},
 }
 
 export const AppContext = createContext(AppData);
