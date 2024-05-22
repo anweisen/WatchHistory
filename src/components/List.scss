@@ -1,142 +1,167 @@
 .List {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	gap: 20px;
-	margin: 0 5%;
-	min-height: 300px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  min-height: 300px;
 
-	@media (max-width: 500px) {
-		gap: 15px;
-	}
+  // used for grid layout
+  --height: 200px;
+  --width: #{200px * 2 / 3};
+  @media (max-width: 1000px) {
+    --height: 175px;
+    --width: #{175px * 2 / 3};
+  }
+  @media (max-width: 500px) {
+    --height: 150px;
+    --width: #{150px * 2 / 3};
+  }
+  @media (max-width: 400px) {
+    --height: 140px;
+    --width: #{140px * 2 / 3};
+  }
 
-	.Item {
-		height: 200px;
-		aspect-ratio: 2 / 3;
-		width: auto;
-		transition: all .25s;
-		cursor: pointer;
+  @for $i from 1 through 7 {
+    @media (min-width: #{400px + 230px*($i - 1)}) and (max-width: #{400px + 230px*$i}) {
+      &:has(:nth-child(#{3+$i})) {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(var(--width), auto));
+        justify-content: space-between;
+      }
+    }
+  }
+  @media (min-width: #{400px + 230px*(8 - 1)}) {
+    &:has(:nth-child(#{3+8})) {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(var(--width), auto));
+      justify-content: space-between;
+    }
+  }
 
-		@media (max-width: 1000px) {
-			height: 175px;
-		}
-		@media (max-width: 500px) {
-			height: 150px;
-		}
-		@media (max-width: 400px) {
-			height: 140px;
-		}
+  @media (max-width: 500px) {
+    gap: 15px;
+    justify-content: space-between;
+  }
+  @media (max-width: 300px) {
+    justify-content: center;
+  }
 
-		&:hover {
-			transform: scale(1.025);
-			filter: brightness(90%);
-		}
+  .Item {
+    aspect-ratio: 2 / 3;
+    width: auto;
+    transition: all .25s;
+    cursor: pointer;
+    background: var(--background-border);
+    border-radius: 10px;
+    height: var(--height);
 
-		&.Unavailable {
-			filter: brightness(40%);
-		}
+    &:hover {
+      transform: scale(1.025);
+      filter: brightness(90%);
+    }
 
-		img {
-			height: 100%;
-			width: auto;
-			border-radius: 10px;
-		}
-	}
+    img {
+      aspect-ratio: inherit;
+      border-radius: 10px;
+      height: 100%;
+      width: auto;
+    }
+  }
 
-	.Empty {
-		padding: 10px;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		flex-direction: column;
-		gap: 30px;
+  .Empty {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
 
-		color: var(--text-secondary);
-		font-size: 16px;
+    color: var(--text-secondary);
+    font-size: 16px;
 
-		.Badge, .Text {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			gap: 20px;
-		}
+    .Badge, .Text {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+    }
 
-		.Badge {
-			@media (max-width: 600px) {
-				flex-direction: column;
-				gap: 10px;
-			}
-		}
+    .Badge {
+      @media (max-width: 600px) {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
 
-		.Text {
-			font-size: 20px;
-			max-width: 400px;
-			gap: 30px;
-			font-family: "Poppins", sans-serif;
-			font-weight: 400;
-			text-align: left;
+    .Text {
+      font-size: 20px;
+      max-width: 400px;
+      gap: 30px;
+      font-family: "Poppins", sans-serif;
+      font-weight: 400;
+      text-align: left;
 
-			@media (max-width: 500px) {
-				font-size: 18px;
-				flex-direction: column;
-				text-align: center;
-				gap: 10px;
-			}
-			@media (max-width: 400px) {
-				font-size: 16px;
-			}
+      @media (max-width: 500px) {
+        font-size: 18px;
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+      }
+      @media (max-width: 400px) {
+        font-size: 16px;
+      }
 
-			div {
-				margin-right: 20px;
-			}
+      div {
+        margin-right: 20px;
+      }
 
-			svg {
-				font-size: 40px;
-				filter: drop-shadow(0 0 5px rgba(0, 0, 0, .15));
+      svg {
+        font-size: 40px;
+        filter: drop-shadow(0 0 5px rgba(0, 0, 0, .15));
 
-				@media (max-width: 400px) {
-					font-size: 30px;
-				}
+        @media (max-width: 400px) {
+          font-size: 30px;
+        }
 
-				animation: hourglass-rotate infinite 4s cubic-bezier(0.280, 0.840, 0.420, 1);
-				animation-delay: 250ms;
+        animation: hourglass-rotate infinite 4s cubic-bezier(0.280, 0.840, 0.420, 1);
+        animation-delay: 250ms;
 
-				@keyframes hourglass-rotate {
-					0% {
-						transform: rotate(0deg);
-					}
-					50% {
-						transform: rotate(180deg);
-					}
-					0% {
-						transform: rotate(360deg);
-					}
-				}
-			}
-		}
+        @keyframes hourglass-rotate {
+          0% {
+            transform: rotate(0deg);
+          }
+          50% {
+            transform: rotate(180deg);
+          }
+          0% {
+            transform: rotate(360deg);
+          }
+        }
+      }
+    }
 
-		.Button {
-			gap: 10px;
-			padding: 5px 45px;
-			color: var(--action-success);
-			border: var(--action-success-background) 2px solid;
-			border-radius: 20px;
-			text-transform: lowercase;
-			font-weight: 300;
-			font-family: "Poppins", sans-serif;
-			font-size: 16px;
-			user-select: none;
-			cursor: pointer;
-			transition: background .25s ease;
+    .Button {
+      gap: 10px;
+      padding: 5px 45px;
+      color: var(--action-success);
+      border: var(--action-success-background) 2px solid;
+      border-radius: 20px;
+      text-transform: lowercase;
+      font-weight: 300;
+      font-family: "Poppins", sans-serif;
+      font-size: 16px;
+      user-select: none;
+      cursor: pointer;
+      transition: background .25s ease;
 
-			&:hover {
-				background: var(--action-success-background);
-			}
+      &:hover {
+        background: var(--action-success-background);
+      }
 
-			@media (max-width: 400px) {
-				font-size: 14px;
-				padding: 5px 30px;
-			}
-		}
-	}
+      @media (max-width: 400px) {
+        font-size: 14px;
+        padding: 5px 30px;
+      }
+    }
+  }
 }
