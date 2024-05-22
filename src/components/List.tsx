@@ -1,13 +1,14 @@
 import React from "react";
-import {TvSeriesDetails} from "../tmdb/types";
-import {lookup, provideImageUrl} from "../tmdb/api";
-import {Item, useForceUpdate} from "../utils";
 import {faHourglass} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {useNavigate} from "react-router-dom";
+import {lookup, provideImageUrl} from "../tmdb/api";
+import {Item, useForceUpdate} from "../utils";
 import "./List.scss";
 
 const List = ({items, openMenu}: { items: Item[], openMenu: (item: Item) => void }) => {
   const [, forceUpdate] = useForceUpdate();
+  const navigate = useNavigate();
 
   return (
     <div className="List">
@@ -15,22 +16,22 @@ const List = ({items, openMenu}: { items: Item[], openMenu: (item: Item) => void
         ? items.map(value => ({item: value, details: lookup(value, forceUpdate)}))
           .map(({item, details}) =>
             <div key={item.id} className={"Item"} onClick={() => openMenu(item)}>
-              {!details ? <></> : item.series ? <><img src={provideImageUrl((details as TvSeriesDetails).poster_path)} alt="?"/></> : <></>}
+              {!details ? <></> : <img src={provideImageUrl(details.poster_path)} alt="?"/>}
             </div>)
-        : <Empty/>}
+        : <Empty navigate={navigate}/>}
     </div>
   );
 };
 
-const Empty = () => (
+const Empty = ({navigate}: { navigate: (to: string) => void }) => (
   <div className={"Empty"}>
     <div className={"Text"}>
       <FontAwesomeIcon icon={faHourglass}/>
       <div>You currently have no shows added to your history</div>
     </div>
-    <div className={"Badge"} onClick={() => document.getElementById("search-input")!!.focus()}>
-      <div className={"Button"}>try adding a show</div>
-      <div className={"Button"}>explore shows</div>
+    <div className={"Badge"}>
+      <div className={"Button"} onClick={() => document.getElementById("search-input")!!.focus()}>try adding a show</div>
+      <div className={"Button"} onClick={() => navigate("/discover")}>explore shows</div>
     </div>
   </div>
 );
