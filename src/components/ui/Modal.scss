@@ -14,7 +14,7 @@ body:has(.Modal.Visible) {
     display: none;
     animation: modal-fadeout-wrapper .15s ease-out forwards;
 
-    .AnimatedModalContent {
+    .AnimatedModalContent, .SimplyAnimatedModalContent {
       animation: modal-fadeout .25s ease-out;
     }
 
@@ -40,6 +40,9 @@ body:has(.Modal.Visible) {
     .AnimatedModalContent {
       animation: modal-fadein .3s ease-out;
     }
+    .SimplyAnimatedModalContent {
+      animation: simply-modal-fadein .25s ease-out;
+    }
 
     @keyframes modal-fadein {
       from {
@@ -51,6 +54,18 @@ body:has(.Modal.Visible) {
       }
       75% {
         transform: scale(1.01) rotate(-0.5deg);
+      }
+    }
+    @keyframes simply-modal-fadein {
+      from {
+        transform: scale(.95);
+        opacity: 0;
+      }
+      33% {
+        opacity: 1;
+      }
+      75% {
+        transform: scale(1.01);
       }
     }
   }

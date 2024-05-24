@@ -7,6 +7,7 @@ import {useGoogleLogin} from "@react-oauth/google";
 import {useNavigate} from "react-router-dom";
 import {UserContext} from "../context/UserContext";
 import ResetModal from "./ResetModal";
+import LoginLoaderOverlay from "./LoginLoaderOverlay";
 import {ModalContext} from "../context/ModalContext";
 import {AppContext} from "../context/AppContext";
 import {shareHistory} from "../../utils";
@@ -18,7 +19,7 @@ const ProfileOptions = ({expanded, setExpanded, profileRef}: {
   profileRef: MutableRefObject<any>
 }) => {
   const {deleteJwt, exchangeAuthCode, name, email, loggedIn} = useContext(UserContext);
-  const {openModal} = useContext(ModalContext);
+  const {openModal, closeModal} = useContext(ModalContext);
   const {ogClock, setOgClock, items} = useContext(AppContext);
   const navigate = useNavigate();
 
@@ -40,7 +41,9 @@ const ProfileOptions = ({expanded, setExpanded, profileRef}: {
     },
     onSuccess: async tokenResponse => {
       console.log(tokenResponse);
-      exchangeAuthCode(tokenResponse.code);
+      openModal(<LoginLoaderOverlay/>);
+      await exchangeAuthCode(tokenResponse.code);
+      closeModal();
     },
   });
 

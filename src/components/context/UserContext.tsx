@@ -10,7 +10,7 @@ type UserType = {
   locale: string,
   processJwt: (value: string) => void,
   deleteJwt: () => void,
-  exchangeAuthCode: (code: string) => void
+  exchangeAuthCode: (code: string) => Promise<void>
 };
 
 const DefaultUserData: UserType = {
@@ -21,13 +21,12 @@ const DefaultUserData: UserType = {
   locale: "",
   processJwt: (value: string) => undefined,
   deleteJwt: () => undefined,
-  exchangeAuthCode: (code: string) => undefined
+  exchangeAuthCode: (code: string) => Promise.resolve()
 };
 
 export const UserContext = createContext(DefaultUserData);
 
 export const UserContextProvider = ({children}: { children: React.ReactNode }) => {
-
   const [loggedIn, setLoggedIn] = useState(false);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -78,10 +77,11 @@ export const UserContextProvider = ({children}: { children: React.ReactNode }) =
     }).then(value => value.json());
     console.log(resp);
 
+    if (!resp.success) return;
     processJwt(resp.id_token);
   };
 
-  const refreshIdToken = async (token: string) => {
+  const refreshIdToken = async (token: string): Promise<string> => {
     const resp = await fetch(API_BACKEND_URL + "/auth/refresh", {
       method: "POST",
       headers: {
@@ -97,7 +97,7 @@ export const UserContextProvider = ({children}: { children: React.ReactNode }) =
   useEffect(() => {
     console.log("THIS IS HAPPENMNG !!");
     const jwtCredential = localStorage.getItem("auth");
-    if (jwtCredential) {
+    if (jwtCredential !== null && jwtCredential !== undefined && jwtCredential !== "") {
       processJwt(jwtCredential);
     }
   }, []);
