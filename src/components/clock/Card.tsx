@@ -138,12 +138,12 @@ const Card = ({values, openMenu, finished}: { values: CompiledValue[] | undefine
   const Component = CardTypes[selected].Component;
 
   useEffect(() => {
-    if (dropdown) return;
+    if (dropdown || !finished || values?.length === 0) return;
     const timerId = setInterval(() => {
       setSelected(prev => (prev + 1 >= CardTypes.length) ? 0 :  prev + 1)
     }, 8_000);
     return () => clearInterval(timerId);
-  }, [dropdown]);
+  }, [dropdown, finished, values]);
 
   return (
     <div className={"Card"}>
