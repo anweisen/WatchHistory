@@ -40,6 +40,7 @@ body:has(.Modal.Visible) {
     .AnimatedModalContent {
       animation: modal-fadein .3s ease-out;
     }
+
     .SimplyAnimatedModalContent {
       animation: simply-modal-fadein .25s ease-out;
     }
@@ -151,5 +152,61 @@ body:has(.Modal.Visible) {
     }
 
 
+  }
+
+  .Interact {
+    display: flex;
+    gap: 10%;
+    justify-content: center;
+
+    .Button {
+      justify-content: center;
+      width: 125px;
+      aspect-ratio: 4 / 5;
+      box-sizing: border-box;
+      border-radius: 15px;
+      border: var(--background-popup-secondary) 1px solid;
+      color: var(--text-secondary);
+      background: rgba(0, 0, 0, .05);
+      text-align: center;
+      padding: 30px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      cursor: pointer;
+      user-select: none;
+      word-break: break-word;
+      transition: color .2s, border-color .2s, transform .2s, scale .2s;
+
+      &:hover {
+        color: var(--text-primary);
+        border-color: var(--text-secondary);
+        border-width: 2px;
+      }
+
+      &.Selected {
+        color: var(--text-primary);
+        border-color: var(--icon-primary);
+        border-width: 2px;
+      }
+
+      svg {
+        font-size: 50px;
+
+        @media (max-width: 400px) {
+          font-size: 40px;
+        }
+      }
+
+      div {
+        font-size: 18px;
+        font-family: "Poppins", sans-serif;
+        font-weight: 500;
+
+        @media (max-width: 400px) {
+          font-size: 16px;
+        }
+      }
+    }
   }
 }

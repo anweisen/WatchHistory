@@ -1,28 +1,4 @@
 .ResetModal {
-	width: 25% !important;
-	gap: 30px !important;
-
-	@media (max-width: 1500px) {
-		width: 30% !important;
-	}
-	@media (max-width: 1200px) {
-		width: 35% !important;
-	}
-	@media (max-width: 1000px) {
-		width: 40% !important;
-	}
-	@media (max-width: 900px) {
-		width: 45% !important;
-	}
-	@media (max-width: 800px) {
-		width: 55% !important;
-	}
-	@media (max-width: 700px) {
-		width: 60% !important;
-	}
-	@media (max-width: 650px) {
-		width: 90% !important;
-	}
 
 	.Icon {
 		font-size: 80px;
@@ -42,7 +18,7 @@
 		white-space: pre-line;
 		text-align: center;
 		color: var(--text-secondary);
-		font-family: "Open Sans", sans-serif;
+		font-family: "Poppins", sans-serif;
 		font-size: 17px;
 		margin-top: -20px;
 	}

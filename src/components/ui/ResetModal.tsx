@@ -10,7 +10,7 @@ const ResetModal = () => {
   const {setItems, writeItemsToCookies} = useContext(AppContext);
 
   return (
-    <div className={"ResetModal AnimatedModalContent DefaultModalContent"}>
+    <div className={"ResetModal AnimatedModalContent DefaultModalContent SimpleModal"}>
       <FontAwesomeIcon className={"Icon"} icon={faTriangleExclamation}/>
       <div className={"ModalTitle"}>Are you sure?</div>
       <div className={"Explanation"}>

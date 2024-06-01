@@ -38,7 +38,7 @@ const ImportModal = () => {
 
   // TODO: Check if data exists. If not disable merge button and change text
   return (
-    <div className={"ImportModal AnimatedModalContent DefaultModalContent"}>
+    <div className={"ImportModal AnimatedModalContent DefaultModalContent SimpleModal"}>
       <div className={"ModalTitle"}>Are you sure?</div>
       <div className={"Explanation"}>
         Seems like you have already saved some data in your localstorage.
