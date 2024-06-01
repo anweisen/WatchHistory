@@ -29,7 +29,7 @@ const App = () => {
   const [isSharedData, setIsSharedData] = useState(false);
   const [ogClock, setOgClockState] = useState(localStorage.getItem("ogclock") === "true");
   const [couldRedirectWelcome, setCouldRedirectWelcome] =
-    useState(location.pathname !== "/welcome" && (!localStorage.getItem("items") || localStorage.getItem("items") === "[]"));
+    useState(location.pathname === "/" && (!localStorage.getItem("items") || localStorage.getItem("items") === "[]"));
   const [modalStack, setModalStack] = useState<React.ReactNode[]>([]);
   const [modalClosing, setModalClosing] = useState(false);
 
