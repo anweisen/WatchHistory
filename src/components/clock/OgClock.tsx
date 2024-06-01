@@ -1,12 +1,13 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDownload, faShareAlt} from "@fortawesome/free-solid-svg-icons";
 import React, {useContext} from "react";
-import {formatTime, Item, shareHistory} from "../../utils";
+import {formatTime, Item} from "../../utils";
 import ImportModal from "../ui/ImportModal";
 import {ModalContext} from "../context/ModalContext";
 import {AppContext} from "../context/AppContext";
 import WageModal from "../ui/WageModal";
 import Loader from "../Loader";
+import {useShareStrategy} from "../ui/ShareDecisionModal";
 import "./OgClock.scss";
 
 const OgClock = ({items, time, finished, wage, setWage, currency, setCurrency}: {
@@ -20,6 +21,7 @@ const OgClock = ({items, time, finished, wage, setWage, currency, setCurrency}: 
 }) => {
   const {openModal, closeModal} = useContext(ModalContext);
   const {isSharedData} = useContext(AppContext);
+  const share = useShareStrategy();
 
   return (
     <div className={"OgClock" + (!finished ? " Loading" : "")}>
@@ -43,10 +45,9 @@ const OgClock = ({items, time, finished, wage, setWage, currency, setCurrency}: 
       </div>
 
       <div className={"ButtonWrapper"}>
-        {!isSharedData ?
-          <div className="Button" onClick={() => shareHistory(items)}><FontAwesomeIcon icon={faShareAlt}/> share your history</div>
-          :
-          <div className="Button" onClick={() => openModal(<ImportModal/>)}>
+        {!isSharedData
+          ? <div className="Button" onClick={share}><FontAwesomeIcon icon={faShareAlt}/> share your history</div>
+          : <div className="Button" onClick={() => openModal(<ImportModal/>)}>
             <FontAwesomeIcon icon={faDownload}/> import this history
           </div>}
       </div>

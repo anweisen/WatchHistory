@@ -8,9 +8,15 @@ export const formatTime = (minutes: number | undefined) => {
   return (hours > 0 ? (hours.toFixed(0) + "h ") : "") + minutes.toFixed(0) + "m";
 };
 
-export const shareHistory = (items: Item[]) => {
-  const url = `${window.location.origin}?${encodeItems(items)}`;
-
+export const shareAnonymously = (items: Item[]) => {
+  const url = `${window.location.origin}/raw?${encodeItems(items)}`;
+  shareUrl(url);
+};
+export const shareAccount = (id: string) => {
+  const url = `${window.location.origin}/@${id}`;
+  shareUrl(url);
+};
+export const shareUrl = (url: string) => {
   if (navigator.share) {
     navigator.share({
       title: "check your wasted time watching series",
@@ -23,7 +29,7 @@ export const shareHistory = (items: Item[]) => {
       .then(() => console.log("Successful copy"))
       .catch((error) => console.log("Error copying", error));
   }
-}
+};
 
 export const isValidSeason = (season: TvSeriesSeason): boolean => {
   return season.name !== "Specials" && season.episode_count > 0 && season.air_date !== undefined && Date.parse(season.air_date) < Date.now();

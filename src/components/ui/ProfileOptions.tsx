@@ -11,6 +11,7 @@ import LoginLoaderOverlay from "./LoginLoaderOverlay";
 import {ModalContext} from "../context/ModalContext";
 import {AppContext} from "../context/AppContext";
 import {shareHistory} from "../../utils";
+import {useShareStrategy} from "./ShareDecisionModal";
 import "./ProfileOptions.scss";
 
 const ProfileOptions = ({expanded, setExpanded, profileRef}: {
@@ -68,6 +69,7 @@ const ProfileOptions = ({expanded, setExpanded, profileRef}: {
       <Button icon={faUser} name={"Your Account"} action={() => undefined}/>
       <Button icon={faTimeline} name={"Social Timeline"} action={() => undefined}/>
       <Button icon={faShareNodes} name={"Share History"} action={() => shareHistory(items)}/>
+      <Button icon={faShareNodes} name={"Share History"} action={share}/>
       <Button icon={faHourglass3} name={"OG Clock"} action={toggleOgClock}><ButtonSlider enabled={ogClock}/></Button>
       <Button icon={faTag} name={"Features"} action={() => navigate("/welcome")}/>
       <div style={{height: "7px"}}/>
@@ -85,7 +87,7 @@ const Button = ({icon, name, action, className, children}: {
   children?: React.ReactNode
 }) => {
   return (
-    <div className={"Button " + className} onClick={action}>
+    <div className={"Button" + (className ? " " + className : "")} onClick={action}>
       <FontAwesomeIcon icon={icon}/>
       <p>{name}</p>
       {children}
