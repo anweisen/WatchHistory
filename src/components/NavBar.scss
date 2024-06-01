@@ -96,6 +96,40 @@
     }
   }
 
+  &:hover {
+    .Sitename {
+      p {
+        opacity: 0;
+        transform: translateX(5px);
+      }
+
+      span {
+        display: flex;
+        opacity: 1;
+        transform: translateX(5px);
+        animation: navbar-links-fadein ease .2s;
+
+        @keyframes navbar-links-fadein {
+          from {
+            transform: translateX(0px);
+          }
+        }
+
+        @for $i from 2 through 10 {
+          div:nth-child(#{$i}) {
+            animation: navbar-link-fadein ease-out .25s #{($i - 1) * .05s} backwards;
+          }
+        }
+
+        @keyframes navbar-link-fadein {
+          from {
+            opacity: 0;
+            transform: translateY(-5px);
+          }
+        }
+      }
+    }
+  }
 
   .Sitename {
     color: var(--icon-primary);
@@ -129,7 +163,6 @@
         color: var(--text-primary);
         cursor: pointer;
         user-select: none;
-        font-weight: 400;
       }
     }
 
@@ -138,25 +171,6 @@
       transition: transform ease .2s;
     }
 
-    &:hover {
-      p {
-        opacity: 0;
-        transform: translateX(5px);
-      }
-
-      span {
-        display: flex;
-        opacity: 1;
-        transform: translateX(5px);
-        animation: navbar-links-fadein ease .2s;
-
-        @keyframes navbar-links-fadein {
-          from {
-            transform: translateX(0px);
-          }
-        }
-      }
-    }
   }
 
   .Profile {
@@ -175,7 +189,7 @@
       img {
         width: 100%;
         height: 100%;
-        border-radius: 20px;
+        border-radius: inherit;
       }
 
       @media (max-width: 1200px) {
