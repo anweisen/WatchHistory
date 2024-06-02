@@ -3,15 +3,13 @@ import {faHourglass3, faLock, faRightFromBracket, faShareNodes, faTag, faTimelin
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGoogle} from "@fortawesome/free-brands-svg-icons";
 import {IconLookup} from "@fortawesome/fontawesome-svg-core";
-import {useGoogleLogin} from "@react-oauth/google";
 import {useNavigate} from "react-router-dom";
 import {UserContext} from "../context/UserContext";
-import ResetModal from "./ResetModal";
-import LoginLoaderOverlay from "./LoginLoaderOverlay";
 import {ModalContext} from "../context/ModalContext";
 import {AppContext} from "../context/AppContext";
-import {shareHistory} from "../../utils";
+import ResetModal from "./ResetModal";
 import {useShareStrategy} from "./ShareDecisionModal";
+import {useGoogleOauthLogin} from "../../utils";
 import "./ProfileOptions.scss";
 
 const ProfileOptions = ({expanded, setExpanded, profileRef}: {
@@ -19,10 +17,12 @@ const ProfileOptions = ({expanded, setExpanded, profileRef}: {
   setExpanded: (v: boolean) => void,
   profileRef: MutableRefObject<any>
 }) => {
-  const {deleteJwt, exchangeAuthCode, name, email, loggedIn} = useContext(UserContext);
-  const {openModal, closeModal} = useContext(ModalContext);
-  const {ogClock, setOgClock, items} = useContext(AppContext);
+  const {deleteJwt, name, email, loggedIn} = useContext(UserContext);
+  const {openModal} = useContext(ModalContext);
+  const {ogClock, setOgClock} = useContext(AppContext);
   const navigate = useNavigate();
+  const share = useShareStrategy();
+  const googleLogin = useGoogleOauthLogin();
 
   // register outside click, close results
   useEffect(() => {
@@ -35,18 +35,6 @@ const ProfileOptions = ({expanded, setExpanded, profileRef}: {
     return () => document.removeEventListener("click", handler);
   });
 
-  const googleLogin = useGoogleLogin({
-    flow: "auth-code",
-    onError: errorResponse => {
-      console.log(errorResponse);
-    },
-    onSuccess: async tokenResponse => {
-      console.log(tokenResponse);
-      openModal(<LoginLoaderOverlay/>);
-      await exchangeAuthCode(tokenResponse.code);
-      closeModal();
-    },
-  });
 
   const toggleOgClock = () => {
     localStorage.setItem("ogclock", !ogClock + "");
@@ -61,14 +49,13 @@ const ProfileOptions = ({expanded, setExpanded, profileRef}: {
       </div> : <div className={"LoggedOut"}>
         <FontAwesomeIcon icon={faLock}/>
         <p>You're logged out</p>
-        <div className={"Login"} onClick={() => googleLogin()}><FontAwesomeIcon icon={faGoogle}/>Login</div>
+        <div className={"Login"} onClick={googleLogin}><FontAwesomeIcon icon={faGoogle}/>Login</div>
       </div>}
 
       <hr/>
 
-      <Button icon={faUser} name={"Your Account"} action={() => undefined}/>
-      <Button icon={faTimeline} name={"Social Timeline"} action={() => undefined}/>
-      <Button icon={faShareNodes} name={"Share History"} action={() => shareHistory(items)}/>
+      {loggedIn && <Button icon={faUser} name={"Your Profile"} action={() => navigate(`/@${email.replace(/@.*$/, "")}`)}/>}
+      {loggedIn && <Button icon={faTimeline} name={"Social Timeline"} action={() => undefined}/>}
       <Button icon={faShareNodes} name={"Share History"} action={share}/>
       <Button icon={faHourglass3} name={"OG Clock"} action={toggleOgClock}><ButtonSlider enabled={ogClock}/></Button>
       <Button icon={faTag} name={"Features"} action={() => navigate("/welcome")}/>
@@ -95,10 +82,8 @@ const Button = ({icon, name, action, className, children}: {
   );
 };
 
-const ButtonSlider = ({enabled}: { enabled: boolean }) => {
-  return (
-    <div className={"ButtonSlider " + (enabled ? "On" : "")}></div>
-  );
-};
+const ButtonSlider = ({enabled}: { enabled: boolean }) => (
+  <div className={"ButtonSlider " + (enabled ? "On" : "")}></div>
+);
 
 export default ProfileOptions;

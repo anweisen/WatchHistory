@@ -1,5 +1,5 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCoins, faFilm, faInfoCircle, faLaptop, faNotEqual} from "@fortawesome/free-solid-svg-icons";
+import {faCoins, faFilm, faInfoCircle, faNotEqual, faTv} from "@fortawesome/free-solid-svg-icons";
 import React, {useContext, useEffect, useState} from "react";
 import {TvSeriesDetails} from "../../tmdb/types";
 import {CompiledValue, formatTime, Item} from "../../utils";
@@ -90,7 +90,7 @@ const InfoList = ({time, wage, setWage, currency, setCurrency, values}: {
           <div className={"Bar"} style={{width: `${calculated.movies / calculated.total * 100}%`}}/>
         </div>
         <div className={"Entry"}>
-          <FontAwesomeIcon icon={faLaptop}/>
+          <FontAwesomeIcon icon={faTv}/>
           <p>{calculated.series} series</p>
           <div className={"Bar"} style={{width: `${calculated.series / calculated.total * 100}%`}}/>
         </div>

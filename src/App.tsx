@@ -1,10 +1,10 @@
 import {GoogleOAuthProvider} from "@react-oauth/google";
 import React, {useCallback, useContext, useEffect, useState} from "react";
-import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
+import {Navigate, Route, Routes, useLocation, useNavigate, useParams} from "react-router-dom";
 import {decodeItems, Item, useCalculateSummary} from "./utils";
 import {ModalContext} from "./components/context/ModalContext";
 import {AppContext} from "./components/context/AppContext";
-import {UserContextProvider} from "./components/context/UserContext";
+import {UserContext, UserContextProvider} from "./components/context/UserContext";
 import Search from "./components/Search";
 import List from "./components/List";
 import Menu from "./components/Menu";
@@ -14,9 +14,10 @@ import Footer from "./components/Footer";
 import NavBar from "./components/NavBar";
 import NewClock from "./components/clock/NewClock";
 import Discover from "./components/Discover";
-import {lookup, lookupRuntime} from "./tmdb/api";
-import {MovieDetails, TvSeriesDetails} from "./tmdb/types";
 import Welcome from "./components/Welcome";
+import LoginLoaderOverlay from "./components/ui/LoginLoaderOverlay";
+import {fetchItemDelete, fetchItemUpdate, fetchSyncRequest} from "./api/api";
+import UserProfile, {RawUserProfile} from "./components/UserProfile";
 import "./App.scss";
 
 const App = () => {
@@ -41,17 +42,9 @@ const App = () => {
   }, [couldRedirectWelcome, navigate, items, location.pathname]);
 
   useEffect(() => {
-    const queryParameters = new URLSearchParams(window.location.search);
-    if (queryParameters.size > 0) {
-      const items = decodeItems(queryParameters.keys().next().value);
-      setIsSharedData(true);
-      setItems(items);
-      console.log(items);
-    } else {
-      const items = JSON.parse(localStorage.getItem("items") || "[]");
-      setIsSharedData(false);
-      setItems(items);
-    }
+    const items = JSON.parse(localStorage.getItem("items") || "[]");
+    setIsSharedData(false);
+    setItems(items);
 
     let theme = localStorage.getItem("theme") || "dark";
     document.body.classList.add(theme);
@@ -93,6 +86,7 @@ const App = () => {
       localStorage.setItem("items", JSON.stringify(array));
       return array;
     });
+    fetchItemUpdate(item).then(console.log);
   };
   const removeItem = (item: Item) => {
     closeModal();
@@ -101,10 +95,11 @@ const App = () => {
       localStorage.setItem("items", JSON.stringify(array));
       return array;
     });
+    fetchItemDelete(item.id).then(console.log);
   };
 
   const openModal = (modal: React.ReactNode) => {
-    setModalStack(prev => [...prev, [modal, false]]);
+    setModalStack(prev => [...prev, modal]);
   };
   const closeModal = () => {
     setModalClosing(true);
@@ -122,12 +117,19 @@ const App = () => {
     openModal(<Menu item={item} key={item.id} saveItem={saveItem} removeItem={removeItem} cancel={closeModal} isSharedData={isSharedData}/>);
   };
 
+  const sync = useCallback(async () => {
+    const syncPayload = await fetchSyncRequest(items);
+    setItems(syncPayload.items);
+    writeItemsToCookies(syncPayload.items);
+  }, [items, setItems, writeItemsToCookies]);
+
   return (
     <GoogleOAuthProvider clientId={clientId}>
-      <UserContextProvider>
-        <AppContext.Provider value={{items, setItems, writeItemsToCookies, retrieveItemsFromCookies, isSharedData, ogClock, setOgClock}}>
+      <AppContext.Provider value={{items, setItems, writeItemsToCookies, retrieveItemsFromCookies, isSharedData, ogClock, setOgClock, sync}}>
+        <UserContextProvider>
           <ModalContext.Provider value={{openModal: openModal, closeModal: closeModal}}>
             <div className="App">
+              <AppHooks/>
 
               <Modal visible={!modalClosing && modalStack.length > 0}>
                 {modalStack[0]}
@@ -140,7 +142,8 @@ const App = () => {
                   <Route path={"/discover"} element={<DiscoverComponent items={items} openMenu={openMenu} saveItem={saveItem}
                                                                         removeItem={removeItem}/>}/>
                   <Route path={"/welcome"} element={<WelcomeComponent openMenu={openMenu}/>}/>
-                  <Route path={"*"} element={<PageNotFound/>}/>
+                  <Route path={"/raw"} element={<RawUserProfileComponent/>}/>
+                  <Route path={"/:user"} element={<UserProfileComponent/>}/>
                 </Routes>
 
                 <Footer/>
@@ -148,15 +151,45 @@ const App = () => {
 
             </div>
           </ModalContext.Provider>
-        </AppContext.Provider>
-      </UserContextProvider>
+        </UserContextProvider>
+      </AppContext.Provider>
     </GoogleOAuthProvider>
   );
+};
+
+const AppHooks = () => {
+  const {sync} = useContext(AppContext);
+  const {processJwt} = useContext(UserContext);
+  const {openModal, closeModal} = useContext(ModalContext);
+
+  useEffect(() => {
+    const fetch = async (jwt: string) => {
+      openModal(<LoginLoaderOverlay/>);
+      try {
+        await processJwt(jwt);
+        await sync();
+      } catch (ex) {
+        console.error(ex);
+      }
+      closeModal();
+    };
+
+    console.log("THIS IS HAPPENMNG !!");
+    const jwtCredential = localStorage.getItem("auth");
+    if (jwtCredential !== null && jwtCredential !== undefined && jwtCredential !== "") {
+      fetch(jwtCredential);
+    }
+  }, []);
+
+  return <></>;
 };
 
 const PageNotFound = () => (
   <>
     <NavBar sitename="404"/>
+    <div className={"NotFound"}>
+
+    </div>
   </>
 );
 
@@ -199,7 +232,40 @@ const WelcomeComponent = ({openMenu}: {
   );
 };
 
-export type CompiledValue = { item: Item, details?: TvSeriesDetails | MovieDetails | undefined, runtime: number }
+const RawUserProfileComponent = () => {
+  const [items, setItems] = useState<Item[]>([]);
+
+  useEffect(() => {
+    const queryParameters = new URLSearchParams(window.location.search);
+    if (queryParameters.size > 0) {
+      const items = decodeItems(queryParameters.keys().next().value);
+      setItems(items);
+      console.log(items);
+    }
+  }, []);
+
+  return (
+    <>
+      <NavBar sitename={"profile"}/>
+      <RawUserProfile items={items}/>
+    </>
+  )
+};
+const UserProfileComponent = () => {
+  const {user} = useParams();
+
+  if (user?.startsWith("@")) {
+    const userId = user.substring(1);
+    return (
+      <>
+        <NavBar sitename={"profile"}/>
+        <UserProfile userId={userId}/>
+      </>
+    );
+  } else {
+    return <PageNotFound/>
+  }
+};
 
 const ClockDisplay = ({openMenu}: { openMenu: (item: Item) => void }) => {
   const {items, ogClock} = useContext(AppContext);

@@ -1,6 +1,6 @@
-import React, {createContext, useEffect, useState} from "react";
+import React, {createContext, useState} from "react";
 import jwtDecode from "jwt-decode";
-import {API_BACKEND_URL} from "../../tmdb/api";
+import {API_BACKEND_URL} from "../../api/api";
 
 type UserType = {
   loggedIn: boolean,
@@ -99,14 +99,6 @@ export const UserContextProvider = ({children}: { children: React.ReactNode }) =
 
     return resp.id_token;
   };
-
-  useEffect(() => {
-    console.log("THIS IS HAPPENMNG !!");
-    const jwtCredential = localStorage.getItem("auth");
-    if (jwtCredential !== null && jwtCredential !== undefined && jwtCredential !== "") {
-      processJwt(jwtCredential);
-    }
-  }, []);
 
   return (
     <UserContext.Provider value={{loggedIn, email, name, picture, locale, processJwt, deleteJwt, exchangeAuthCode}}>

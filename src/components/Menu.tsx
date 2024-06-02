@@ -1,4 +1,4 @@
-import {faAngleLeft, faCalendar, faCheck, faClock, faFilm, faLaptop, faMinus, faPlus, faTrashCan} from "@fortawesome/free-solid-svg-icons";
+import {faAngleLeft, faCalendar, faCheck, faClock, faFilm, faMinus, faPlus, faTrashCan, faTv} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useEffect, useState} from "react";
 import {MovieDetails, TvSeriesDetails, TvSeriesSeason} from "../tmdb/types";
@@ -157,9 +157,8 @@ const MenuHead = ({name, originalName, tagline, posterPath, firstAirDate, lastAi
   <div className="Head">
     <img className="Poster" src={provideImageUrl(posterPath)} alt=""/>
     <div className="Info">
-      <div className="Name">{name} <FontAwesomeIcon icon={series ? faLaptop : faFilm}/></div>
-      <div
-        className="Tagline">{(name === originalName && tagline) ? tagline : originalName}</div>
+      <div className="Name">{name} <FontAwesomeIcon icon={series ? faTv : faFilm}/></div>
+      <div className="Tagline">{(name === originalName && tagline) ? tagline : originalName}</div>
       <span>
         <div className="Year"><FontAwesomeIcon icon={faCalendar}/> {firstAirDate?.substring(0, 4)} {lastAirDate && "-"} {lastAirDate?.substring(0, 4)}</div>
         {totalPlaytime && <div className="Playtime"><FontAwesomeIcon icon={faClock}/> {formatTime(totalPlaytime)}</div>}

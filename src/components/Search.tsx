@@ -1,6 +1,6 @@
 import {useContext, useEffect, useRef, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCircleXmark, faCompass, faFilm, faImage, faLaptop, faList, faSearch, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {faCircleXmark, faCompass, faFilm, faImage, faLaptop, faList, faSearch, faTv, faXmark} from "@fortawesome/free-solid-svg-icons";
 import Loader from "./Loader";
 import {AppContext} from "./context/AppContext";
 import {provideImageUrl, searchMovies, searchSeries} from "../tmdb/api";
@@ -138,7 +138,7 @@ const Search = ({openMenu}: { openMenu: (item: Item) => void }) => {
                 : <img className="Poster" src={provideImageUrl(value.poster_path, "w92")} alt=""/>}
               <div className="Name">{value.name}</div>
               {value.name !== value.original_name && <div className="OriginalName">{value.original_name}</div>}
-              <FontAwesomeIcon className="Type" icon={faLaptop}/>
+              <FontAwesomeIcon className="Type" icon={faTv}/>
             </div>
           ))}
 

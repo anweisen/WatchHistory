@@ -1,0 +1,299 @@
+.UserProfile {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+
+  .Loading {
+    display: grid;
+    place-items: center;
+    min-height: 50dvh;
+  }
+
+  .UnknownUser {
+    font-family: "Poppins", sans-serif;
+    gap: 25px;
+    display: flex;
+    justify-content: center;
+    border: var(--action-fail-background) solid 2px;
+    background: var(--action-fail-background);
+    padding: 20px 25px;
+    border-radius: 10px;
+
+    span {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    svg {
+      color: var(--icon-primary);
+      font-size: 55px;
+      border-radius: 100%;
+      padding: 5px;
+    }
+
+    p {
+      font-size: 20px;
+      color: var(--text-primary);
+
+      @media (max-width: 700px) {
+        font-size: 18px;
+      }
+      @media (max-width: 550px) {
+        font-size: 16px;
+      }
+    }
+
+    .Button {
+      color: var(--text-primary);
+      background: var(--action-fail);
+      width: max-content;
+      padding: 3px 15px;
+      border-radius: 8px;
+
+      @media (max-width: 600px) {
+        font-size: 15px;
+      }
+    }
+  }
+
+  hr {
+    background: var(--background-border);
+    border: none;
+    height: 2px;
+    width: 100%;
+    border-radius: 1px;
+  }
+
+  .Banner {
+    display: flex;
+    background: var(--background-border);
+    border: solid 1px var(--background-popup-secondary);
+    padding: 15px 30px;
+    border-radius: 15px;
+    min-height: 150px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    row-gap: 50px;
+    column-gap: 15px;
+    overflow-x: hidden;
+
+    @media (max-width: 650px) {
+      padding: 15px;
+      justify-content: center;
+    }
+
+    .UserInfo {
+      background: var(--background-border-dark);
+      font-family: "Poppins", sans-serif;
+      display: flex;
+      gap: 25px;
+      align-items: center;
+      padding: 20px 40px 20px 35px;
+      border-radius: 12px;
+
+      @media (max-width: 900px) {
+        gap: 25px;
+      }
+      @media (max-width: 650px) {
+        width: 100%;
+        gap: 20px;
+      }
+      @media (max-width: 500px) {
+        padding: 15px 30px 15px 25px;
+      }
+
+      .ProfilePicture {
+        width: 70px;
+        height: 70px;
+        transition: scale ease .25s;
+        border-radius: 100%;
+        background: var(--background-border);
+        color: var(--icon-primary);
+        font-size: 24px;
+
+        display: grid;
+        place-items: center;
+
+        img {
+          width: 100%;
+          height: 100%;
+          border-radius: inherit;
+        }
+
+        &:hover {
+          scale: 1.02;
+        }
+
+        @media (max-width: 900px) {
+          width:  60px;
+          height: 60px;
+        }
+        @media (max-width: 650px) {
+          width: 55px;
+          height: 55px;
+        }
+        @media (max-width: 500px) {
+          width:  45px;
+          height: 45px;
+        }
+      }
+
+      hr {
+        height: 30px;
+        background: var(--background-popup-secondary);
+        width: 2px;
+        border-radius: 1px;
+        border: none;
+        margin: 0 15px;
+      }
+
+      span {
+      }
+
+      .DisplayName {
+        color: var(--text-primary);
+        font-size: 24px;
+        line-height: 1em;
+
+        @media (max-width: 900px) {
+          font-size: 20px;
+        }
+        @media (max-width: 650px) {
+          font-size: 18px;
+        }
+      }
+
+      .UserName {
+        color: var(--icon-primary);
+        font-size: 16px;
+        font-weight: 300;
+
+        @media (max-width: 900px) {
+          font-size: 15px;
+        }
+        @media (max-width: 650px) {
+          font-size: 14px;
+        }
+        @media (max-width: 500px) {
+          font-size: 12px;
+        }
+      }
+
+      .FriendsAmount {
+        text-align: center;
+        font-size: 24px;
+        font-weight: 300;
+        line-height: 1em;
+        letter-spacing: .05em;
+        color: var(--text-primary);
+
+        @media (max-width: 650px) {
+          font-size: 18px;
+        }
+      }
+
+      .FriendsLabel {
+        font-size: 13px;
+        font-weight: 300;
+        color: var(--text-secondary);
+
+        @media (max-width: 650px) {
+          font-size: 12px;
+        }
+      }
+    }
+
+    .Ranking {
+      display: flex;
+      align-self: flex-end;
+
+      .Rank {
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+        margin-bottom: 0;
+        margin-top: auto;
+
+        &:hover {
+          .Image {
+            transform: scale(1.05) rotateZ(1deg);
+          }
+        }
+
+        .Image {
+          transition: transform .2s ease-out;
+
+          img {
+            border-radius: 5px;
+            aspect-ratio: 2 / 3;
+            height: auto;
+            max-width: 50px;
+          }
+        }
+
+        .Bar {
+          width: 75px;
+          background: var(--background-border-dark);
+
+          p {
+            margin-top: 8px;
+            text-align: center;
+            font-family: "Poppins", sans-serif;
+            letter-spacing: 3px;
+            font-size: 16px;
+            font-weight: 500;
+
+            &:before {
+              font-size: 12px;
+              content: "#";
+              color: var(--text-secondary);
+            }
+          }
+        }
+
+        &.First {
+          .Bar {
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            height: 80px;
+            color: var(--rank-gold);
+          }
+
+          .Image {
+            img {
+              max-width: 55px;
+            }
+          }
+        }
+
+        &.Second {
+          .Bar {
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            height: 50px;
+            color: var(--rank-silver);
+          }
+        }
+
+        &.Third {
+          .Bar {
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            height: 30px;
+            color: var(--rank-bronze);
+
+            p {
+              margin-top: 2px;
+            }
+          }
+        }
+      }
+
+    }
+
+  }
+
+}
