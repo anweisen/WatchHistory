@@ -2,11 +2,15 @@ import {faArrowRight, faCompass, faHome} from "@fortawesome/free-solid-svg-icons
 import {faGithub, faGoogle} from "@fortawesome/free-brands-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useNavigate} from "react-router-dom";
+import {useContext} from "react";
 import Search from "./Search";
-import {Item} from "../utils";
+import {UserContext} from "./context/UserContext";
+import {Item, useGoogleOauthLogin} from "../utils";
 import "./Welcome.scss";
 
 const Welcome = ({openMenu}: { openMenu: (item: Item) => void }) => {
+  const {loggedIn, name, picture, email} = useContext(UserContext);
+  const googleLogin = useGoogleOauthLogin();
   const navigate = useNavigate();
 
   return (
@@ -22,8 +26,13 @@ const Welcome = ({openMenu}: { openMenu: (item: Item) => void }) => {
           it's the new definition of flexing<br/>
         </p>
         <span>
-          <div className={"LoginButton"}><FontAwesomeIcon icon={faGoogle}/><p>Login</p></div>
-          <a className={"LoginButton"} rel={"noreferrer"} target={"_blank"} href={"https://github.com/anweisen/WatchHistory"}><FontAwesomeIcon icon={faGithub}/><p>GitHub</p></a>
+          {loggedIn
+            ? <div className={"LoginButton"} onClick={() => navigate(`/@${email.replace(/@.*$/, "")}`)}><img src={picture} alt={""}/><p>{name}</p></div>
+            : <div className={"LoginButton"} onClick={googleLogin}><FontAwesomeIcon icon={faGoogle}/><p>Login</p></div>
+          }
+          <a className={"LoginButton"} rel={"noreferrer"} target={"_blank"} href={"https://github.com/anweisen/WatchHistory"}>
+            <FontAwesomeIcon icon={faGithub}/><p>GitHub</p>
+          </a>
         </span>
       </div>
 
