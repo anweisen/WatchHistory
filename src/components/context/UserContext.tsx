@@ -8,7 +8,7 @@ type UserType = {
   name: string,
   picture: string,
   locale: string,
-  processJwt: (value: string) => void,
+  processJwt: (value: string) => Promise<void>,
   deleteJwt: () => void,
   exchangeAuthCode: (code: string) => Promise<void>
 };
@@ -19,7 +19,7 @@ const DefaultUserData: UserType = {
   name: "",
   picture: "",
   locale: "",
-  processJwt: (value: string) => undefined,
+  processJwt: (value: string) => Promise.resolve(),
   deleteJwt: () => undefined,
   exchangeAuthCode: (code: string) => Promise.resolve()
 };
@@ -33,7 +33,7 @@ export const UserContextProvider = ({children}: { children: React.ReactNode }) =
   const [picture, setPicture] = useState("");
   const [locale, setLocale] = useState("");
 
-  const processJwt = (jwt: string) => {
+  const processJwt = async (jwt: string): Promise<void> => {
     localStorage.setItem("auth", jwt);
 
     try {
@@ -41,7 +41,8 @@ export const UserContextProvider = ({children}: { children: React.ReactNode }) =
       console.log(decoded);
 
       if (Date.now() > decoded.exp * 1000) {
-        refreshIdToken(jwt).then(processJwt);
+        const token = await refreshIdToken(jwt);
+        return processJwt(token);
       }
 
       setEmail(decoded.email);
@@ -78,7 +79,7 @@ export const UserContextProvider = ({children}: { children: React.ReactNode }) =
     console.log(resp);
 
     if (!resp.success) return;
-    processJwt(resp.id_token);
+    await processJwt(resp.id_token);
   };
 
   const refreshIdToken = async (token: string): Promise<string> => {
