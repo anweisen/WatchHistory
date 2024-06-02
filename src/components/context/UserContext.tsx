@@ -44,6 +44,11 @@ export const UserContextProvider = ({children}: { children: React.ReactNode }) =
         const token = await refreshIdToken(jwt);
         return processJwt(token);
       }
+      // issued in the future
+      if (parseInt(decoded.iat) * 1000 > Date.now()) {
+        console.log(parseInt(decoded.iat) * 1000 - Date.now());
+        await new Promise(resolve => setTimeout(resolve, parseInt(decoded.iat) * 1000 - Date.now()))
+      }
 
       setEmail(decoded.email);
       setName(decoded.name);
