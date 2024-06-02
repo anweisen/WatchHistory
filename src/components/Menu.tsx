@@ -8,9 +8,7 @@ import Loader from "./Loader";
 import "./Menu.scss";
 
 export const ensureTimesArraySize = (item: Item, seasons: TvSeriesSeason[]) => {
-  const has0 = seasons[0].season_number !== 1;
-  let times = Array(seasons.length + (has0 ? 0 : 1));
-  times.fill(0);
+  let times = [0];
   for (let season of seasons) {
     if (isValidSeason(season)) {
       times[season.season_number] = timesOf(item.times[season.season_number]);
