@@ -4,9 +4,6 @@
   justify-content: space-between;
   gap: 50px;
 
-  @media (min-width: 1600px) {
-    padding: 0 10px;
-  }
   @media (max-width: 1600px) {
     flex-wrap: wrap;
     display: grid;
@@ -48,6 +45,7 @@
         font-size: 36px;
         font-weight: 400;
         line-height: 1em;
+        padding-left: 10px;
 
         @media (max-width: 1200px) {
           font-size: 30px;
@@ -119,7 +117,7 @@
       gap: 10px;
       align-content: flex-start;
 
-      @media (max-width: 650px) {
+      @media (max-width: 800px) {
         gap: 8px;
       }
       @media (max-width: 500px) {
@@ -137,7 +135,7 @@
           width: 18px;
           height: 18px;
         }
-        @media (max-width: 650px) {
+        @media (max-width: 800px) {
           width: 16px;
           height: 16px;
         }
@@ -191,6 +189,9 @@
         .WageEarned {
           font-size: 30px;
 
+          @media (max-width: 800px) {
+            font-size: 28px;
+          }
           @media (max-width: 650px) {
             font-size: 26px;
           }
@@ -266,13 +267,14 @@
       .Entry {
         width: 100%;
         display: grid;
-        align-items: flex-start;
-        grid-template-columns: 40px minmax(auto, 1fr) 1fr;
-        gap: 10px;
+        align-items: center;
+        grid-template-columns: 30px minmax(auto, 1fr) 1fr;
+        gap: 12px;
 
         p {
           width: max-content;
           font-size: 18px;
+          line-height: 1em;
 
           @media (max-width: 500px) {
             font-size: 16px;
@@ -284,6 +286,7 @@
           justify-self: center;
           font-size: 25px;
           color: var(--icon-primary);
+          max-width: 1em;
 
           @media (max-width: 500px) {
             font-size: 22px;
@@ -292,10 +295,10 @@
 
         .Bar {
           align-self: center;
-          height: 10px;
+          height: 8px;
           min-width: 5px;
           background: var(--text-secondary);
-          border-radius: 4px;
+          border-radius: 3px;
           transition: width 1s ease-out;
           animation: bar-fadein 1s ease-out;
 
@@ -321,7 +324,6 @@
 
           p:first-child {
             font-size: 16px;
-            line-height: 1em;
             @media (max-width: 500px) {
               font-size: 15px;
             }
