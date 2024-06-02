@@ -1,7 +1,7 @@
 import {GoogleOAuthProvider} from "@react-oauth/google";
 import React, {useCallback, useContext, useEffect, useState} from "react";
 import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
-import {decodeItems, isValidSeason, Item, timesOf, useForceUpdate} from "./utils";
+import {decodeItems, Item, useCalculateSummary} from "./utils";
 import {ModalContext} from "./components/context/ModalContext";
 import {AppContext} from "./components/context/AppContext";
 import {UserContextProvider} from "./components/context/UserContext";
@@ -203,63 +203,15 @@ export type CompiledValue = { item: Item, details?: TvSeriesDetails | MovieDetai
 
 const ClockDisplay = ({openMenu}: { openMenu: (item: Item) => void }) => {
   const {items, ogClock} = useContext(AppContext);
+  const {values, time, finished} = useCalculateSummary(items);
 
-  const [values, setValues] = useState<CompiledValue[] | undefined>(undefined);
-  const [time, setTime] = useState(0);
   const [wage, setWage] = useState(-1);
   const [currency, setCurrency] = useState("€");
-  const [updater, forceUpdate] = useForceUpdate();
-  const [finished, setFinished] = useState(false);
 
-  const calculateTime = useCallback(() => {
-    console.log("RECALC");
-    let finished = true;
-    let values = items
-      .map(value => ({item: value, details: lookup(value, forceUpdate)}))
-      .filter(({details}) => details !== undefined)
-      .map(({item, details}) => {
-        if (item.series) {
-          const series = details as TvSeriesDetails;
-          const seasonRuntime = lookupRuntime(series, forceUpdate);
-          if (seasonRuntime === undefined) {
-            finished = false;
-            return {item: item, details: details, runtime: 0};
-          }
-          let runtime = 0;
-          for (let i = 0; i < Math.max(series.number_of_seasons || 1, series.seasons.length); i++) {
-            const season = series.seasons[i];
-            if (!isValidSeason(season)) continue;
-            runtime += seasonRuntime[season.season_number] * timesOf(item.times[season.season_number]);
-          }
-          return {item: item, details: details, runtime: runtime};
-        } else {
-          return {item: item, details: details, runtime: (details as MovieDetails).runtime * timesOf(item.times[0])};
-        }
-      });
-
-    let total = values.reduce((prev, {runtime}) => prev + runtime, 0);
-
-    if (finished) {
-      setValues(values);
-    }
-    setTime(total);
-    setFinished(finished);
-  }, [items, forceUpdate, setValues, setTime, setFinished]);
-
-  useEffect(() => {
-    console.log("EFFECRT°!");
-    calculateTime();
-    // eslint-disable-next-line
-  }, [items, updater]);
-
-  return (
-    <>
-      {ogClock
-        ? <OgClock items={items} time={time} finished={finished} wage={wage} setWage={setWage} currency={currency} setCurrency={setCurrency}/>
-        : <NewClock values={values} time={time} finished={finished} openMenu={openMenu} wage={wage} setWage={setWage} currency={currency}
-                    setCurrency={setCurrency}/>}
-    </>
-  );
+  return ogClock
+    ? <OgClock items={items} time={time} finished={finished} wage={wage} setWage={setWage} currency={currency} setCurrency={setCurrency}/>
+    : <NewClock values={values} time={time} finished={finished} openMenu={openMenu} wage={wage} setWage={setWage} currency={currency}
+                setCurrency={setCurrency}/>;
 };
 
 export default App;

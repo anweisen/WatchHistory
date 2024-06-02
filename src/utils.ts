@@ -1,5 +1,6 @@
-import React from "react";
-import {TvSeriesSeason} from "./tmdb/types";
+import React, {useCallback, useEffect, useState} from "react";
+import {MovieDetails, TvSeriesDetails, TvSeriesSeason} from "./tmdb/types";
+import {lookup, lookupRuntime} from "./tmdb/api";
 
 export const formatTime = (minutes: number | undefined) => {
   if (minutes === undefined || isNaN(minutes)) return "?";
@@ -33,7 +34,7 @@ export const shareUrl = (url: string) => {
 
 export const isValidSeason = (season: TvSeriesSeason): boolean => {
   return season.name !== "Specials" && season.episode_count > 0 && season.air_date !== undefined && Date.parse(season.air_date) < Date.now();
-}
+};
 
 export interface Item {
   id: number;
@@ -153,3 +154,61 @@ export const mergeItemSets = (itemSet1: Item[], itemSet2: Item[]): Item[] => {
 };
 
 export const findItemById = (items: Item[], id: number, series: boolean): Item | undefined => items.find(item => item.id === id && item.series === series);
+
+export type CompiledValue = { item: Item, details?: TvSeriesDetails | MovieDetails | undefined, runtime: number }
+
+type CalculateProps = {
+  values: CompiledValue[] | undefined,
+  time: number,
+  finished: boolean,
+}
+
+export const useCalculateSummary = (items: Item[]): CalculateProps => {
+  const [updater, forceUpdate] = useForceUpdate();
+  const [values, setValues] = useState<CompiledValue[] | undefined>(undefined);
+  const [time, setTime] = useState(0);
+  const [finished, setFinished] = useState(false);
+
+  const calculateTime = useCallback(() => {
+    console.log("RECALC");
+    let finished = true;
+    let values = items
+      .map(value => ({item: value, details: lookup(value, forceUpdate)}))
+      .filter(({details}) => details !== undefined)
+      .map(({item, details}) => {
+        if (item.series) {
+          const series = details as TvSeriesDetails;
+          const seasonRuntime = lookupRuntime(series, forceUpdate);
+          if (seasonRuntime === undefined) {
+            finished = false;
+            return {item: item, details: details, runtime: 0};
+          }
+          let runtime = 0;
+          for (let i = 0; i < Math.max(series.number_of_seasons || 1, series.seasons.length); i++) {
+            const season = series.seasons[i];
+            if (!isValidSeason(season)) continue;
+            runtime += seasonRuntime[season.season_number] * timesOf(item.times[season.season_number]);
+          }
+          return {item: item, details: details, runtime: runtime};
+        } else {
+          return {item: item, details: details, runtime: (details as MovieDetails).runtime * timesOf(item.times[0])};
+        }
+      });
+
+    let total = values.reduce((prev, {runtime}) => prev + runtime, 0);
+
+    if (finished) {
+      setValues(values);
+    }
+    setTime(total);
+    setFinished(finished);
+  }, [items, forceUpdate, setValues, setTime, setFinished]);
+
+  useEffect(() => {
+    console.log("EFFECRT°!");
+    calculateTime();
+    // eslint-disable-next-line
+  }, [items, updater]);
+
+  return {finished, time, values};
+};

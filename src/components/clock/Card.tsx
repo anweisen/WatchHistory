@@ -2,10 +2,9 @@ import {IconDefinition} from "@fortawesome/free-brands-svg-icons";
 import {faCaretDown, faChartSimple, faCircleExclamation, faRepeat, faStopwatch} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React, {FunctionComponent, useEffect, useState} from "react";
-import {CompiledValue} from "../../App";
 import {MovieDetails, TvSeriesDetails} from "../../tmdb/types";
 import {provideImageUrl} from "../../tmdb/api";
-import {formatTime, Item} from "../../utils";
+import {CompiledValue, formatTime, Item} from "../../utils";
 import Loader from "../Loader";
 import "./Card.scss";
 
