@@ -86,7 +86,8 @@ const SeriesMenu = ({details, totalPlaytime, forceUpdate, isSharedData, state, s
   setState: (v: Item) => void
 }) => (<>
   <MenuHead name={details.name} originalName={details.original_name} tagline={details.tagline} posterPath={details.poster_path}
-            firstAirDate={details.first_air_date} lastAirDate={details.last_air_date} totalPlaytime={totalPlaytime} series={true}/>
+            firstAirDate={details.first_air_date?.substring(0, 4)} lastAirDate={details.last_air_date?.substring(0, 4)}
+            totalPlaytime={totalPlaytime} series={true}/>
   <div className="History">
     <div className="Title">Watch History</div>
     <div className="Seasons">
@@ -119,7 +120,7 @@ const MovieMenu = ({details, totalPlaytime, isSharedData, state, setState}: {
     setState: (v: Item) => void
   }) => (<>
     <MenuHead name={details.title} originalName={details.original_title} tagline={details.tagline} posterPath={details.poster_path}
-              firstAirDate={details.release_date} lastAirDate={undefined} totalPlaytime={totalPlaytime} series={false}/>
+              firstAirDate={details.release_date?.substring(0, 4)} lastAirDate={undefined} totalPlaytime={totalPlaytime} series={false}/>
     <div className="History">
       <div className="Title">Watch History</div>
       <div className="Seasons">
@@ -160,7 +161,7 @@ const MenuHead = ({name, originalName, tagline, posterPath, firstAirDate, lastAi
       <div className="Name">{name} <FontAwesomeIcon icon={series ? faTv : faFilm}/></div>
       <div className="Tagline">{(name === originalName && tagline) ? tagline : originalName}</div>
       <span>
-        <div className="Year"><FontAwesomeIcon icon={faCalendar}/> {firstAirDate?.substring(0, 4)} {lastAirDate && "-"} {lastAirDate?.substring(0, 4)}</div>
+        <div className="Year"><FontAwesomeIcon icon={faCalendar}/> {firstAirDate} {lastAirDate && firstAirDate !== lastAirDate && "-" + lastAirDate}</div>
         {totalPlaytime && <div className="Playtime"><FontAwesomeIcon icon={faClock}/> {formatTime(totalPlaytime)}</div>}
       </span>
     </div>
