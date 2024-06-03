@@ -8,8 +8,7 @@ import {UserContext} from "../context/UserContext";
 import {ModalContext} from "../context/ModalContext";
 import {AppContext} from "../context/AppContext";
 import ResetModal from "./ResetModal";
-import {useShareStrategy} from "./ShareDecisionModal";
-import {useGoogleOauthLogin} from "../../utils";
+import {useGoogleOauthLogin, useShareStrategy} from "./ShareDecisionModal";
 import "./ProfileOptions.scss";
 
 const ProfileOptions = ({expanded, setExpanded, profileRef}: {
@@ -60,7 +59,7 @@ const ProfileOptions = ({expanded, setExpanded, profileRef}: {
       <Button icon={faHourglass3} name={"OG Clock"} action={toggleOgClock}><ButtonSlider enabled={ogClock}/></Button>
       <Button icon={faTag} name={"Features"} action={() => navigate("/welcome")}/>
       <div style={{height: "7px"}}/>
-      <Button icon={faTrashCan} name={"Reset List"} className={"Danger"} action={() => openModal(<ResetModal/>)}/>
+      <Button icon={faTrashCan} name={"Reset Data"} className={"Danger"} action={() => openModal(<ResetModal/>)}/>
       {loggedIn && <Button icon={faRightFromBracket} name={"Logout"} className={"Danger"} action={deleteJwt}/>}
     </div>
   );

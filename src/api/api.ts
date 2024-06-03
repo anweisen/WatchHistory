@@ -22,6 +22,10 @@ export const fetchSyncRequest = async (items: Item[]): Promise<SyncPayload> => {
     .then(value => ({items: value}));
 };
 
+export const fetchUserDelete = async () => {
+  return fetchWithCredentials("DELETE", "/user/me", undefined)
+    .then(value => value.json());
+};
 export const fetchItemUpdate = async (item: Item) => {
   return fetchWithCredentials("POST", "/user/me/item", JSON.stringify({item: {...item, id: item.id.toString()}}))
     .then(value => value.json());

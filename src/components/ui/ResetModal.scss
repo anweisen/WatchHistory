@@ -1,27 +1,77 @@
 .ResetModal {
 
-	.Icon {
-		font-size: 80px;
-		color: var(--action-fail);
-		filter: drop-shadow(1px 1px 5px rgba(0, 0, 0, .25));
-		margin-bottom: -20px;
-	}
+  .Icon {
+    font-size: 80px;
+    color: var(--action-fail);
+    filter: drop-shadow(1px 1px 5px rgba(0, 0, 0, .25));
+    margin-bottom: -20px;
+  }
 
-	.ModalTitle {
-		font-size: 30px;
-		text-align: center;
-		color: var(--action-fail);
-		font-family: "Poppins", sans-serif;
-	}
+  .ModalTitle {
+    font-size: 30px;
+    text-align: center;
+    color: var(--action-fail);
+    font-family: "Poppins", sans-serif;
+  }
 
-	.Explanation {
-		white-space: pre-line;
-		text-align: center;
-		color: var(--text-secondary);
-		font-family: "Poppins", sans-serif;
-		font-size: 17px;
-		margin-top: -20px;
-	}
+  .Explanation {
+    white-space: pre-line;
+    text-align: center;
+    color: var(--text-secondary);
+    font-family: "Poppins", sans-serif;
+    font-size: 17px;
+    margin-top: -20px;
+  }
 
+  .Confirm {
+    //border: var(--action-fail-background) solid 2px;
+    border-radius: 8px;
+    padding: 8px 15px;
+    background: var(--action-fail-background);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--action-fail);
+    font-family: "Poppins", sans-serif;
+    user-select: none;
+    cursor: pointer;
 
+    > svg {
+      font-size: 18px;
+    }
+
+    hr {
+      border: none;
+      height: 20px;
+      width: 2px;
+      border-radius: 1px;
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .Status {
+      margin-left: auto;
+      font-style: italic;
+      font-weight: 500;
+      background: var(--action-fail-background);
+      color: var(--action-fail);
+      padding: 1px 10px;
+      border-radius: 10px;
+      text-transform: uppercase;
+      font-size: 14px;
+
+      &.Yes {
+        color: var(--action-success);
+        background: var(--action-success-background);
+      }
+
+      animation: status-fadein ease-out .25s;
+
+      @keyframes status-fadein {
+        from {
+          transform: translateX(4px) rotate(-1deg);
+          opacity: .5;
+        }
+      }
+    }
+  }
 }
