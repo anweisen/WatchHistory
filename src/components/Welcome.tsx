@@ -5,7 +5,8 @@ import {useNavigate} from "react-router-dom";
 import {useContext} from "react";
 import Search from "./Search";
 import {UserContext} from "./context/UserContext";
-import {Item, useGoogleOauthLogin} from "../utils";
+import {useGoogleOauthLogin} from "./ui/ShareDecisionModal";
+import {Item} from "../utils";
 import "./Welcome.scss";
 
 const Welcome = ({openMenu}: { openMenu: (item: Item) => void }) => {
