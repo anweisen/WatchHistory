@@ -1,4 +1,4 @@
-import {faAngleLeft, faCheck, faTrashCan, faTriangleExclamation, faUserSlash, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {faAngleLeft, faTrashCan, faTriangleExclamation, faUserSlash} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React, {useContext, useState} from "react";
 import {ModalContext} from "../context/ModalContext";
@@ -32,7 +32,7 @@ const ResetModal = () => {
 
           if (deleteAccount) {
             fetchUserDelete()
-              .catch(console.error)
+              .catch(console.error);
             deleteJwt();
           }
           closeModal();

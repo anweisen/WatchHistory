@@ -37,7 +37,7 @@ const Menu = ({item, saveItem, removeItem, cancel, isSharedData}: {
 
   useEffect(() => {
     setDetails(lookup(item, () => setDetails(lookup(item, forceUpdate))));
-  }, [item]);
+  }, [forceUpdate, item]);
   useEffect(() => {
     if (!details) return;
     if (item.series) {
@@ -52,7 +52,8 @@ const Menu = ({item, saveItem, removeItem, cancel, isSharedData}: {
     } else {
       setTotalPlaytime((details as MovieDetails).runtime);
     }
-  }, [details, updater, forceUpdate]);
+    // eslint-disable-next-line
+  }, [details, updater]);
 
   return (
     <div className="AnimatedModalContent DefaultModalContent Menu">

@@ -1,5 +1,5 @@
 import {GoogleOAuthProvider} from "@react-oauth/google";
-import React, {useCallback, useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Route, Routes, useLocation, useNavigate, useParams} from "react-router-dom";
 import {ModalContext} from "./components/context/ModalContext";
 import {AppContext} from "./components/context/AppContext";
@@ -117,11 +117,11 @@ const App = () => {
     openModal(<Menu item={item} key={item.id} saveItem={saveItem} removeItem={removeItem} cancel={closeModal} isSharedData={isSharedData}/>);
   };
 
-  const sync = useCallback(async () => {
+  const sync = async () => {
     const syncPayload = await fetchSyncRequest(items);
     setItems(syncPayload.items);
     writeItemsToCookies(syncPayload.items);
-  }, [items, setItems, writeItemsToCookies]);
+  };
 
   return (
     <GoogleOAuthProvider clientId={clientId}>
@@ -179,6 +179,7 @@ const AppHooks = () => {
     if (jwtCredential !== null && jwtCredential !== undefined && jwtCredential !== "") {
       fetch(jwtCredential);
     }
+    // eslint-disable-next-line
   }, []);
 
   return <></>;
