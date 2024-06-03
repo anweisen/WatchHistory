@@ -1,7 +1,6 @@
 import {GoogleOAuthProvider} from "@react-oauth/google";
 import React, {useCallback, useContext, useEffect, useState} from "react";
-import {Navigate, Route, Routes, useLocation, useNavigate, useParams} from "react-router-dom";
-import {decodeItems, Item, useCalculateSummary} from "./utils";
+import {Route, Routes, useLocation, useNavigate, useParams} from "react-router-dom";
 import {ModalContext} from "./components/context/ModalContext";
 import {AppContext} from "./components/context/AppContext";
 import {UserContext, UserContextProvider} from "./components/context/UserContext";
@@ -16,8 +15,9 @@ import NewClock from "./components/clock/NewClock";
 import Discover from "./components/Discover";
 import Welcome from "./components/Welcome";
 import LoginLoaderOverlay from "./components/ui/LoginLoaderOverlay";
-import {fetchItemDelete, fetchItemUpdate, fetchSyncRequest} from "./api/api";
 import UserProfile, {RawUserProfile} from "./components/UserProfile";
+import {decodeItems, Item, useCalculateSummary} from "./utils";
+import {fetchItemDelete, fetchItemUpdate, fetchSyncRequest} from "./api/api";
 import "./App.scss";
 
 const App = () => {
@@ -249,7 +249,7 @@ const RawUserProfileComponent = () => {
       <NavBar sitename={"profile"}/>
       <RawUserProfile items={items}/>
     </>
-  )
+  );
 };
 const UserProfileComponent = () => {
   const {user} = useParams();
@@ -263,7 +263,7 @@ const UserProfileComponent = () => {
       </>
     );
   } else {
-    return <PageNotFound/>
+    return <PageNotFound/>;
   }
 };
 

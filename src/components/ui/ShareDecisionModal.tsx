@@ -1,11 +1,13 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGoogle} from "@fortawesome/free-brands-svg-icons";
 import {faAngleLeft, faUserSecret} from "@fortawesome/free-solid-svg-icons";
+import {useGoogleLogin} from "@react-oauth/google";
 import React, {useContext} from "react";
 import {ModalContext} from "../context/ModalContext";
 import {AppContext} from "../context/AppContext";
-import {shareAccount, shareAnonymously} from "../../utils";
 import {UserContext} from "../context/UserContext";
+import LoginLoaderOverlay from "./LoginLoaderOverlay";
+import {shareAccount, shareAnonymously} from "../../utils";
 
 const ShareDecisionModal = () => {
   const {closeModal} = useContext(ModalContext);
@@ -36,6 +38,30 @@ export const useShareStrategy = () => {
   const {openModal} = useContext(ModalContext);
 
   return loggedIn ? () => shareAccount(email.replace(/@.*$/, "")) : () => openModal(<ShareDecisionModal/>);
+};
+
+export const useGoogleOauthLogin = () => {
+  const {exchangeAuthCode} = useContext(UserContext);
+  const {openModal, closeModal} = useContext(ModalContext);
+  const {sync} = useContext(AppContext);
+
+  return useGoogleLogin({
+    flow: "auth-code",
+    onError: errorResponse => {
+      console.log(errorResponse);
+    },
+    onSuccess: async tokenResponse => {
+      console.log(tokenResponse);
+      openModal(<LoginLoaderOverlay/>);
+      try {
+        await exchangeAuthCode(tokenResponse.code);
+        await sync();
+      } catch (ex) {
+        console.error(ex);
+      }
+      closeModal();
+    },
+  });
 };
 
 export default ShareDecisionModal;

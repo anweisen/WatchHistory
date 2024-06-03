@@ -1,11 +1,8 @@
-import React, {useCallback, useContext, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {useGoogleLogin} from "@react-oauth/google";
 import {MovieDetails, TvSeriesDetails, TvSeriesSeason} from "./tmdb/types";
 import {lookup, lookupRuntime} from "./tmdb/api";
 import LoginLoaderOverlay from "./components/ui/LoginLoaderOverlay";
-import {UserContext} from "./components/context/UserContext";
-import {ModalContext} from "./components/context/ModalContext";
-import {AppContext} from "./components/context/AppContext";
 
 export const formatTime = (minutes: number | undefined) => {
   if (minutes === undefined || isNaN(minutes)) return "?";
@@ -216,28 +213,4 @@ export const useCalculateSummary = (items: Item[]): CalculateProps => {
   }, [items, updater]);
 
   return {finished, time, values};
-};
-
-export const useGoogleOauthLogin = () => {
-  const {exchangeAuthCode} = useContext(UserContext);
-  const {openModal, closeModal} = useContext(ModalContext);
-  const {sync} = useContext(AppContext);
-
-  return useGoogleLogin({
-    flow: "auth-code",
-    onError: errorResponse => {
-      console.log(errorResponse);
-    },
-    onSuccess: async tokenResponse => {
-      console.log(tokenResponse);
-      openModal(LoginLoaderOverlay());
-      try {
-        await exchangeAuthCode(tokenResponse.code);
-        await sync();
-      } catch (ex) {
-        console.error(ex);
-      }
-      closeModal();
-    },
-  });
 };
