@@ -148,9 +148,22 @@
         border-radius: 1px;
         border: none;
         margin: 0 15px;
+
+        @media (max-width: 650px) {
+          margin: 0 auto;
+        }
+        @media (max-width: 375px) {
+          display: none;
+        }
       }
 
-      span {
+      span:last-child {
+        @media (max-width: 650px) {
+          margin-left: auto;
+        }
+        @media (max-width: 320px) {
+          margin: auto;
+        }
       }
 
       .DisplayName {
