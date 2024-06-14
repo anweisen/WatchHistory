@@ -39,6 +39,7 @@
     }
 
     transition: transform ease .2s;
+
     &:hover {
       transform: scale(1.025);
     }
@@ -96,35 +97,37 @@
     }
   }
 
-  &:hover {
-    .Sitename {
-      p {
-        opacity: 0;
-        transform: translateX(5px);
-      }
-
-      span {
-        display: flex;
-        opacity: 1;
-        transform: translateX(5px);
-        animation: navbar-links-fadein ease .2s;
-
-        @keyframes navbar-links-fadein {
-          from {
-            transform: translateX(0px);
-          }
+  @media (min-width: 650px) {
+    &:hover:not(:has(.Expanded)) {
+      .Sitename {
+        p {
+          opacity: 0;
+          transform: translateX(5px);
         }
 
-        @for $i from 2 through 10 {
-          div:nth-child(#{$i}) {
-            animation: navbar-link-fadein ease-out .25s #{($i - 1) * .05s} backwards;
-          }
-        }
+        span {
+          display: flex;
+          opacity: 1;
+          transform: translateX(5px);
+          animation: navbar-links-fadein ease .2s;
 
-        @keyframes navbar-link-fadein {
-          from {
-            opacity: 0;
-            transform: translateY(-5px);
+          @keyframes navbar-links-fadein {
+            from {
+              transform: translateX(0px);
+            }
+          }
+
+          @for $i from 2 through 10 {
+            div:nth-child(#{$i}) {
+              animation: navbar-link-fadein ease-out .25s #{($i - 1) * .05s} backwards;
+            }
+          }
+
+          @keyframes navbar-link-fadein {
+            from {
+              opacity: 0;
+              transform: translateY(-5px);
+            }
           }
         }
       }

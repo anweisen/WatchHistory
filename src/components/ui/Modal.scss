@@ -7,6 +7,9 @@ body:has(.Modal.Visible) {
   @media (max-width: 650px) {
     margin-right: 4px;
   }
+  @media (max-width: 450px) {
+    margin-right: 0;
+  }
 }
 
 .Modal {
@@ -76,7 +79,7 @@ body:has(.Modal.Visible) {
   height: 100vh;
   display: grid;
   place-items: center;
-  background: rgba(0, 0, 0, .5);
+  background: rgba(0, 0, 0, .75);
   pointer-events: auto;
   z-index: 5;
 

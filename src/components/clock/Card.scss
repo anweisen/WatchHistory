@@ -175,8 +175,11 @@
         border-radius: 8px;
         transition: scale ease .2s, filter ease .2s;
 
-        @media (max-width: 500px) {
+        @media (max-width: 650px) {
           max-height: 110px;
+        }
+        @media (max-width: 450px) {
+          max-height: 100px;
         }
 
         &:hover {

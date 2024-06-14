@@ -19,7 +19,7 @@ const DefaultUserData: UserType = {
   name: "",
   picture: "",
   locale: "",
-  processJwt: (value: string) => Promise.resolve(),
+  processJwt: (jwt: string) => Promise.resolve(),
   deleteJwt: () => undefined,
   exchangeAuthCode: (code: string) => Promise.resolve()
 };
@@ -56,6 +56,7 @@ export const UserContextProvider = ({children}: { children: React.ReactNode }) =
       setLocale(decoded.locale);
       setLoggedIn(true);
     } catch (ex) {
+      deleteJwt();
       console.error("cannot decode jwt", ex);
     }
   };
