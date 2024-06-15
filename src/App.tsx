@@ -163,7 +163,7 @@ const AppHooks = () => {
   const {openModal, closeModal} = useContext(ModalContext);
 
   useEffect(() => {
-    const fetch = async (jwt: string) => {
+    const doFetch = async (jwt: string) => {
       openModal(<LoginLoaderOverlay/>);
       try {
         await processJwt(jwt);
@@ -177,7 +177,7 @@ const AppHooks = () => {
     console.log("THIS IS HAPPENMNG !!");
     const jwtCredential = localStorage.getItem("auth");
     if (jwtCredential !== null && jwtCredential !== undefined && jwtCredential !== "") {
-      fetch(jwtCredential);
+      doFetch(jwtCredential);
     }
     // eslint-disable-next-line
   }, []);
