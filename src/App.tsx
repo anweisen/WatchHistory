@@ -40,6 +40,13 @@ const App = () => {
       setCouldRedirectWelcome(false);
     }
   }, [couldRedirectWelcome, navigate, items, location.pathname]);
+  useEffect(() => {
+    if (location.pathname.startsWith("/@")) {
+      document.title = `Watched • Profile (${decodeURIComponent(location.pathname.substring(2).replace("/", ""))})`;
+    } else {
+      document.title = `Watched`;
+    }
+  }, [location.pathname]);
 
   useEffect(() => {
     const items = JSON.parse(localStorage.getItem("items") || "[]");
