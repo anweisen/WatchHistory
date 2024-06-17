@@ -18,6 +18,7 @@ import LoginLoaderOverlay from "./components/ui/LoginLoaderOverlay";
 import UserProfile, {RawUserProfile} from "./components/UserProfile";
 import {decodeItems, Item, useCalculateSummary} from "./utils";
 import {fetchItemDelete, fetchItemUpdate, fetchSyncRequest} from "./api/api";
+import OfflineBadge from "./components/OfflineBadge";
 import "./App.scss";
 
 const App = () => {
@@ -143,6 +144,7 @@ const App = () => {
               </Modal>
 
               <div className="Content">
+                <OfflineBadge/>
 
                 <Routes>
                   <Route path={"/"} element={<DashboardComponent items={items} openMenu={openMenu}/>}/>

@@ -1,0 +1,63 @@
+.OfflineBadge {
+  color: var(--text-primary);
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+  border-bottom: var(--background-border) solid 2px;
+  border-radius: 2px;
+  padding: 12px 20px;
+  position: sticky;
+  margin-top: -12px;
+  top: 0;
+  background: transparent;
+  z-index: 1;
+
+  svg {
+    color: var(--icon-primary);
+    margin-right: 5px;
+    animation: offline-badge-plane ease-out .5s .25s backwards;
+  }
+
+  p {
+    color: var(--text-secondary);
+    font-size: 12px;
+    transition: ease-out .3s;
+  }
+
+  transition: scale ease-out .3s;
+
+  &.Progressed {
+    background: var(--background-border);
+    top: 8px;
+    border-radius: 20px;
+    min-width: max-content;
+    box-sizing: border-box;
+    margin: 0 auto;
+    scale: .9;
+    border-bottom-color: transparent;
+    transition: scale ease-out .3s, background ease-out .3s;
+
+    p {
+      opacity: 0;
+      display: none;
+    }
+  }
+
+  animation: offline-badge-fadein ease-out .5s backwards;
+
+  @keyframes offline-badge-fadein {
+    from {
+      opacity: 0;
+      transform: translateY(-50%);
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes offline-badge-plane {
+    from {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+  }
+}
