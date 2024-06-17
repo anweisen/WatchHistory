@@ -122,10 +122,19 @@
       color: var(--icon-primary);
       font-family: "Poppins", sans-serif;
       display: flex;
-      gap: 10px;
+      gap: 12px;
       align-items: center;
       justify-content: center;
       padding: 11px 0;
+
+      svg {
+        color: var(--text-secondary);
+        font-size: 1.25em;
+      }
+
+      @media (max-width: 650px) {
+        font-size: 18px;
+      }
     }
 
     .Result {

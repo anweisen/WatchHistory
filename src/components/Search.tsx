@@ -1,6 +1,6 @@
 import {useContext, useEffect, useRef, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCircleXmark, faCompass, faFilm, faImage, faLaptop, faList, faSearch, faTv, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {faCircleXmark, faCompass, faFilm, faImage, faKeyboard, faLaptop, faList, faSearch, faTv, faXmark} from "@fortawesome/free-solid-svg-icons";
 import Loader from "./Loader";
 import {AppContext} from "./context/AppContext";
 import {provideImageUrl, searchMovies, searchSeries} from "../tmdb/api";
@@ -127,8 +127,11 @@ const Search = ({openMenu}: { openMenu: (item: Item) => void }) => {
 
       <span className="SearchResultsContainer">
         <div className="SearchResults" style={!focus ? {display: "none"} : undefined}>
-          {!series && !movies ? <Loader/> : !series?.length && !movies?.length
-            ? <div className="None"><FontAwesomeIcon icon={faCircleXmark}/>try another show</div> : undefined}
+          {!series && !movies
+            ? <Loader/> : !inputRef?.current?.value?.length
+            ? <div className="None"><FontAwesomeIcon icon={faKeyboard}/>enter a show or movie name</div>
+            : !series?.length && !movies?.length
+              ? <div className="None"><FontAwesomeIcon icon={faCircleXmark}/>try another show or movie</div> : undefined}
 
           {series?.map((value, index) => (
             <div className="Result" key={index}
