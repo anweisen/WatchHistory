@@ -1,11 +1,15 @@
-FROM node:latest AS build
+FROM node:latest AS depends
 
 WORKDIR /app
 
 COPY package.json ./
-COPY . .
 
 RUN npm install
+
+FROM depends AS build
+
+COPY . .
+
 RUN npm run build
 
 FROM nginx:alpine
