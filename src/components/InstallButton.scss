@@ -1,0 +1,81 @@
+.InstallButton {
+  position: fixed;
+  bottom: clamp(20px, 3%, 100px);
+  width: 80%;
+  left: 10%;
+  box-sizing: border-box;
+  background: var(--action-success-background);
+  color: var(--text-primary);
+  backdrop-filter: blur(8px);
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 25px;
+  user-select: none;
+  cursor: pointer;
+
+  @media (min-width: 1900px) {
+    width: 76%;
+    left: 12%;
+  }
+  @media (max-width: 650px) {
+    left: 8%;
+    width: 84%;
+  }
+  @media (max-width: 400px) {
+    width: 90%;
+    left: 5%;
+  }
+
+
+  animation: install-fadein ease .5s 1s backwards;
+  @keyframes install-fadein {
+    from {
+      transform: translateY(100%) scale(.975);
+      opacity: 0;
+      display: none;
+    }
+    30% {
+      opacity: 1;
+    }
+  }
+
+  &:active {
+    animation: install-fadeout ease .5s forwards;
+    @keyframes install-fadeout {
+      30% {
+        opacity: 1;
+      }
+      to {
+        scale: 1.05;
+        opacity: 0;
+        display: none;
+      }
+    }
+  }
+
+  @media (max-width: 650px) {
+    padding: 8px 20px;
+  }
+
+  svg:first-of-type {
+    font-size: 1.25em;
+  }
+
+  svg {
+    color: var(--icon-primary);
+  }
+
+  &:hover :last-child {
+    transform: translateX(3px);
+  }
+
+  :last-child {
+    transition: transform ease .2s;
+    margin-left: auto;
+    margin-right: 0;
+  }
+}
