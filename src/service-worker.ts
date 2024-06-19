@@ -12,7 +12,7 @@ import {clientsClaim} from "workbox-core";
 import {ExpirationPlugin} from "workbox-expiration";
 import {createHandlerBoundToURL, precacheAndRoute} from "workbox-precaching";
 import {registerRoute} from "workbox-routing";
-import {NetworkFirst} from "workbox-strategies";
+import {NetworkFirst, StaleWhileRevalidate} from "workbox-strategies";
 import OfflineNotifyWorkerPlugin from "./offlineNotifyWorkerPlugin";
 
 declare const self: ServiceWorkerGlobalScope;
@@ -65,7 +65,7 @@ registerRoute(
   // Add in any other file extensions or routing criteria as needed.
   ({url}) => url.origin === self.location.origin && (url.pathname.endsWith(".png") || url.pathname.endsWith("favicon.ico") || url.pathname.endsWith("manifest.json")),
   // Customize this strategy as needed, e.g., by changing to CacheFirst.
-  new NetworkFirst({
+  new StaleWhileRevalidate({
     cacheName: "assets",
     plugins: [
       // Ensure that once this runtime cache reaches a maximum size the
@@ -79,7 +79,7 @@ registerRoute(
 // Cache Google Fonts
 registerRoute(
   ({url}) => url.origin === "https://fonts.googleapis.com" || url.origin === "https://fonts.gstatic.com",
-  new NetworkFirst({
+  new StaleWhileRevalidate({
     cacheName: "google-fonts",
     plugins: [
       new ExpirationPlugin({maxEntries: 20}),
@@ -103,7 +103,7 @@ registerRoute(
 // Cache TMDb Image responses
 registerRoute(
   ({url}) => url.origin === "https://image.tmdb.org" && url.pathname.endsWith(".jpg"),
-  new NetworkFirst({
+  new StaleWhileRevalidate({
     cacheName: "tmdb-img",
     plugins: [
       new ExpirationPlugin({maxEntries: 150, maxAgeSeconds: 60 * 60 * 24 * 3}), // 3 days
