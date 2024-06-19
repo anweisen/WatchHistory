@@ -1,19 +1,19 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faExclamation, faUser} from "@fortawesome/free-solid-svg-icons";
+import {faExclamation, faUser, faUserCheck, faUserPlus} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {fetchUserUnauthorized, UserAccountInfo} from "../api/api";
-import {CompiledValue, Item, useCalculateSummary} from "../utils";
 import Loader from "./Loader";
-import NewClock from "./clock/NewClock";
 import List from "./List";
-import {provideImageUrl} from "../tmdb/api";
+import NewClock from "./clock/NewClock";
+import {CompiledValue, Item, useCalculateSummary} from "../utils";
+import {fetchUserUnauthorized, UserAccountInfo} from "../api/account";
 import "./UserProfile.scss";
 
 const UserProfile = ({userId}: {
   userId: string
 }) => {
   const navigate = useNavigate();
+
   const [userInfo, setUserInfo] = useState<UserAccountInfo | undefined>();
   const [error, setError] = useState<any>();
 
@@ -71,7 +71,7 @@ const UserProfileContent = ({userName, userInfo}: {
       <NewClock values={values} finished={finished} time={time} openMenu={() => undefined}
                 wage={12} setWage={() => undefined} currency={"€"} setCurrency={() => undefined}/>
       <hr/>
-      <List items={userInfo.items} openMenu={() => undefined}/>
+      <List items={userInfo.items} values={values} openMenu={() => undefined}/>
     </>
   );
 };
@@ -115,19 +115,19 @@ const Ranking = ({values}: { values: CompiledValue[] | undefined }) => {
       <div className={"Rank Second"}>
         <div className={"Bar"}><p>2</p></div>
         <div className={"Image"}>
-          {ranked && (ranked?.length || 0) >= 2 && <img src={provideImageUrl(ranked?.at(1)?.details?.poster_path)} alt={""}/>}
+          {ranked && (ranked?.length || 0) >= 2 && <img src={ranked?.at(1)?.details?.poster_url} alt={""}/>}
         </div>
       </div>
       <div className={"Rank First"}>
         <div className={"Bar"}><p>1</p></div>
         <div className={"Image"}>
-          {ranked && (ranked?.length || 0) >= 1 && <img src={provideImageUrl(ranked?.at(0)?.details?.poster_path)} alt={""}/>}
+          {ranked && (ranked?.length || 0) >= 1 && <img src={ranked?.at(0)?.details?.poster_url} alt={""}/>}
         </div>
       </div>
       <div className={"Rank Third"}>
         <div className={"Bar"}><p>3</p></div>
         <div className={"Image"}>
-          {ranked && (ranked?.length || 0) >= 3 && <img src={provideImageUrl(ranked?.at(2)?.details?.poster_path)} alt={""}/>}
+          {ranked && (ranked?.length || 0) >= 3 && <img src={ranked?.at(2)?.details?.poster_url} alt={""}/>}
         </div>
       </div>
     </div>

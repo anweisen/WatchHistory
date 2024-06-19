@@ -16,9 +16,10 @@ import Discover from "./components/Discover";
 import Welcome from "./components/Welcome";
 import LoginLoaderOverlay from "./components/ui/LoginLoaderOverlay";
 import UserProfile, {RawUserProfile} from "./components/UserProfile";
-import {decodeItems, Item, useCalculateSummary} from "./utils";
-import {fetchItemDelete, fetchItemUpdate, fetchSyncRequest} from "./api/api";
+import InstallButton from "./components/InstallButton";
 import OfflineBadge from "./components/OfflineBadge";
+import {CompiledValue, decodeItems, Item, useCalculateSummary} from "./utils";
+import {fetchItemDelete, fetchItemUpdate, fetchSyncRequest} from "./api/account";
 import "./App.scss";
 
 const App = () => {
@@ -207,12 +208,14 @@ const DashboardComponent = ({openMenu, items}: {
   openMenu: (item: Item) => void,
   items: Item[]
 }) => {
+  const {values, time, finished} = useCalculateSummary(items);
+
   return (
     <>
       <NavBar sitename="overview"/>
-      <ClockDisplay openMenu={openMenu}/>
+      <ClockDisplay values={values} time={time} finished={finished} openMenu={openMenu}/>
       <Search openMenu={openMenu}/>
-      <List items={items} openMenu={openMenu}/>
+      <List items={items} values={values} openMenu={openMenu}/>
     </>
   );
 };
@@ -277,17 +280,21 @@ const UserProfileComponent = () => {
   }
 };
 
-const ClockDisplay = ({openMenu}: { openMenu: (item: Item) => void }) => {
-  const {items, ogClock} = useContext(AppContext);
-  const {values, time, finished} = useCalculateSummary(items);
+const ClockDisplay = ({openMenu, values, time, finished}: {
+  openMenu: (item: Item) => void,
+  values: CompiledValue[] | undefined,
+  time: number,
+  finished: boolean
+}) => {
+  const {ogClock} = useContext(AppContext);
 
   const [wage, setWage] = useState(-1);
   const [currency, setCurrency] = useState("€");
 
   return ogClock
-    ? <OgClock items={items} time={time} finished={finished} wage={wage} setWage={setWage} currency={currency} setCurrency={setCurrency}/>
-    : <NewClock values={values} time={time} finished={finished} openMenu={openMenu} wage={wage} setWage={setWage} currency={currency}
-                setCurrency={setCurrency}/>;
+    ? <OgClock time={time} finished={finished} wage={wage} setWage={setWage} currency={currency} setCurrency={setCurrency}/>
+    : <NewClock values={values} time={time} finished={finished} openMenu={openMenu}
+                wage={wage} setWage={setWage} currency={currency} setCurrency={setCurrency}/>;
 };
 
 export default App;

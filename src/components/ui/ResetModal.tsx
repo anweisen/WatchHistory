@@ -4,7 +4,7 @@ import React, {useContext, useState} from "react";
 import {ModalContext} from "../context/ModalContext";
 import {AppContext} from "../context/AppContext";
 import {UserContext} from "../context/UserContext";
-import {fetchUserDelete} from "../../api/api";
+import {fetchUserDelete} from "../../api/account";
 import "./ResetModal.scss";
 
 const ResetModal = () => {
@@ -31,8 +31,7 @@ const ResetModal = () => {
           writeItemsToCookies([]);
 
           if (deleteAccount) {
-            fetchUserDelete()
-              .catch(console.error);
+            fetchUserDelete().catch(console.error);
             deleteJwt();
           }
           closeModal();

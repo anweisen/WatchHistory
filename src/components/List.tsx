@@ -2,21 +2,19 @@ import React from "react";
 import {faHourglass} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useNavigate} from "react-router-dom";
-import {lookup, provideImageUrl} from "../tmdb/api";
-import {Item, useForceUpdate} from "../utils";
+import {CompiledValue, Item} from "../utils";
 import "./List.scss";
 
-const List = ({items, openMenu}: { items: Item[], openMenu: (item: Item) => void }) => {
-  const [, forceUpdate] = useForceUpdate();
+const List = ({items, values, openMenu}: { items: Item[], values: CompiledValue[] | undefined, openMenu: (item: Item) => void }) => {
   const navigate = useNavigate();
 
   return (
     <div className="List">
       {items.length > 0
-        ? items.map(value => ({item: value, details: lookup(value, forceUpdate)}))
-          .map(({item, details}) =>
-            <div key={item.id} className={"Item"} onClick={() => openMenu(item)}>
-              {!details ? <></> : <img src={provideImageUrl(details.poster_path)} alt="?"/>}
+        ? items.map(item => (values?.find(value => value.item.id === item.id)))
+          .map((value?: CompiledValue) =>
+            <div key={value?.item?.id} className={"Item"} onClick={() => openMenu(value?.item!!)}>
+              {!value ? <></> : <img src={value?.details?.poster_url} alt="?"/>}
             </div>)
         : <Empty navigate={navigate}/>}
     </div>

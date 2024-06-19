@@ -1,7 +1,7 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDownload, faShareAlt} from "@fortawesome/free-solid-svg-icons";
 import React, {useContext} from "react";
-import {formatTime, Item} from "../../utils";
+import {formatTime} from "../../utils";
 import ImportModal from "../ui/ImportModal";
 import {ModalContext} from "../context/ModalContext";
 import {AppContext} from "../context/AppContext";
@@ -10,8 +10,7 @@ import Loader from "../Loader";
 import {useShareStrategy} from "../ui/ShareDecisionModal";
 import "./OgClock.scss";
 
-const OgClock = ({items, time, finished, wage, setWage, currency, setCurrency}: {
-  items: Item[],
+const OgClock = ({time, finished, wage, setWage, currency, setCurrency}: {
   time: number,
   finished: boolean,
   wage: number,
@@ -19,7 +18,7 @@ const OgClock = ({items, time, finished, wage, setWage, currency, setCurrency}: 
   currency: string,
   setCurrency: (v: string) => void
 }) => {
-  const {openModal, closeModal} = useContext(ModalContext);
+  const {openModal} = useContext(ModalContext);
   const {isSharedData} = useContext(AppContext);
   const share = useShareStrategy();
 

@@ -2,8 +2,6 @@ import {IconDefinition} from "@fortawesome/free-brands-svg-icons";
 import {faCaretDown, faChartSimple, faCircleExclamation, faRepeat, faStopwatch} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React, {FunctionComponent, useEffect, useState} from "react";
-import {MovieDetails, TvSeriesDetails} from "../../tmdb/types";
-import {provideImageUrl} from "../../tmdb/api";
 import {CompiledValue, formatTime, Item} from "../../utils";
 import Loader from "../Loader";
 import "./Card.scss";
@@ -82,11 +80,11 @@ const ExhibitionCard = ({value, openMenu}: { value: CompiledValue, openMenu: (it
           <div><FontAwesomeIcon icon={faRepeat}/> <p>{averageRewatchFormat(value.item)}x</p></div>
         </div>
         <div>
-          <p className={"Title"}>{(value.details as TvSeriesDetails).name || (value.details as MovieDetails).title}</p>
-          <p className={"Tagline"}>{(value.details as TvSeriesDetails).tagline || (value.details as TvSeriesDetails).original_name || (value.details as MovieDetails).original_title}</p>
+          <p className={"Title"}>{value.details.title}</p>
+          <p className={"Tagline"}>{value.details.tagline || value.details.original_title}</p>
         </div>
       </span>
-      <img src={provideImageUrl((value.details as TvSeriesDetails).poster_path)} alt={""} onClick={() => openMenu(value.item)}/>
+      <img src={value.details.poster_url} alt={""} onClick={() => openMenu(value.item)}/>
     </div>
   );
 };
@@ -139,7 +137,7 @@ const Card = ({values, openMenu, finished}: { values: CompiledValue[] | undefine
   useEffect(() => {
     if (dropdown || !finished || values?.length === 0) return;
     const timerId = setInterval(() => {
-      setSelected(prev => (prev + 1 >= CardTypes.length) ? 0 :  prev + 1)
+      setSelected(prev => (prev + 1 >= CardTypes.length) ? 0 : prev + 1);
     }, 8_000);
     return () => clearInterval(timerId);
   }, [dropdown, finished, values]);

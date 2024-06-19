@@ -1,8 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
-import {useGoogleLogin} from "@react-oauth/google";
-import {MovieDetails, TvSeriesDetails, TvSeriesSeason} from "./tmdb/types";
-import {lookup, lookupRuntime} from "./tmdb/api";
-import LoginLoaderOverlay from "./components/ui/LoginLoaderOverlay";
+import {lookupDetails, MovieDetails, SeriesDetails} from "./api/details";
+import {TvSeriesSeason} from "./tmdb/types";
 
 export const formatTime = (minutes: number | undefined) => {
   if (minutes === undefined || isNaN(minutes)) return "?";
@@ -157,7 +155,7 @@ export const mergeItemSets = (itemSet1: Item[], itemSet2: Item[]): Item[] => {
 
 export const findItemById = (items: Item[], id: number, series: boolean): Item | undefined => items.find(item => item.id === id && item.series === series);
 
-export type CompiledValue = { item: Item, details?: TvSeriesDetails | MovieDetails | undefined, runtime: number }
+export type CompiledValue = { item: Item, details: SeriesDetails | MovieDetails, runtime: number }
 
 type CalculateProps = {
   values: CompiledValue[] | undefined,
@@ -166,51 +164,37 @@ type CalculateProps = {
 }
 
 export const useCalculateSummary = (items: Item[]): CalculateProps => {
-  const [updater, forceUpdate] = useForceUpdate();
   const [values, setValues] = useState<CompiledValue[] | undefined>(undefined);
   const [time, setTime] = useState(0);
   const [finished, setFinished] = useState(false);
 
   const calculateTime = useCallback(() => {
     console.log("RECALC");
-    let finished = true;
-    let values = items
-      .map(value => ({item: value, details: lookup(value, forceUpdate)}))
-      .filter(({details}) => details !== undefined)
-      .map(({item, details}) => {
-        if (item.series) {
-          const series = details as TvSeriesDetails;
-          const seasonRuntime = lookupRuntime(series, forceUpdate);
-          if (seasonRuntime === undefined) {
-            finished = false;
-            return {item: item, details: details, runtime: 0};
-          }
-          let runtime = 0;
-          for (let i = 0; i < Math.max(series.number_of_seasons || 1, series.seasons.length); i++) {
-            const season = series.seasons[i];
-            if (!isValidSeason(season)) continue;
-            runtime += seasonRuntime[season.season_number] * timesOf(item.times[season.season_number]);
-          }
-          return {item: item, details: details, runtime: runtime};
-        } else {
-          return {item: item, details: details, runtime: (details as MovieDetails).runtime * timesOf(item.times[0])};
+
+    const promises = items.map(async (item): Promise<CompiledValue> => {
+      const details = await lookupDetails(item);
+      let runtime = 0;
+      if (item.series) {
+        const series = details as SeriesDetails;
+        for (let season of series.seasons) {
+          runtime += season.runtime * timesOf(item.times[season.number]);
         }
-      });
-
-    let total = values.reduce((prev, {runtime}) => prev + runtime, 0);
-
-    if (finished) {
+      } else {
+        runtime = (details as MovieDetails).runtime * timesOf(item.times[0]);
+      }
+      return {item, details, runtime};
+    });
+    Promise.all(promises).then(values => {
       setValues(values);
-    }
-    setTime(total);
-    setFinished(finished);
-  }, [items, forceUpdate, setValues, setTime, setFinished]);
+      setTime(values.reduce((prev, {runtime}) => prev + runtime, 0));
+      setFinished(true);
+    });
+  }, [items, setValues, setTime, setFinished]);
 
   useEffect(() => {
     console.log("EFFECRT°!");
     calculateTime();
-    // eslint-disable-next-line
-  }, [items, updater]);
+  }, [calculateTime, items]);
 
   return {finished, time, values};
 };

@@ -1,22 +1,19 @@
 import {faAngleLeft, faCalendar, faCheck, faClock, faFilm, faMinus, faPlus, faTrashCan, faTv} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useEffect, useState} from "react";
-import {MovieDetails, TvSeriesDetails, TvSeriesSeason} from "../tmdb/types";
-import {lookup, lookupRuntime, provideImageUrl} from "../tmdb/api";
-import {formatTime, isValidSeason, Item, timesOf, useForceUpdate} from "../utils";
 import Loader from "./Loader";
+import {formatTime, Item, timesOf} from "../utils";
+import {lookupDetails, MovieDetails, SeasonDetails, SeriesDetails} from "../api/details";
 import "./Menu.scss";
 
-export const ensureTimesArraySize = (item: Item, seasons: TvSeriesSeason[]) => {
+export const ensureTimesArraySize = (item: Item, seasons: SeasonDetails[]) => {
   let times = [0];
   for (let season of seasons) {
-    if (isValidSeason(season)) {
-      times[season.season_number] = timesOf(item.times[season.season_number]);
-    }
+    times[season.number] = timesOf(item.times[season.number]);
   }
   return times;
 };
-const setTimes = (plus: boolean, season: number, seasons: TvSeriesSeason[], item: Item) => {
+const setTimes = (plus: boolean, season: number, seasons: SeasonDetails[], item: Item) => {
   const times = ensureTimesArraySize(item, seasons);
   if (plus) times[season] = timesOf(times[season]) + 1;
   else if (times[season] !== 0) times[season] = timesOf(times[season]) - 1;
@@ -31,36 +28,32 @@ const Menu = ({item, saveItem, removeItem, cancel, isSharedData}: {
   isSharedData: boolean
 }) => {
   const [state, setState] = useState<Item>(item);
-  const [details, setDetails] = useState<TvSeriesDetails | MovieDetails>();
+  const [details, setDetails] = useState<SeriesDetails | MovieDetails>();
   const [totalPlaytime, setTotalPlaytime] = useState<number>();
-  const [updater, forceUpdate] = useForceUpdate();
 
   useEffect(() => {
-    setDetails(lookup(item, () => setDetails(lookup(item, forceUpdate))));
-  }, [forceUpdate, item]);
+    lookupDetails(item).then(setDetails);
+  }, [item]);
   useEffect(() => {
     if (!details) return;
     if (item.series) {
-      const series = details as TvSeriesDetails;
-      const seasonRuntime = lookupRuntime(series, forceUpdate);
-      if (!seasonRuntime) return;
-
-      const sum = series.seasons.filter(isValidSeason)
-        .map(value => seasonRuntime[value.season_number])
+      const series = details as SeriesDetails;
+      const sum = series.seasons.map(value => value.runtime)
         .reduce((prev, curr) => prev + curr);
+
       setTotalPlaytime(sum);
     } else {
       setTotalPlaytime((details as MovieDetails).runtime);
     }
     // eslint-disable-next-line
-  }, [details, updater]);
+  }, [details]);
 
   return (
     <div className="AnimatedModalContent DefaultModalContent Menu">
       {details ? <>
         {state.series
-          ? <SeriesMenu details={details as TvSeriesDetails} state={state} setState={setState} isSharedData={isSharedData}
-                        forceUpdate={forceUpdate} totalPlaytime={totalPlaytime}/>
+          ? <SeriesMenu details={details as SeriesDetails} state={state} setState={setState} isSharedData={isSharedData}
+                        totalPlaytime={totalPlaytime}/>
           : <MovieMenu details={details as MovieDetails} totalPlaytime={totalPlaytime} isSharedData={isSharedData}
                        state={state} setState={setState}/>}
 
@@ -78,34 +71,33 @@ const Menu = ({item, saveItem, removeItem, cancel, isSharedData}: {
   );
 };
 
-const SeriesMenu = ({details, totalPlaytime, forceUpdate, isSharedData, state, setState}: {
-  details: TvSeriesDetails,
+const SeriesMenu = ({details, totalPlaytime, isSharedData, state, setState}: {
+  details: SeriesDetails,
   totalPlaytime: number | undefined,
-  forceUpdate: () => void,
   isSharedData: boolean,
   state: Item,
   setState: (v: Item) => void
 }) => (<>
-  <MenuHead name={details.name} originalName={details.original_name} tagline={details.tagline} posterPath={details.poster_path}
+  <MenuHead name={details.title} originalName={details.original_title} tagline={details.tagline} posterUrl={details.poster_url}
             firstAirDate={details.first_air_date?.substring(0, 4)} lastAirDate={details.last_air_date?.substring(0, 4)}
             totalPlaytime={totalPlaytime} series={true}/>
   <div className="History">
     <div className="Title">Watch History</div>
     <div className="Seasons">
-      {details.seasons.filter(isValidSeason).map((season) =>
-        <div key={season.id + "-" + season.season_number} className="Season">
+      {details.seasons.map((season) =>
+        <div key={season.number} className="Season">
           <div className="SeasonStats">
             <div className="Name">{season.name}</div>
             <div className="Episodes">{season.episode_count}</div>
-            <div className="Runtime">{formatTime(lookupRuntime(details, forceUpdate)?.at(season.season_number))}</div>
+            <div className="Runtime">{formatTime(season.runtime)}</div>
           </div>
           <div className="Controls">
             <div className={"Minus" + (isSharedData ? " Disabled" : "")}
-                 onClick={!isSharedData ? () => setState(setTimes(false, season.season_number, details.seasons, state)) : undefined}>
+                 onClick={!isSharedData ? () => setState(setTimes(false, season.number, details.seasons, state)) : undefined}>
               <FontAwesomeIcon icon={faMinus}/></div>
-            <div className="Display">{timesOf(state.times[season.season_number])}x</div>
+            <div className="Display">{timesOf(state.times[season.number])}x</div>
             <div className={"Plus" + (isSharedData ? " Disabled" : "")}
-                 onClick={!isSharedData ? () => setState(setTimes(true, season.season_number, details.seasons, state)) : undefined}>
+                 onClick={!isSharedData ? () => setState(setTimes(true, season.number, details.seasons, state)) : undefined}>
               <FontAwesomeIcon icon={faPlus}/></div>
           </div>
         </div>)}
@@ -120,8 +112,8 @@ const MovieMenu = ({details, totalPlaytime, isSharedData, state, setState}: {
     state: Item,
     setState: (v: Item) => void
   }) => (<>
-    <MenuHead name={details.title} originalName={details.original_title} tagline={details.tagline} posterPath={details.poster_path}
-              firstAirDate={details.release_date?.substring(0, 4)} lastAirDate={undefined} totalPlaytime={totalPlaytime} series={false}/>
+    <MenuHead name={details.title} originalName={details.original_title} tagline={details.tagline} posterUrl={details.poster_url}
+              firstAirDate={details.first_air_date?.substring(0, 4)} lastAirDate={undefined} totalPlaytime={totalPlaytime} series={false}/>
     <div className="History">
       <div className="Title">Watch History</div>
       <div className="Seasons">
@@ -146,23 +138,24 @@ const MovieMenu = ({details, totalPlaytime, isSharedData, state, setState}: {
   </>)
 ;
 
-const MenuHead = ({name, originalName, tagline, posterPath, firstAirDate, lastAirDate, totalPlaytime, series}: {
+const MenuHead = ({name, originalName, tagline, posterUrl, firstAirDate, lastAirDate, totalPlaytime, series}: {
   name: string,
   originalName: string,
   tagline: string | undefined,
-  posterPath: string | undefined,
+  posterUrl: string | undefined,
   firstAirDate: string | undefined,
   lastAirDate: string | undefined,
   totalPlaytime: number | undefined,
   series: boolean,
 }) => (
   <div className="Head">
-    <img className="Poster" src={provideImageUrl(posterPath)} alt=""/>
+    <img className="Poster" src={posterUrl} alt=""/>
     <div className="Info">
       <div className="Name">{name} <FontAwesomeIcon icon={series ? faTv : faFilm}/></div>
       <div className="Tagline">{(name === originalName && tagline) ? tagline : originalName}</div>
       <span>
-        <div className="Year"><FontAwesomeIcon icon={faCalendar}/> {firstAirDate} {lastAirDate && firstAirDate !== lastAirDate && "-" + lastAirDate}</div>
+        <div className="Year"><FontAwesomeIcon
+          icon={faCalendar}/> {firstAirDate} {lastAirDate && firstAirDate !== lastAirDate && "-" + lastAirDate}</div>
         {totalPlaytime && <div className="Playtime"><FontAwesomeIcon icon={faClock}/> {formatTime(totalPlaytime)}</div>}
       </span>
     </div>

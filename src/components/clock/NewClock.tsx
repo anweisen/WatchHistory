@@ -1,11 +1,11 @@
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCoins, faFilm, faInfoCircle, faNotEqual, faTv} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React, {useContext, useEffect, useState} from "react";
-import {TvSeriesDetails} from "../../tmdb/types";
 import {CompiledValue, formatTime, Item} from "../../utils";
 import {ModalContext} from "../context/ModalContext";
 import WageModal from "../ui/WageModal";
 import Card from "./Card";
+import {SeriesDetails} from "../../api/details";
 import "./NewClock.scss";
 
 const NewClock = ({values, finished, time, openMenu, wage, setWage, currency, setCurrency}: {
@@ -61,9 +61,8 @@ const InfoList = ({time, wage, setWage, currency, setCurrency, values}: {
   useEffect(() => {
     if (values === undefined) return;
     const series = values.filter(value => value.item.series);
-    // @ts-ignore
-    const seasons = series.reduce((prev, cur) => prev + (cur.details as TvSeriesDetails).number_of_seasons, 0);
-    const episodes = series.reduce((prev, cur) => prev + (cur.details as TvSeriesDetails).number_of_episodes, 0);
+    const seasons = series.reduce((prev, cur) => prev + (cur.details as SeriesDetails).seasons.length, 0);
+    const episodes = series.reduce((prev, cur) => prev + (cur.details as SeriesDetails).seasons.reduce((prev, cur) => prev + cur.episode_count, 0), 0);
     setCalculated({series: series.length, movies: values.length - series.length, total: values.length || 1, episodes: episodes, seasons: seasons});
   }, [values]);
 
