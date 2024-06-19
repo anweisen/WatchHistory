@@ -27,6 +27,7 @@ const DefaultUserData: UserType = {
 export const UserContext = createContext(DefaultUserData);
 
 export const UserContextProvider = ({children}: { children: React.ReactNode }) => {
+  const [timerId, setTimerId] = useState<any>();
   const [loggedIn, setLoggedIn] = useState(false);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -47,8 +48,14 @@ export const UserContextProvider = ({children}: { children: React.ReactNode }) =
       // issued in the future
       if (parseInt(decoded.iat) * 1000 > Date.now()) {
         console.log(parseInt(decoded.iat) * 1000 - Date.now());
-        await new Promise(resolve => setTimeout(resolve, parseInt(decoded.iat) * 1000 - Date.now()))
+        await new Promise(resolve => setTimeout(resolve, parseInt(decoded.iat) * 1000 - Date.now()));
       }
+
+      // 10s before jwt expires, refresh :)
+      clearTimeout(timerId);
+      setTimerId(setTimeout(() => {
+        processJwt(jwt);
+      }, decoded.exp * 1000 - Date.now() - 10_000));
 
       setEmail(decoded.email);
       setName(decoded.name);
