@@ -28,15 +28,40 @@ const NewClock = ({values, finished, time, openMenu, wage, setWage, currency, se
 };
 
 const ClockFace = ({time}: { time: number }) => {
+  const [displayTime, setDisplayTime] = useState(0);
+
+  function ease(t: number) {
+    return 1 - Math.pow(1 - t, 5);
+  }
+
+  useEffect(() => {
+    const diff = time - displayTime;
+    if (diff === 0) return;
+    let progress = 0;
+    const intervalId = setInterval(() => {
+      progress += 2;
+      console.log(progress / 100);
+      if (progress >= 100) {
+        clearInterval(intervalId);
+        setDisplayTime(time);
+        return;
+      }
+      setDisplayTime(displayTime + diff * ease(progress / 100));
+    }, 1000 / 20);
+
+    return () => clearInterval(intervalId);
+    // eslint-disable-next-line
+  }, [time]);
+
   return (
     <div className={"ClockFace"}>
       <div className={"Text"}>
-        <p className={"Time"}>{formatTime(time)}</p>
+        <p className={"Time"}>{formatTime(displayTime)}</p>
         <div className={"SubTime"}>
           <p className={"Or"}>OR</p>
-          <p className={"Days"}>{(Math.floor(time / 60 / 24 * 10) / 10).toFixed(1)} days</p>
+          <p className={"Days"}>{(Math.floor(displayTime / 60 / 24 * 10) / 10).toFixed(1)} days</p>
         </div>
-        <div className={"Year"}>{(time / 60 / 24 / 365 * 100).toFixed(2)}% of a year</div>
+        <div className={"Year"}>{(displayTime / 60 / 24 / 365 * 100).toFixed(2)}% of a year</div>
       </div>
       <div className={"Visual"}>
         {Array(31).fill(0).map((_, index) => (
