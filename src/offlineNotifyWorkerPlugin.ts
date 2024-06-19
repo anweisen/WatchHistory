@@ -4,6 +4,14 @@ declare const self: ServiceWorkerGlobalScope;
 
 class OfflineNotifyWorkerPlugin implements WorkboxPlugin {
 
+  async fetchDidFail() {
+    console.log("fetchDidFail");
+  }
+
+  async cachedResponseWillBeUsed() {
+    console.log("cachedResponseWillBeUsed");
+  }
+
   async handlerDidError({request, error}: { request: Request, error: Error }) {
     const cachedResponse = await caches.match(request);
     console.log("handlerDidError ", error instanceof TypeError, typeof error, request.url, cachedResponse?.status);
