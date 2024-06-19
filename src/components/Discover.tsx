@@ -2,9 +2,10 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHome, faPen, faTrashCan, faAngleUp, faMinusCircle} from "@fortawesome/free-solid-svg-icons";
 import {useEffect, useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {discoverSeries, lookup, provideImageUrl} from "../tmdb/api";
-import {SearchTvSeriesEntry, TvSeriesDetails} from "../tmdb/types";
-import {findItemById, isValidSeason, Item, timesOf} from "../utils";
+import {discoverSeries, provideImageUrl} from "../tmdb/api";
+import {SearchTvSeriesEntry} from "../tmdb/types";
+import {findItemById, Item, timesOf} from "../utils";
+import {lookupDetails, SeriesDetails} from "../api/details";
 import {ensureTimesArraySize} from "./Menu";
 import Loader from "./Loader";
 import "./Discover.scss";
@@ -109,15 +110,12 @@ const max = (times: number[] | undefined) => {
 
 function updateTimes(item: Item | undefined, saveItem: (item: Item) => void, removeItem: (item: Item) => void, entry: SearchTvSeriesEntry, plus: boolean) {
   if (item) {
-    const add = () => {
-      const details = lookup(item, add) as TvSeriesDetails | undefined;
-      if (!details) return;
-      const times = ensureTimesArraySize(item, details.seasons);
-
-      for (let season of details.seasons) {
-        const value = timesOf(times[season.season_number]);
-        if (!isValidSeason(season)) continue;
-        times[season.season_number] = Math.max(plus ? value + 1 : value - 1, 0);
+    lookupDetails(item).then(details => {
+      const series = details as SeriesDetails;
+      const times = ensureTimesArraySize(item, series.seasons);
+      for (let season of series.seasons) {
+        const value = timesOf(times[season.number]);
+        times[season.number] = Math.max(plus ? value + 1 : value - 1, 0);
       }
 
       if (Math.max(...times) === 0) {
@@ -125,8 +123,7 @@ function updateTimes(item: Item | undefined, saveItem: (item: Item) => void, rem
       } else {
         saveItem({...item, times: times});
       }
-    };
-    add();
+    });
   } else {
     saveItem({id: entry.id, times: [], series: true});
   }
