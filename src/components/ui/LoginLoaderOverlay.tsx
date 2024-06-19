@@ -9,6 +9,7 @@ const LoginLoaderOverlay = () => {
   return (
     <div className={"LoginLoaderOverlay SimplyAnimatedModalContent"}>
       <div className={"Title"}>Processing Login</div>
+      <div className={"Subtitle"}>Synchronizing Data</div>
       <Loader/>
       <div className={"TextButton"} onClick={closeModal}>Close</div>
     </div>

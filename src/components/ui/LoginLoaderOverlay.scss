@@ -5,7 +5,6 @@
   .Title {
     color: var(--text-primary);
     font-size: 24px;
-    margin-bottom: 10px;
     position: relative;
 
     &:after {
@@ -26,6 +25,11 @@
         }
       }
     }
+  }
+
+  .Subtitle {
+    color: var(--text-secondary);
+    margin-bottom: 10px;
   }
 
   .TextButton {
