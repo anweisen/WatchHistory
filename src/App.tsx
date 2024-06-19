@@ -157,6 +157,7 @@ const App = () => {
                 </Routes>
 
                 <Footer/>
+                <InstallButton/>
               </div>
 
             </div>
