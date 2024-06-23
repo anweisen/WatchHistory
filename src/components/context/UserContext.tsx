@@ -58,7 +58,7 @@ export const UserContextProvider = ({children}: { children: React.ReactNode }) =
       }, decoded.exp * 1000 - Date.now() - 10_000));
 
       setEmail(decoded.email);
-      setName(decoded.name);
+      setName(decoded.given_name);
       setPicture(decoded.picture);
       setLocale(decoded.locale);
       setLoggedIn(true);
