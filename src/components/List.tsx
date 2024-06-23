@@ -12,8 +12,8 @@ const List = ({items, values, openMenu}: { items: Item[], values: CompiledValue[
     <div className="List">
       {items.length > 0
         ? items.map(item => (values?.find(value => value.item.id === item.id)))
-          .map((value?: CompiledValue) =>
-            <div key={value?.item?.id} className={"Item"} onClick={() => openMenu(value?.item!!)}>
+          .map((value: CompiledValue | undefined, index: number) =>
+            <div key={index + "-" + value?.item?.id} className={"Item"} onClick={() => openMenu(value?.item!!)}>
               {!value ? <></> : <img src={value?.details?.poster_url} alt="?"/>}
             </div>)
         : <Empty navigate={navigate}/>}
