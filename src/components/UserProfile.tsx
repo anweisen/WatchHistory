@@ -18,6 +18,8 @@ const UserProfile = ({userId}: {
   const [error, setError] = useState<any>();
 
   useEffect(() => {
+    setUserInfo(undefined);
+
     fetchUserUnauthorized(userId)
       .then(setUserInfo)
       .catch(setError);
