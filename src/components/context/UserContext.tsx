@@ -41,7 +41,7 @@ export const UserContextProvider = ({children}: { children: React.ReactNode }) =
       const decoded: any = jwtDecode(jwt);
       console.log(decoded);
 
-      if (Date.now() > decoded.exp * 1000) {
+      if (Date.now() > decoded.exp * 1000 - 10_000) {
         const token = await refreshIdToken(jwt);
         return processJwt(token);
       }
