@@ -6,7 +6,7 @@ export const formatTime = (minutes: number | undefined) => {
   if (minutes === undefined || isNaN(minutes)) return "?";
   const hours = Math.floor(minutes / 60.0);
   minutes %= 60;
-  return (hours > 0 ? (hours.toFixed(0) + "h ") : "") + minutes.toFixed(0) + "m";
+  return (hours > 0 ? (hours.toFixed(0) + "h ") : "") + minutes.toFixed(0).padStart(2, "0") + "m";
 };
 
 export const shareAnonymously = (items: Item[]) => {
