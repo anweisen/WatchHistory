@@ -1,13 +1,16 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faExclamation, faUser, faUserCheck, faUserPlus} from "@fortawesome/free-solid-svg-icons";
+import {faExclamation, faGear, faUser, faUserCheck} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import Loader from "./Loader";
 import List from "./List";
 import NewClock from "./clock/NewClock";
 import {CompiledValue, Item, useCalculateSummary} from "../utils";
-import {fetchUserUnauthorized, UserAccountInfo} from "../api/account";
+import {fetchFriendDelete, fetchFriendPost, fetchFriends, fetchUserUnauthorized, FriendsPayload, UserAccountInfo} from "../api/account";
+import {UserContext} from "./context/UserContext";
 import "./UserProfile.scss";
+import {ModalContext} from "./context/ModalContext";
+import FriendsModal from "./ui/FriendsModal";
 
 const UserProfile = ({userId}: {
   userId: string
@@ -43,7 +46,8 @@ export const RawUserProfile = ({items}: {
 }) => {
   return (
     <div className={"UserProfile"}>
-      <UserProfileContent userName={"raw data"} userInfo={{items: items, user: {name: "Anonymous", id: "", picture: ""}}}/>
+      <UserProfileContent userName={"raw data"}
+                          userInfo={{items: items, friends: [], user: {display: "Anonymous", username: "raw data", id: "", picture: ""}}}/>
     </div>
   );
 };
@@ -82,6 +86,8 @@ const UserInfo = ({userName, userInfo}: {
   userName: string,
   userInfo: UserAccountInfo,
 }) => {
+  const {openModal} = useContext(ModalContext);
+
   return (
     <div className={"UserInfo"}>
       <div className={"ProfilePicture"}>
@@ -91,16 +97,36 @@ const UserInfo = ({userName, userInfo}: {
         }
       </div>
       <span>
-        <div className={"DisplayName"}>{userInfo.user.name}</div>
+        <div className={"DisplayName"}><p>{userInfo.user.display}</p> <UserActionButton userId={userInfo.user.id}/></div>
         <div className={"UserName"}>{userName}</div>
       </span>
       <hr/>
-      <span>
-        <div className={"FriendsAmount"}>01</div>
+      <span className={"Friends"} onClick={() => openModal(<FriendsModal userInfo={userInfo}/>)}>
+        <div className={"FriendsAmount"}>{(userInfo.friends?.length || 0).toString().padStart(2, "0")}</div>
         <div className={"FriendsLabel"}>friends</div>
       </span>
     </div>
   );
+};
+
+const UserActionButton = ({userId}: { userId: string }) => {
+  const {loggedIn, id} = useContext(UserContext);
+  const [friends, setFriends] = useState<FriendsPayload>();
+
+  useEffect(() => {
+    console.log("action effect");
+    if (loggedIn && id !== userId && friends === undefined) {
+      console.log("fetching friends");
+      fetchFriends().then(setFriends);
+    }
+  }, [loggedIn, id, userId, friends]);
+
+  return (loggedIn && (friends !== undefined || id === userId)) ? (id === userId
+      ? <div className={"Action Settings"}><FontAwesomeIcon icon={faGear}/></div>
+      : friends?.friends?.includes(userId)
+        ? <div className={"Action Added"} onClick={() => fetchFriendDelete(userId).then(setFriends)}><FontAwesomeIcon icon={faUserCheck}/></div>
+        : <div className={"Action Follow"} onClick={() => fetchFriendPost(userId).then(setFriends)}>follow</div>
+  ) : <></>;
 };
 
 const Ranking = ({values}: { values: CompiledValue[] | undefined }) => {

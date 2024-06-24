@@ -163,6 +163,9 @@
       }
 
       span:last-child {
+        user-select: none;
+        cursor: pointer;
+
         @media (max-width: 650px) {
           margin-left: auto;
         }
@@ -176,7 +179,7 @@
         gap: 2px;
         color: var(--text-primary);
         font-size: 24px;
-        line-height: 1em;
+        line-height: 1.25em;
         white-space: nowrap;
 
         p {
@@ -189,19 +192,41 @@
 
         @media (max-width: 650px) {
           p {
-            max-width: 7em;
+            max-width: 6.5em;
           }
         }
 
-        svg {
-          font-size: .8em;
-          color: var(--icon-primary);
+        .Action {
+          font-size: .5em;
+          color: var(--text-primary);
           margin: auto 0 auto 5px;
           text-align: center;
-          width: 1em;
-          height: 1em;
+          padding: 3px 6px;
+          line-height: 1.25em;
+          border: var(--background-popup-secondary) solid 1px;
+          border-radius: 6px;
+          user-select: none;
+          cursor: pointer;
+          transition: background ease .15s;
+
+          &:hover, &.Settings {
+            background: var(--background-popup-secondary);
+          }
+          &.Added:hover {
+            background: var(--action-success-background)
+          }
 
           &.Added {
+            border-color: var(--action-success-background);
+            color: var(--action-success);
+          }
+
+          animation: action-fadein ease-out .2s;
+          @keyframes action-fadein {
+            from {
+              opacity: 0;
+              scale: 0;
+            }
           }
         }
 

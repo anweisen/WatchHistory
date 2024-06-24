@@ -6,11 +6,16 @@ export type SyncPayload = {
 }
 export type UserAccountInfo = {
   items: Item[],
+  friends: string[],
   user: {
     id: string,
-    name: string,
+    display: string,
+    username: string,
     picture: string,
   }
+}
+export type FriendsPayload = {
+  friends: string[]
 }
 
 export const fetchSyncRequest = async (items: Item[]): Promise<SyncPayload> => {
@@ -36,4 +41,16 @@ export const fetchItemDelete = async (itemId: number) => {
 export const fetchUserUnauthorized = async (userId: string) => {
   return fetchWith("GET", `/user/${userId}`, undefined, undefined)
     .then<UserAccountInfo>(value => value.json());
+};
+export const fetchFriendPost = async (userId: string) => {
+  return fetchWithCredentials("POST", `/user/me/friend/${userId}`, undefined)
+    .then<FriendsPayload>(value => value.json());
+};
+export const fetchFriendDelete = async (userId: string) => {
+  return fetchWithCredentials("DELETE", `/user/me/friend/${userId}`, undefined)
+    .then<FriendsPayload>(value => value.json());
+};
+export const fetchFriends = async () => {
+  return fetchWithCredentials("GET", `/user/me/friends`, undefined)
+    .then<FriendsPayload>(value => value.json());
 };
