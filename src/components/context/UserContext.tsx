@@ -4,6 +4,7 @@ import {API_BACKEND_URL} from "../../api/api";
 
 type UserType = {
   loggedIn: boolean,
+  id: string,
   email: string,
   name: string,
   picture: string,
@@ -15,6 +16,7 @@ type UserType = {
 
 const DefaultUserData: UserType = {
   loggedIn: false,
+  id: "",
   email: "",
   name: "",
   picture: "",
@@ -28,7 +30,9 @@ export const UserContext = createContext(DefaultUserData);
 
 export const UserContextProvider = ({children}: { children: React.ReactNode }) => {
   const [timerId, setTimerId] = useState<any>();
+
   const [loggedIn, setLoggedIn] = useState(false);
+  const [id, setId] = useState("");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [picture, setPicture] = useState("");
@@ -57,6 +61,7 @@ export const UserContextProvider = ({children}: { children: React.ReactNode }) =
         processJwt(jwt);
       }, decoded.exp * 1000 - Date.now() - 10_000));
 
+      setId(decoded.sub);
       setEmail(decoded.email);
       setName(decoded.given_name);
       setPicture(decoded.picture);
@@ -70,6 +75,7 @@ export const UserContextProvider = ({children}: { children: React.ReactNode }) =
 
   const deleteJwt = () => {
     localStorage.removeItem("auth");
+    setId("");
     setEmail("");
     setName("");
     setPicture("");
@@ -109,7 +115,7 @@ export const UserContextProvider = ({children}: { children: React.ReactNode }) =
   };
 
   return (
-    <UserContext.Provider value={{loggedIn, email, name, picture, locale, processJwt, deleteJwt, exchangeAuthCode}}>
+    <UserContext.Provider value={{loggedIn, id, email, name, picture, locale, processJwt, deleteJwt, exchangeAuthCode}}>
       {children}
     </UserContext.Provider>
   );
