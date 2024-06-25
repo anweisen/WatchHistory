@@ -26,7 +26,7 @@ const FriendsModal = ({userInfo}: { userInfo: UserAccountInfo }) => {
       </div>
       <hr/>
       {!userInfo.friends?.length
-        ? <div className={"Empty"}>{userInfo.user.display} got friends yet :(</div>
+        ? <div className={"Empty"}>{userInfo.user.display} got no friends yet :(</div>
         : Object.values(info).length !== userInfo.friends.length
           ? <Loader/>
           : <div className={"Entries"}>{userInfo.friends?.map((friendId) => info[friendId])?.map(info => (
