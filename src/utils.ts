@@ -9,6 +9,17 @@ export const formatTime = (minutes: number | undefined) => {
   return (hours > 0 ? (hours.toFixed(0) + "h ") : "") + minutes.toFixed(0).padStart(2, "0") + "m";
 };
 
+export const averageRewatch = (item: Item) => {
+  if (item.times.length === 0) return 1;
+  const sum = item.times.reduce((prev, cur) => prev + cur, 0);
+  const length = item.times[0] === 0 ? item.times.length - 1 : item.times.length;
+  return Math.max(1, sum / length);
+};
+export const averageRewatchFormat = (item: Item) => {
+  const format = averageRewatch(item).toFixed(1);
+  return format.endsWith("0") ? format.slice(0, -2) : format;
+};
+
 export const shareAnonymously = (items: Item[]) => {
   const url = `${window.location.origin}/raw?${encodeItems(items)}`;
   shareUrl(url);

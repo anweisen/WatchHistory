@@ -2,20 +2,9 @@ import {IconDefinition} from "@fortawesome/free-brands-svg-icons";
 import {faCaretDown, faChartSimple, faCircleExclamation, faRepeat, faStopwatch} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React, {FunctionComponent, useEffect, useState} from "react";
-import {CompiledValue, formatTime, Item} from "../../utils";
+import {averageRewatch, averageRewatchFormat, CompiledValue, formatTime, Item} from "../../utils";
 import Loader from "../Loader";
 import "./Card.scss";
-
-const averageRewatch = (item: Item) => {
-  if (item.times.length === 0) return 1;
-  const sum = item.times.reduce((prev, cur) => prev + cur, 0);
-  const length = item.times[0] === 0 ? item.times.length - 1 : item.times.length;
-  return Math.max(1, sum / length);
-};
-const averageRewatchFormat = (item: Item) => {
-  const format = averageRewatch(item).toFixed(1);
-  return format.endsWith("0") ? format.slice(0, -2) : format;
-};
 
 const LongestSum = ({values, openMenu}: CardProps) => {
   const [value, setValue] = useState<CompiledValue>();
