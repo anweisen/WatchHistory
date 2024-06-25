@@ -265,6 +265,7 @@
         color: var(--icon-primary);
         border: solid var(--background-popup-secondary) 1px;
         border-radius: 8px;
+        white-space: nowrap;
         user-select: none;
         cursor: pointer;
 
@@ -285,11 +286,11 @@
       span {
         overflow-x: auto;
         display: flex;
-        padding: 8px 32px;
+        padding: 12px 32px;
         gap: 30px;
 
         @media (max-width: 650px) {
-          padding: 4px 16px;
+          padding: 6px 16px;
           gap: 20px;
         }
       }
@@ -307,7 +308,7 @@
       }
 
       .Part {
-        background: rgba(255, 255, 255, .25);
+        background: rgba(255, 255, 255, .22);
         padding: 18px 25px;
         border-radius: 12px;
         backdrop-filter: blur(3px);
