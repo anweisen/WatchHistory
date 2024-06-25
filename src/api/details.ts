@@ -1,5 +1,6 @@
 import {fetchWith} from "./api";
 import {Item} from "../utils";
+import {ResultEntry} from "./search";
 
 export interface IDetails {
   id: string;
@@ -14,10 +15,18 @@ export interface IDetails {
 
 export interface MovieDetails extends IDetails {
   runtime: number;
+  collection: CollectionDetails | undefined;
 }
 
 export interface SeriesDetails extends IDetails {
   seasons: SeasonDetails[];
+}
+
+export interface CollectionDetails {
+  name: string;
+  poster_url: string | undefined;
+  backdrop_url: string | undefined;
+  parts: ResultEntry[];
 }
 
 export interface SeasonDetails {
@@ -55,14 +64,14 @@ export const lookupDetails = async (item: Item): Promise<MovieDetails | SeriesDe
   }
 
   const promise: Promise<MovieDetails | SeriesDetails> = item.series ? fetchSeriesDetails(id) : fetchMovieDetails(id);
-  promises.set(id, promise)
-  return wrapPromise(promise)
+  promises.set(id, promise);
+  return wrapPromise(promise);
 };
 const wrapPromise = <T>(promise: Promise<T>) => {
   return new Promise<T>(resolve => {
     promise.then(value => {
       resolve(value);
       return value;
-    })
-  })
-}
+    });
+  });
+};
