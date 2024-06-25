@@ -8,7 +8,7 @@ import "./ImportModal.scss";
 
 const ImportModal = () => {
   const {closeModal} = useContext(ModalContext);
-  const {items, setItems, writeItemsToCookies, retrieveItemsFromCookies} = useContext(AppContext);
+  const {items, writeItemsToCookies, retrieveItemsFromCookies} = useContext(AppContext);
 
   const [importMethod, setImportMethod] = useState("");
 

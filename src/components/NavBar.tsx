@@ -7,7 +7,7 @@ import ProfileOptions from "./ui/ProfileOptions";
 import "./NavBar.scss";
 
 const NavBar = ({sitename}: { sitename: string }) => {
-  const {loggedIn, name, picture} = useContext(UserContext);
+  const {loggedIn, picture} = useContext(UserContext);
   const [optionsVisible, setOptionsVisible] = useState(false);
   const profileRef = useRef(null);
   const navigate = useNavigate();
