@@ -60,7 +60,7 @@ const Menu = ({item, saveItem, removeItem, cancel, isSharedData}: {
     if (item.series) {
       const series = details as SeriesDetails;
       const sum = series.seasons.map(value => value.runtime)
-        .reduce((prev, curr) => prev + curr);
+        .reduce((prev, curr) => prev + curr, 0);
 
       setTotalPlaytime(sum);
     } else {
@@ -185,13 +185,16 @@ const MovieCollection = ({details, state, addEffected, removeEffected, effected}
     let map: Record<string, Item> = {};
     for (let part of details.collection!!.parts) {
       let id = parseInt(part.id);
-      const foundItem = id === state.id ? state : findItemById(items, id, false);
+      const foundItem = id === state.id
+        ? state : effected.some(test => test.id === id)
+          ? effected.find(test => test.id === id) 
+          : findItemById(items, id, false);
       if (foundItem) {
         map[part.id] = foundItem;
       }
     }
     setItemMap(map);
-  }, [items, details, state]);
+  }, [items, details, state, effected]);
   useEffect(() => {
     effected.forEach(value => addEffected({id: value.id, series: value.series, times: state.times}));
     // eslint-disable-next-line
