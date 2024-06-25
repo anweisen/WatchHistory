@@ -1,19 +1,13 @@
-name: Deploy to Pages
+name: Check/Build
 
 on:
   push:
     branches: [ master ]
-  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     permissions:
-      pages: write
-      id-token: write
       contents: read
     steps:
       - name: checkout
@@ -28,11 +22,4 @@ jobs:
         run: npm run build
         env:
           PUBLIC_URL: /
-          CI: false
-      - name: upload artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: ./build
-      - name: deploy to github pages
-        id: deployment
-        uses: actions/deploy-pages@v1
+          CI: true
