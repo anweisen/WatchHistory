@@ -259,7 +259,7 @@
       }
 
       .ApplyButton {
-        padding: 2px 8px;
+        padding: 4px 8px;
         margin: auto 0;
         font-size: .7em;
         color: var(--icon-primary);
@@ -268,9 +268,14 @@
         white-space: nowrap;
         user-select: none;
         cursor: pointer;
+        line-height: 1em;
 
         &:hover {
           background: var(--background-popup-secondary);
+        }
+
+        svg {
+          margin-right: 2px;
         }
       }
     }

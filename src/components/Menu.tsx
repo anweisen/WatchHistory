@@ -9,7 +9,8 @@ import {
   faPlus,
   faRepeat,
   faTrashCan,
-  faTv
+  faTv,
+  faXmark
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useCallback, useContext, useEffect, useState} from "react";
@@ -187,7 +188,7 @@ const MovieCollection = ({details, state, addEffected, removeEffected, effected}
       let id = parseInt(part.id);
       const foundItem = id === state.id
         ? state : effected.some(test => test.id === id)
-          ? effected.find(test => test.id === id) 
+          ? effected.find(test => test.id === id)
           : findItemById(items, id, false);
       if (foundItem) {
         map[part.id] = foundItem;
@@ -203,11 +204,14 @@ const MovieCollection = ({details, state, addEffected, removeEffected, effected}
   return (
     <div className={"Collection"}>
       <div className={"Title"}>{details.collection!!.name}
-        <div className={"ApplyButton"} onClick={() => {
+        {effected.length + 1 !== details.collection?.parts.length ? <div className={"ApplyButton"} onClick={() => {
           details.collection!!.parts.filter(test => test.id !== details.id)
             .forEach(entry => addEffected({id: parseInt(entry.id), series: false, times: state.times}));
         }}><FontAwesomeIcon icon={faAnglesLeft}/> apply all
-        </div>
+        </div> : <div className={"ApplyButton"} onClick={() => {
+          effected.forEach(removeEffected);
+        }}><FontAwesomeIcon icon={faXmark}/> deselect
+        </div>}
       </div>
       <div className={"Parts"} style={{backgroundImage: `url(${details.collection!!.backdrop_url})`}}>
           <span>
