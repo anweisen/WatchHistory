@@ -309,11 +309,12 @@
 
       .Part {
         background: rgba(255, 255, 255, .22);
-        padding: 18px 25px;
+        padding: 12px 25px;
         border-radius: 12px;
         backdrop-filter: blur(3px);
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        gap: 10px;
         align-items: center;
         text-align: center;
         cursor: pointer;
@@ -336,6 +337,17 @@
         @media (max-width: 650px) {
           padding: 10px 18px;
         }
+        @media (max-width: 450px) {
+          padding: 8px 16px;
+        }
+
+        .Info {
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+          align-items: center;
+          justify-content: center;
+        }
 
         .Name {
           font-family: "Poppins", sans-serif;
@@ -343,13 +355,17 @@
           line-height: 1em;
           font-size: 16px;
           max-width: 100px;
-          margin-top: 8px;
+          min-width: #{70px*1.25};
 
           @media (max-width: 650px) {
             font-size: 14px;
           }
           @media (max-width: 450px) {
             font-size: 12px;
+          }
+
+          @media (max-width: 650px) {
+            min-width: #{55px*1.25};
           }
         }
 
@@ -365,7 +381,6 @@
             width: 55px;
           }
           @media (max-width: 450px) {
-
           }
         }
 
@@ -374,8 +389,8 @@
           color: var(--icon-primary);
           font-size: 15px;
           padding-top: 4px;
-          margin-bottom: 0;
-          margin-top: auto;
+          //margin-bottom: 0;
+          //margin-top: auto;
           user-select: none;
           line-height: 1em;
 

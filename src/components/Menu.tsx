@@ -223,9 +223,11 @@ const MovieCollection = ({details, state, addEffected, removeEffected, effected}
                      }
                    } : undefined}>
                 <img className={"Poster"} src={entry.poster_url} alt=""/>
-                <div className={"Name"}>{entry.title}</div>
-                <div className={"Times"}><FontAwesomeIcon icon={faRepeat}/> {itemMap && itemMap[entry.id]
-                  ? timesOf(itemMap[entry.id]?.times?.at(0)) : 0} x
+                <div className={"Info"}>
+                  <div className={"Name"}>{entry.title}</div>
+                  <div className={"Times"}><FontAwesomeIcon icon={faRepeat}/> {itemMap && itemMap[entry.id]
+                    ? timesOf(itemMap[entry.id]?.times?.at(0)) : 0} x
+                  </div>
                 </div>
               </div>
             ))}
