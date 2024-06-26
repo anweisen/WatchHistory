@@ -230,7 +230,7 @@ const MovieCollection = ({details, state, addEffected, removeEffected, effected}
                 <div className={"Info"}>
                   <div className={"Name"}>{entry.title}</div>
                   <div className={"Times"}><FontAwesomeIcon icon={faRepeat}/> {itemMap && itemMap[entry.id]
-                    ? timesOf(itemMap[entry.id]?.times?.at(0)) : 0} x
+                    ? timesOf(itemMap[entry.id]?.times?.at(0)) : 0}x
                   </div>
                 </div>
               </div>

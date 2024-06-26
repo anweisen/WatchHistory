@@ -314,7 +314,7 @@
 
       .Part {
         background: rgba(255, 255, 255, .22);
-        padding: 12px 25px;
+        padding: 10px 20px;
         border-radius: 12px;
         backdrop-filter: blur(3px);
         display: flex;
@@ -340,10 +340,10 @@
         }
 
         @media (max-width: 650px) {
-          padding: 10px 18px;
+          padding: 8px 18px;
         }
         @media (max-width: 450px) {
-          padding: 8px 16px;
+          padding: 6px 16px;
         }
 
         .Info {
