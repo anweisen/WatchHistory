@@ -1,6 +1,6 @@
 import {faCoins, faFilm, faInfoCircle, faNotEqual, faTv} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import {CompiledValue, formatTime, Item} from "../../utils";
 import {ModalContext} from "../context/ModalContext";
 import WageModal from "../ui/WageModal";
@@ -29,21 +29,39 @@ const NewClock = ({values, finished, time, openMenu, wage, setWage, currency, se
 
 const ClockFace = ({time}: { time: number }) => {
   const [displayTime, setDisplayTime] = useState(0);
+  const timeDisplayRef = useRef<HTMLParagraphElement>(null)
+  const [timeWidth, setTimeWidth] = useState<number>();
 
   function ease(t: number) {
     return 1 - Math.pow(1 - t, 5);
   }
+  const getTextWidth = (text: string, font: string): number => {
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    if (context) {
+      context.font = font;
+      return context.measureText(text).width;
+    }
+    return 0;
+  };
 
   useEffect(() => {
     const diff = time - displayTime;
     if (diff === 0) return;
+
+    if (timeDisplayRef.current) {
+      let computedStyle = window.getComputedStyle(timeDisplayRef.current);
+      let width = getTextWidth(formatTime(time), `${computedStyle.fontSize} ${computedStyle.fontFamily}`)
+      setTimeWidth(width);
+    }
+
     let progress = 0;
     const intervalId = setInterval(() => {
       progress += 2;
-      console.log(progress / 100);
       if (progress >= 100) {
         clearInterval(intervalId);
         setDisplayTime(time);
+        setTimeWidth(undefined); // allow resizing
         return;
       }
       setDisplayTime(displayTime + diff * ease(progress / 100));
@@ -56,8 +74,8 @@ const ClockFace = ({time}: { time: number }) => {
   return (
     <div className={"ClockFace"}>
       <div className={"Text"}>
-        <p className={"Time"}>{formatTime(displayTime)}</p>
-        <div className={"SubTime"}>
+        <p className={"Time"} ref={timeDisplayRef} style={{width: timeWidth && `${timeWidth}px`}}>{formatTime(displayTime)}</p>
+        <div className={"SubTime"} style={{width: timeWidth && `${timeWidth}px`}}>
           <p className={"Or"}>OR</p>
           <p className={"Days"}>{(Math.floor(displayTime / 60 / 24 * 10) / 10).toFixed(1)} days</p>
         </div>
