@@ -29,8 +29,8 @@ export const ensureTimesArraySize = (item: Item, seasons: SeasonDetails[]) => {
 };
 const setTimes = (plus: boolean, season: number, seasons: SeasonDetails[], item: Item) => {
   const times = ensureTimesArraySize(item, seasons);
-  if (plus) times[season] = timesOf(times[season]) + 1;
-  else if (times[season] !== 0) times[season] = timesOf(times[season]) - 1;
+  if (plus && times[season] < 99) times[season] = timesOf(times[season]) + 1;
+  else if (!plus && times[season] !== 0) times[season] = timesOf(times[season]) - 1;
   return {...item, times: times};
 };
 
@@ -158,11 +158,11 @@ const MovieMenu = ({details, totalPlaytime, isSharedData, state, setState, addEf
         </div>
         <div className="Controls">
           <div className={"Minus" + (isSharedData ? " Disabled" : "")}
-               onClick={!isSharedData ? () => setState({...state, times: [timesOf(state.times[0]) - 1]}) : undefined}>
+               onClick={!isSharedData ? () => setState({...state, times: [Math.max(timesOf(state.times[0]) - 1, 0)]}) : undefined}>
             <FontAwesomeIcon icon={faMinus}/></div>
           <div className="Display">{timesOf(state.times[0])}x</div>
           <div className={"Plus" + (isSharedData ? " Disabled" : "")}
-               onClick={!isSharedData ? () => setState({...state, times: [timesOf(state.times[0]) + 1]}) : undefined}>
+               onClick={!isSharedData ? () => setState({...state, times: [Math.min(timesOf(state.times[0]) + 1, 99)]}) : undefined}>
             <FontAwesomeIcon icon={faPlus}/></div>
         </div>
       </div>
