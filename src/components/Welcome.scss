@@ -1,6 +1,6 @@
 .Welcome {
 
-  @for $i from 1 through 5 {
+  @for $i from 1 through 8 {
     > :nth-child(#{$i}) {
       animation: welcome-segment-fadein ease-in .3s #{.2s * ($i - 1)} backwards;
     }
@@ -122,7 +122,7 @@
   }
 
   .Options {
-    padding: 50px 0;
+    padding-top: 50px;
 
     @media (max-width: 450px) {
       padding: 25px 0;
@@ -233,13 +233,135 @@
   }
 
   hr {
-    margin-top: 100px;
-    margin-bottom: 50px;
+    margin: 75px 0;
     border: var(--background-border) solid 1px;
 
     @media (max-width: 800px) {
-      margin-top: 10px;
-      margin-bottom: 30px;
+      margin: 30px 0;
+    }
+  }
+
+  .Features {
+    max-width: 80%;
+    margin: 0 auto;
+
+    @media (max-width: 1400px) {
+      max-width: 90%;
+    }
+    @media (max-width: 900px) {
+      max-width: 95%;
+    }
+    @media (max-width: 750px) {
+      max-width: unset;
+    }
+
+    .Entry:not(:first-child) {
+      margin-top: 40px;
+    }
+
+    .Entry {
+      gap: clamp(50px, 120px, 12%);
+      display: flex;
+      flex-direction: row;
+      text-align: left;
+      font-family: "Poppins", sans-serif;
+
+      &:nth-child(2n) {
+        flex-direction: row-reverse;
+      }
+
+      @media (max-width: 1000px) {
+        gap: 50px;
+      }
+      @media (max-width: 750px) {
+        gap: 30px;
+      }
+      @media (max-width: 550px) {
+        gap: 10px;
+        &:nth-child(n) {
+          flex-direction: column;
+        }
+      }
+
+      span {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .Title {
+        color: var(--text-primary);
+        font-size: 28px;
+        font-weight: 500;
+        margin-top: 20px;
+
+        @media (max-width: 1000px) {
+          margin-top: 10px;
+          font-size: 22px;
+        }
+        @media (max-width: 750px) {
+          font-size: 20px;
+        }
+
+        svg {
+          color: var(--text-secondary);
+          margin-right: 5px;
+        }
+      }
+
+      .Explanation {
+        color: var(--text-secondary);
+        margin: 25px 0;
+
+        @media (max-width: 1000px) {
+          margin: 10px 0;
+          font-size: 15px;
+        }
+        @media (max-width: 750px) {
+          font-size: 14px;
+        }
+      }
+
+      .Button {
+        width: max-content;
+        padding: 6px 20px;
+        color: var(--icon-primary);
+        background: var(--background-border);
+        border-radius: 8px;
+        user-select: none;
+        cursor: pointer;
+        transition: background ease .2s, color ease .2s;
+
+        @media (max-width: 1000px) {
+          padding: 5px 15px;
+          font-size: 14px;
+        }
+
+        svg {
+          margin-right: 5px;
+        }
+
+        &:hover {
+          background: var(--background-popup-secondary);
+          color: var(--text-primary);
+        }
+      }
+
+      img {
+        max-width: clamp(250px, 10%, 30%);
+        height: max-content;
+        border-radius: 10px;
+        box-shadow: rgba(0, 0, 0, .2) 0 1px 15px;
+
+        @media (max-width: 1000px) {
+          max-width: 200px;
+        }
+        @media (max-width: 750px) {
+          max-width: 145px;
+        }
+        @media (max-width: 550px) {
+          display: none;
+        }
+      }
     }
   }
 
@@ -269,7 +391,6 @@
       margin-left: 20px;
       color: var(--text-secondary);
       font-size: 16px;
-      font-weight: 500;
       font-family: "Poppins", sans-serif;
 
       @media (max-width: 800px) {
