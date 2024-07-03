@@ -283,6 +283,20 @@
         }
       }
 
+      @media (prefers-reduced-motion: no-preference) {
+        animation: welcome-entry-fade linear;
+        animation-timeline: view();
+        animation-range-end: 15dvh;
+        animation-range-start: 0;
+      }
+
+      @keyframes welcome-entry-fade {
+        from {
+          opacity: 0;
+          transform: translateY(0%) scale(90%);
+        }
+      }
+
       span {
         display: flex;
         flex-direction: column;
