@@ -119,7 +119,7 @@
 
           @for $i from 2 through 10 {
             div:nth-child(#{$i}) {
-              animation: navbar-link-fadein ease-out .25s #{($i - 1) * .05s} backwards;
+              animation: navbar-link-fadein ease-out .3s #{($i - 1) * .1s} backwards;
             }
           }
 
