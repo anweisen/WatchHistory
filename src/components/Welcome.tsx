@@ -1,4 +1,4 @@
-import {faArrowRight, faCompass, faHome} from "@fortawesome/free-solid-svg-icons";
+import {faArrowRight, faCalculator, faCompass, faFilm, faHome, faLightbulb, faSearch, faTv} from "@fortawesome/free-solid-svg-icons";
 import {faGithub, faGoogle} from "@fortawesome/free-brands-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useNavigate} from "react-router-dom";
@@ -51,7 +51,63 @@ const Welcome = ({openMenu}: { openMenu: (item: Item) => void }) => {
 
       <hr/>
 
+      <div className={"Features"}>
+
+        <div className={"Entry"}>
+          <img src={`${process.env.PUBLIC_URL}/showcase/movie.png`} alt=""/>
+          <span>
+            <p className={"Title"}><FontAwesomeIcon icon={faFilm}/> add & count movies</p>
+            <p className={"Explanation"}>
+              Add the movies you have seen and rewatched.<br/>
+              Use the movie collection feature to add all movies of a movie series at once.<br/>
+            </p>
+            <div className={"Button"} onClick={() => document.getElementById("search-input")?.focus()}><FontAwesomeIcon icon={faSearch}/> search for movies</div>
+          </span>
+        </div>
+
+        <div className={"Entry"}>
+          <img src={`${process.env.PUBLIC_URL}/showcase/series.png`} alt=""/>
+          <span>
+            <p className={"Title"}><FontAwesomeIcon icon={faTv}/> add & track shows</p>
+            <p className={"Explanation"}>
+              Add the tv shows you have seen.<br/>
+              Customize how many times you have rewatched certain seasons or not.<br/>
+            </p>
+            <div className={"Button"} onClick={() => document.getElementById("search-input")?.focus()}><FontAwesomeIcon icon={faSearch}/> search for series</div>
+          </span>
+        </div>
+
+        <div className={"Entry"}>
+          <img src={`${process.env.PUBLIC_URL}/showcase/clock.png`} alt=""/>
+          <span>
+            <p className={"Title"}><FontAwesomeIcon icon={faCalculator}/> view your results</p>
+            <p className={"Explanation"}>
+              Get a detailed overview about your viewing history.<br/>
+              Visualize your spent time with a square for every day.<br/>
+              Find out and analyze out your viewing personality.<br/>
+              And then calculate how much money you could have earned.<br/>
+            </p>
+            <div className={"Button"} onClick={() => navigate("/")}><FontAwesomeIcon icon={faHome}/> go to overview</div>
+          </span>
+        </div>
+
+        <div className={"Entry"}>
+          <img src={`${process.env.PUBLIC_URL}/showcase/discover.png`} alt=""/>
+          <span>
+            <p className={"Title"}><FontAwesomeIcon icon={faLightbulb}/> discover shows</p>
+            <p className={"Explanation"}>
+              If you can't even remember what you all watched in the past,<br/>
+              you can discover the most popular shows and movies and simply add them to your list.<br/>
+            </p>
+            <div className={"Button"} onClick={() => navigate("/discover")}><FontAwesomeIcon icon={faCompass}/> discover</div>
+          </span>
+        </div>
+      </div>
+
+      <hr/>
+
       <div className={"Showcase"}>
+
         <div className={"Entry"}>
           <h1>open source</h1>
           <span>
