@@ -1,3 +1,62 @@
+.ListWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .ListGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    &:first-of-type {
+      margin-top: -16px;
+    }
+
+    .List {
+      animation: list-fadein ease-out .5s;
+      @keyframes list-fadein {
+        from {
+          transform: translateY(-8px);
+        }
+      }
+    }
+
+    &.Hidden {
+      .List {
+        display: none;
+      }
+
+      .ListLabel svg:last-of-type {
+        transform: rotate(180deg);
+      }
+    }
+
+    .ListLabel {
+      font-size: 15px;
+      font-family: "Poppins", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--text-secondary);
+      user-select: none;
+      cursor: pointer;
+
+      svg {
+        font-size: .9em;
+      }
+
+      svg:first-of-type {
+        color: var(--icon-primary);
+        margin: 0 5px;
+        background: var(--background-border);
+      }
+
+      svg:last-of-type {
+        transition: transform ease .25s;
+      }
+    }
+  }
+}
+
 .List {
   display: flex;
   flex-wrap: wrap;
