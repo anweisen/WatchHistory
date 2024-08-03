@@ -34,6 +34,10 @@ export const fetchItemUpdate = async (item: Item) => {
   return fetchWithCredentials("POST", "/user/me/item", JSON.stringify({item: {...item, id: item.id.toString()}}))
     .then(value => value.json());
 };
+export const fetchItemsUpdate = async (item: Item[]) => {
+  return fetchWithCredentials("POST", "/user/me/items", JSON.stringify({items: item.map(item => ({...item, id: item.id.toString()}))}))
+    .then(value => value.json());
+};
 export const fetchItemDelete = async (itemId: number) => {
   return fetchWithCredentials("DELETE", "/user/me/item", JSON.stringify({item_id: itemId.toString()}))
     .then(value => value.json());

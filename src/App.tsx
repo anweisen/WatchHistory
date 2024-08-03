@@ -19,7 +19,7 @@ import UserProfile, {RawUserProfile} from "./components/UserProfile";
 import InstallButton from "./components/InstallButton";
 import OfflineBadge from "./components/OfflineBadge";
 import {CompiledValue, decodeItems, Item, useCalculateSummary} from "./utils";
-import {fetchItemDelete, fetchItemUpdate, fetchSyncRequest} from "./api/account";
+import {fetchItemDelete, fetchItemsUpdate, fetchItemUpdate, fetchSyncRequest} from "./api/account";
 import "./App.scss";
 
 const App = () => {
@@ -97,6 +97,18 @@ const App = () => {
     });
     fetchItemUpdate(item).then(console.log);
   };
+  const saveMultipleItems = (items: Item[]) => {
+    if (location.pathname === "/welcome") {
+      navigate("/");
+    }
+    closeModal();
+    setItems(prev => {
+      const array = [...items, ...prev.filter(value => !items.some(item => item.id === value.id))];
+      localStorage.setItem("items", JSON.stringify(array));
+      return array;
+    });
+    fetchItemsUpdate(items).then(console.log);
+  };
   const removeItem = (item: Item) => {
     closeModal();
     setItems(prev => {
@@ -123,7 +135,7 @@ const App = () => {
   };
 
   const openMenu = (item: Item) => {
-    openModal(<Menu item={item} key={item.id} saveItem={saveItem} removeItem={removeItem} cancel={closeModal} isSharedData={isSharedData}/>);
+    openModal(<Menu item={item} key={item.id} saveItem={saveItem} saveItems={saveMultipleItems} removeItem={removeItem} cancel={closeModal} isSharedData={isSharedData}/>);
   };
 
   const sync = async () => {

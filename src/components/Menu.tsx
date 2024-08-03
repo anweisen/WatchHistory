@@ -34,9 +34,10 @@ const setTimes = (plus: boolean, season: number, seasons: SeasonDetails[], item:
   return {...item, times: times};
 };
 
-const Menu = ({item, saveItem, removeItem, cancel, isSharedData}: {
+const Menu = ({item, saveItem, saveItems, removeItem, cancel, isSharedData}: {
   item: Item,
   saveItem: (item: Item) => void,
+  saveItems: (items: Item[]) => void,
   removeItem: (item: Item) => void,
   cancel: () => void,
   isSharedData: boolean
@@ -81,8 +82,11 @@ const Menu = ({item, saveItem, removeItem, cancel, isSharedData}: {
 
         <div className="Buttons">
           <div className={"Button Save" + (isSharedData ? " Disabled" : "")} onClick={!isSharedData ? () => {
-            saveItem(state);
-            effected.forEach(saveItem);
+            if (effected.length === 0) {
+              saveItem(state);
+            } else {
+              saveItems([state, ...effected]);
+            }
           } : undefined}>
             <FontAwesomeIcon icon={faCheck}/> Save
           </div>
@@ -169,12 +173,14 @@ const MovieMenu = ({details, totalPlaytime, isSharedData, state, setState, addEf
     </div>
   </div>
   {details.collection
-    && <MovieCollection details={details} state={state} addEffected={addEffected} removeEffected={removeEffected} effected={effected}/>}
+    && <MovieCollection details={details} state={state} setState={setState} addEffected={addEffected} removeEffected={removeEffected}
+                        effected={effected}/>}
 </>);
 
-const MovieCollection = ({details, state, addEffected, removeEffected, effected}: {
+const MovieCollection = ({details, state, setState, addEffected, removeEffected, effected}: {
   details: MovieDetails,
   state: Item,
+  setState: (v: Item) => void,
   addEffected: (v: Item) => void,
   removeEffected: (v: Item) => void,
   effected: Item[],
@@ -216,7 +222,8 @@ const MovieCollection = ({details, state, addEffected, removeEffected, effected}
       <div className={"Parts"} style={{backgroundImage: `url(${details.collection!!.backdrop_url})`}}>
           <span>
             {details.collection!!.parts.map(entry => (
-              <div className={"Part" + (entry.id === details.id || effected.some(value => value.id === parseInt(entry.id)) ? " Applied" : "")}
+              <div className={"Part" + (entry.id === details.id || effected.some(value => value.id === parseInt(entry.id)) ? " Applied" : "")
+                + (entry.id === details.id ? " Root" : "")}
                    key={entry.id}
                    onClick={entry.id !== details.id ? () => {
                      let index = effected.findIndex(value => value.id === parseInt(entry.id));
@@ -225,7 +232,9 @@ const MovieCollection = ({details, state, addEffected, removeEffected, effected}
                      } else {
                        addEffected({id: parseInt(entry.id), series: false, times: state.times});
                      }
-                   } : undefined}>
+                   } : () => {
+                     setState({...state, times: [timesOf(state.times[0]) + 1]});
+                   }}>
                 <img className={"Poster"} src={entry.poster_url} alt=""/>
                 <div className={"Info"}>
                   <div className={"Name"}>{entry.title}</div>
