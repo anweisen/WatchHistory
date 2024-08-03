@@ -71,12 +71,21 @@
     background: var(--background-popup-secondary);
     font-size: 24px;
     border-radius: 100px;
-    display: grid;
     place-items: center;
     cursor: pointer;
     user-select: none;
-    animation: jump-button-fadein .25s ease-out;
     transition: color ease .1s;
+    display: none;
+
+    &.Visible {
+      display: grid;
+      animation: jump-button-fadein .25s ease-out;
+    }
+
+
+    &:not(.Visible) {
+      animation: jump-button-fadeout .25s ease-out forwards;
+    }
 
     @keyframes jump-button-fadein {
       from {
@@ -85,6 +94,17 @@
       }
       to {
         opacity: 1;
+      }
+    }
+    @keyframes jump-button-fadeout {
+      from {
+        display: grid;
+        opacity: 1;
+      }
+      to {
+        display: none;
+        opacity: 0;
+        transform: translateY(3px);
       }
     }
 

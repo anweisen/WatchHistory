@@ -70,8 +70,8 @@ const Discover = ({items, openMenu, saveItem, removeItem}: {
 
   return (
     <div className={"Discover"}>
-      {jumpButton && <div className={"JumpButton"} onClick={() => window.scroll({top: 0, behavior: "smooth"})}><FontAwesomeIcon icon={faAngleUp}/></div>}
-      
+      <div className={"JumpButton" + (jumpButton ? " Visible" : "")} onClick={() => window.scroll({top: 0, behavior: "smooth"})}><FontAwesomeIcon icon={faAngleUp}/></div>
+
       <div className={"Head"}>
         <p className={"Title"}>Can't even remember everything?</p>
         <div className={"Subtitle"}>
