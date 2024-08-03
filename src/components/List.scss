@@ -8,8 +8,16 @@
     flex-direction: column;
     gap: 16px;
 
+    @media (max-width: 650px) {
+      gap: 10px;
+    }
+
     &:first-of-type {
       margin-top: -16px;
+
+      @media (max-width: 650px) {
+        margin-top: -5px;
+      }
     }
 
     .List {
@@ -39,6 +47,11 @@
       color: var(--text-secondary);
       user-select: none;
       cursor: pointer;
+
+
+      @media (max-width: 650px) {
+        font-size: 14px;
+      }
 
       svg {
         font-size: .9em;
