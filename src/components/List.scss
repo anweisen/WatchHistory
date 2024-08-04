@@ -48,7 +48,6 @@
       user-select: none;
       cursor: pointer;
 
-
       @media (max-width: 650px) {
         font-size: 14px;
       }
@@ -60,7 +59,6 @@
       svg:first-of-type {
         color: var(--icon-primary);
         margin: 0 5px;
-        background: var(--background-border);
       }
 
       svg:last-of-type {
