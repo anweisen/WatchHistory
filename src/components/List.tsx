@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {faChevronDown, faChevronUp, faDisplay, faFilm, faHourglass} from "@fortawesome/free-solid-svg-icons";
+import {faChevronUp, faDisplay, faFilm, faHourglass} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {IconLookup} from "@fortawesome/fontawesome-svg-core";
 import {useNavigate} from "react-router-dom";
