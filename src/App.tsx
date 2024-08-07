@@ -120,7 +120,7 @@ const App = () => {
   };
 
   const openModal = (modal: React.ReactNode) => {
-    setModalStack(prev => [...prev, modal]);
+    setModalStack(prev => [modal, ...prev]);
   };
   const closeModal = () => {
     setModalClosing(true);
@@ -128,14 +128,15 @@ const App = () => {
       setModalClosing(false);
       setModalStack(prev => {
         const stack = [...prev];
-        stack.pop();
+        stack.shift();
         return stack;
       });
     }, 300);
   };
 
   const openMenu = (item: Item) => {
-    openModal(<Menu item={item} key={item.id} saveItem={saveItem} saveItems={saveMultipleItems} removeItem={removeItem} cancel={closeModal} isSharedData={isSharedData}/>);
+    openModal(<Menu key={item.id} item={item} saveItem={saveItem} saveItems={saveMultipleItems} removeItem={removeItem} cancel={closeModal}
+                    isSharedData={isSharedData}/>);
   };
 
   const sync = async () => {

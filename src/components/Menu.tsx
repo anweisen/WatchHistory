@@ -17,6 +17,7 @@ import {useCallback, useContext, useEffect, useState} from "react";
 import {findItemById, formatTime, Item, timesOf} from "../utils";
 import {lookupDetails, MovieDetails, SeasonDetails, SeriesDetails} from "../api/details";
 import {AppContext} from "./context/AppContext";
+import {ModalContext} from "./context/ModalContext";
 import Loader from "./Loader";
 import "./Menu.scss";
 
@@ -78,7 +79,8 @@ const Menu = ({item, saveItem, saveItems, removeItem, cancel, isSharedData}: {
           ? <SeriesMenu details={details as SeriesDetails} state={state} setState={setState} isSharedData={isSharedData}
                         totalPlaytime={totalPlaytime}/>
           : <MovieMenu details={details as MovieDetails} totalPlaytime={totalPlaytime} isSharedData={isSharedData}
-                       state={state} setState={setState} addEffected={addEffected} removeEffected={removeEffected} effected={effected}/>}
+                       state={state} setState={setState} addEffected={addEffected} removeEffected={removeEffected} effected={effected}
+                       saveItem={saveItem} saveItems={saveItems} removeItem={removeItem} cancel={cancel}/>}
 
         <div className="Buttons">
           <div className={"Button Save" + (isSharedData ? " Disabled" : "")} onClick={!isSharedData ? () => {
@@ -139,7 +141,10 @@ const SeriesMenu = ({details, totalPlaytime, isSharedData, state, setState}: {
   </div>
 </>);
 
-const MovieMenu = ({details, totalPlaytime, isSharedData, state, setState, addEffected, removeEffected, effected}: {
+const MovieMenu = ({
+                     details, totalPlaytime, isSharedData, state, setState, addEffected, removeEffected, effected,
+                     removeItem, saveItems, saveItem, cancel
+                   }: {
   details: MovieDetails,
   totalPlaytime: number | undefined,
   isSharedData: boolean,
@@ -147,7 +152,11 @@ const MovieMenu = ({details, totalPlaytime, isSharedData, state, setState, addEf
   setState: (v: Item) => void,
   addEffected: (v: Item) => void,
   removeEffected: (v: Item) => void,
-  effected: Item[]
+  effected: Item[],
+  saveItem: (item: Item) => void,
+  saveItems: (items: Item[]) => void,
+  removeItem: (item: Item) => void,
+  cancel: () => void,
 }) => (<>
   <MenuHead name={details.title} originalName={details.original_title} tagline={details.tagline} posterUrl={details.poster_url}
             firstAirDate={details.first_air_date?.substring(0, 4)} lastAirDate={undefined} totalPlaytime={totalPlaytime} series={false}/>
@@ -174,28 +183,33 @@ const MovieMenu = ({details, totalPlaytime, isSharedData, state, setState, addEf
   </div>
   {details.collection
     && <MovieCollection details={details} state={state} setState={setState} addEffected={addEffected} removeEffected={removeEffected}
-                        effected={effected}/>}
+                        effected={effected} saveItem={saveItem} saveItems={saveItems} removeItem={removeItem} isSharedData={isSharedData}
+                        cancel={cancel}/>}
 </>);
 
-const MovieCollection = ({details, state, setState, addEffected, removeEffected, effected}: {
+const MovieCollection = ({details, state, setState, addEffected, removeEffected, effected, removeItem, cancel, isSharedData, saveItems, saveItem}: {
   details: MovieDetails,
   state: Item,
   setState: (v: Item) => void,
   addEffected: (v: Item) => void,
   removeEffected: (v: Item) => void,
   effected: Item[],
+  saveItem: (item: Item) => void,
+  saveItems: (items: Item[]) => void,
+  removeItem: (item: Item) => void,
+  cancel: () => void,
+  isSharedData: boolean,
 }) => {
   const {items} = useContext(AppContext);
+  const {openModal} = useContext(ModalContext);
   const [itemMap, setItemMap] = useState<Record<string, Item>>();
 
   useEffect(() => {
     let map: Record<string, Item> = {};
     for (let part of details.collection!!.parts) {
       let id = parseInt(part.id);
-      const foundItem = id === state.id
-        ? state : effected.some(test => test.id === id)
-          ? effected.find(test => test.id === id)
-          : findItemById(items, id, false);
+      const foundItem = id === state.id ? state
+        : effected.find(test => test.id === id) || findItemById(items, id, false);
       if (foundItem) {
         map[part.id] = foundItem;
       }
@@ -235,7 +249,12 @@ const MovieCollection = ({details, state, setState, addEffected, removeEffected,
                    } : () => {
                      setState({...state, times: [timesOf(state.times[0]) + 1]});
                    }}>
-                <img className={"Poster"} src={entry.poster_url} alt=""/>
+                <img className={"Poster"} src={entry.poster_url} alt="" onClick={entry.id !== details.id ? () => {
+                  openModal(<Menu key={entry.id + "-" + state.id} cancel={cancel} isSharedData={isSharedData} removeItem={removeItem}
+                                  saveItems={saveItems} saveItem={saveItem}
+                                  item={effected.find(value => value.id === parseInt(entry.id))
+                                    || {id: parseInt(entry.id), series: false, times: []}}/>);
+                } : undefined}/>
                 <div className={"Info"}>
                   <div className={"Name"}>{entry.title}</div>
                   <div className={"Times"}><FontAwesomeIcon icon={faRepeat}/> {itemMap && itemMap[entry.id]
