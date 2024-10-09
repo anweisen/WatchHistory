@@ -23,7 +23,7 @@ const Welcome = ({openMenu}: { openMenu: (item: Item) => void }) => {
         </div>
         <p className={"Title"}>Time Watching Series</p>
         <p className={"Subtitle"}>
-          calculate the time you've been wasting with series<br/>
+          calculate the time you've been wasting<br/>
           it's the new definition of flexing<br/>
         </p>
         <span>
