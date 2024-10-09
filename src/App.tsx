@@ -209,11 +209,25 @@ const AppHooks = () => {
   return <></>;
 };
 
-const PageNotFound = () => (
+const PageError = () => (
   <>
-    <NavBar sitename="404"/>
-    <div className={"NotFound"}>
-
+    <NavBar sitename="error"/>
+    <div className={"Error"}>
+      <span className={"Graphic"}>
+        <FontAwesomeIcon icon={faHeart}/>
+        <FontAwesomeIcon icon={faHeartCrack}/>
+      </span>
+      <div>
+        <h1>something went wrong..</h1>
+        <p>
+          sorry, we could not fulfill your request today<br/>
+          you might find the following helpful
+        </p>
+        <div className={"Buttons"}>
+          <a href="/"><FontAwesomeIcon icon={faBackward}/> go back</a>
+          <a href="https://monitor.anweisen.net"><FontAwesomeIcon icon={faTrafficLight}/> check status</a>
+        </div>
+      </div>
     </div>
   </>
 );
@@ -290,7 +304,7 @@ const UserProfileComponent = () => {
       </>
     );
   } else {
-    return <PageNotFound/>;
+    return <PageError/>;
   }
 };
 
