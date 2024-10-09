@@ -54,7 +54,7 @@ const Welcome = ({openMenu}: { openMenu: (item: Item) => void }) => {
       <div className={"Features"}>
 
         <div className={"Entry"}>
-          <img src={`${process.env.PUBLIC_URL}/showcase/movie.png`} alt=""/>
+          <img src={`${process.env.PUBLIC_URL}/showcase/movie.png`} alt="" loading="lazy"/>
           <span>
             <p className={"Title"}><FontAwesomeIcon icon={faFilm}/> add & count movies</p>
             <p className={"Explanation"}>
@@ -66,7 +66,7 @@ const Welcome = ({openMenu}: { openMenu: (item: Item) => void }) => {
         </div>
 
         <div className={"Entry"}>
-          <img src={`${process.env.PUBLIC_URL}/showcase/series.png`} alt=""/>
+          <img src={`${process.env.PUBLIC_URL}/showcase/series.png`} alt="" loading="lazy"/>
           <span>
             <p className={"Title"}><FontAwesomeIcon icon={faTv}/> add & track shows</p>
             <p className={"Explanation"}>
@@ -78,7 +78,7 @@ const Welcome = ({openMenu}: { openMenu: (item: Item) => void }) => {
         </div>
 
         <div className={"Entry"}>
-          <img src={`${process.env.PUBLIC_URL}/showcase/clock.png`} alt=""/>
+          <img src={`${process.env.PUBLIC_URL}/showcase/clock.png`} alt="" loading="lazy"/>
           <span>
             <p className={"Title"}><FontAwesomeIcon icon={faCalculator}/> view your results</p>
             <p className={"Explanation"}>
@@ -92,7 +92,7 @@ const Welcome = ({openMenu}: { openMenu: (item: Item) => void }) => {
         </div>
 
         <div className={"Entry"}>
-          <img src={`${process.env.PUBLIC_URL}/showcase/discover.png`} alt=""/>
+          <img src={`${process.env.PUBLIC_URL}/showcase/discover.png`} alt="" loading="lazy"/>
           <span>
             <p className={"Title"}><FontAwesomeIcon icon={faLightbulb}/> discover shows</p>
             <p className={"Explanation"}>
