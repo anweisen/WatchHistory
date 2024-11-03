@@ -20,6 +20,8 @@ import InstallButton from "./components/InstallButton";
 import OfflineBadge from "./components/OfflineBadge";
 import {CompiledValue, decodeItems, Item, useCalculateSummary} from "./utils";
 import {fetchItemDelete, fetchItemsUpdate, fetchItemUpdate, fetchSyncRequest} from "./api/account";
+import ErrorBoundary from "./components/ui/ErrorBoundary";
+import PageError from "./components/ui/PageError";
 import "./App.scss";
 
 const App = () => {
@@ -146,38 +148,42 @@ const App = () => {
   };
 
   return (
-    <GoogleOAuthProvider clientId={clientId}>
-      <AppContext.Provider value={{items, setItems, writeItemsToCookies, retrieveItemsFromCookies, isSharedData, ogClock, setOgClock, sync}}>
+    <ErrorBoundary fallback={<PageError/>}>
+      <GoogleOAuthProvider clientId={clientId}>
         <UserContextProvider>
-          <ModalContext.Provider value={{openModal: openModal, closeModal: closeModal}}>
-            <div className="App">
-              <AppHooks/>
+          <AppContext.Provider value={{items, setItems, writeItemsToCookies, retrieveItemsFromCookies, isSharedData, ogClock, setOgClock, sync}}>
+            <ModalContext.Provider value={{openModal: openModal, closeModal: closeModal}}>
+              <div className="App">
+                <AppHooks/>
 
-              <Modal visible={!modalClosing && modalStack.length > 0}>
-                {modalStack[0]}
-              </Modal>
+                <Modal visible={!modalClosing && modalStack.length > 0}>
+                  {modalStack[0]}
+                </Modal>
 
-              <div className="Content">
-                <OfflineBadge/>
 
-                <Routes>
-                  <Route path={"/"} element={<DashboardComponent items={items} openMenu={openMenu}/>}/>
-                  <Route path={"/discover"} element={<DiscoverComponent items={items} openMenu={openMenu} saveItem={saveItem}
-                                                                        removeItem={removeItem}/>}/>
-                  <Route path={"/welcome"} element={<WelcomeComponent openMenu={openMenu}/>}/>
-                  <Route path={"/raw"} element={<RawUserProfileComponent/>}/>
-                  <Route path={"/:user"} element={<UserProfileComponent/>}/>
-                </Routes>
+                <div className="Content">
+                  <OfflineBadge/>
 
-                <Footer/>
-                <InstallButton/>
+                  <Routes>
+                    <Route path={"/"} element={<DashboardComponent items={items} openMenu={openMenu}/>}/>
+                    <Route path={"/discover"} element={<DiscoverComponent items={items} openMenu={openMenu} saveItem={saveItem}
+                                                                          removeItem={removeItem}/>}/>
+                    <Route path={"/welcome"} element={<WelcomeComponent openMenu={openMenu}/>}/>
+                    <Route path={"/raw"} element={<RawUserProfileComponent/>}/>
+                    <Route path={"/:user"} element={<UserProfileComponent/>}/>
+                  </Routes>
+
+                  <Footer/>
+                  <InstallButton/>
+                </div>
+
               </div>
-
-            </div>
-          </ModalContext.Provider>
+            </ModalContext.Provider>
+          </AppContext.Provider>
         </UserContextProvider>
-      </AppContext.Provider>
-    </GoogleOAuthProvider>
+
+      </GoogleOAuthProvider>
+    </ErrorBoundary>
   );
 };
 
@@ -208,29 +214,6 @@ const AppHooks = () => {
 
   return <></>;
 };
-
-const PageError = () => (
-  <>
-    <NavBar sitename="error"/>
-    <div className={"Error"}>
-      <span className={"Graphic"}>
-        <FontAwesomeIcon icon={faHeart}/>
-        <FontAwesomeIcon icon={faHeartCrack}/>
-      </span>
-      <div>
-        <h1>something went wrong..</h1>
-        <p>
-          sorry, we could not fulfill your request today<br/>
-          you might find the following helpful
-        </p>
-        <div className={"Buttons"}>
-          <a href="/"><FontAwesomeIcon icon={faBackward}/> go back</a>
-          <a href="https://monitor.anweisen.net"><FontAwesomeIcon icon={faTrafficLight}/> check status</a>
-        </div>
-      </div>
-    </div>
-  </>
-);
 
 const DashboardComponent = ({openMenu, items}: {
   openMenu: (item: Item) => void,
