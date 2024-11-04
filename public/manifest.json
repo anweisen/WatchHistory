@@ -1,4 +1,5 @@
 {
+  "id": "net.anweisen.watched",
   "short_name": "Watched",
   "name": "Watched: your Time Wasted",
   "description": "Analyze how much time you have spent watching tv series in your life",
@@ -22,8 +23,19 @@
   ],
   "start_url": ".",
   "display": "standalone",
+  "display_override": [
+    "window-controls-overlay",
+    "standalone",
+    "browser"
+  ],
   "orientation": "portrait",
   "theme_color": "#23232A",
   "background_color": "#23232A",
-  "handle_links": "preferred"
+  "handle_links": "preferred",
+  "client_mode": ["navigate-existing", "auto"],
+  "scope_extensions": [
+    {"origin": "watched.anweisen.net"},
+    {"origin": "watched-beta.anweisen.net"}
+  ],
+  "dir": "ltr"
 }
